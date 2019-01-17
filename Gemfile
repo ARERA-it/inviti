@@ -39,6 +39,12 @@ gem 'bootsnap', '>= 1.1.0', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'rspec-rails', '~> 3.8'
+  gem 'capybara', '~> 2.13'
+  gem 'selenium-webdriver'
+  gem 'faker' #, :git => 'https://github.com/stympy/faker.git', :branch => 'master' # https://github.com/stympy/faker
+  gem 'database_cleaner'
+  gem 'factory_bot_rails'
 end
 
 group :development do
@@ -53,3 +59,19 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem 'devise'
+gem 'devise_cas_authenticatable'
+
+# gem 'bootstrap-sass', '~> 3.3.7'
+gem 'bootstrap', '~> 4.2.1'
+gem 'jquery-rails'
+gem 'font-awesome-sass', '~> 5.4.1'
+gem 'momentjs-rails' # https://github.com/derekprior/momentjs-rails
+
+gem 'sidekiq'
+gem 'annotate'
+
+# gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
+gem 'figaro'
+gem 'pundit'
