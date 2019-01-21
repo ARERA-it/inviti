@@ -1,0 +1,18 @@
+<div class="row crud-links-top">
+  <div class="col">
+    <%= link_to_list users_path %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm">
+    <h1 class="display-4">Nuovo utente</h1>
+    <%= render 'form', user: @user %>
+  </div>
+</div>
+
+<div class="row crud-links-bottom">
+  <div class="col">
+    <%= link_to_list users_path %>
+  </div>
+</div>

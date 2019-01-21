@@ -1,0 +1,22 @@
+<%= form_with(model: user, local: true) do |form| %>
+  <% if user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= t('errors.messages.not_saved', count: user.errors.count) %></h2>
+      <ul>
+      <% user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= render 'fields', user: user, form: form, ro: false %>
+
+  <div class="actions space-top">
+    <%= form.submit "Salva", class: "btn btn-primary" %>
+    <%= link_to 'Annulla', users_path, class: "btn btn-default" %>
+    <% if @user.id %>
+      <%= link_to 'Dettaglio', @user, class: "btn btn-default" %>
+    <% end %>
+  </div>
+<% end %>

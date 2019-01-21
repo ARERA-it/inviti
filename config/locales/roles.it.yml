@@ -1,0 +1,8 @@
+it:
+  roles:
+    top: Presidente
+    advisor: Consigliere
+    commissary: Commissario
+    secretary: Segreterie
+    viewer: Sola lettura
+    admin: Amministratore

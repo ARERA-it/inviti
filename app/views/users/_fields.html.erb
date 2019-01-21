@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col">
+    <div class="checkbox">
+      <label>
+        <%= form.check_box :appointeeable, disabled: ro %>
+        <%= "Il nome appare nella lista delle persone a cui delegare l'invito" %>
+      </label>
+    </div>
+  </div>
+  <div class="col">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-1">
+    <div class="form-group">
+      <%= form.label :initials, "Iniziali" %>
+      <%= form.text_field :initials, class: "form-control", readonly: ro %>
+    </div>
+  </div>
+  <div class="col-md-2">
+    <div class="form-group">
+      <%= form.label :job_title, "Titolo" %>
+      <%= form.text_field :job_title, class: "form-control", readonly: ro %>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="form-group">
+      <%= form.label :display_name, "Nome" %>
+      <%= form.text_field :display_name, class: "form-control", readonly: ro %>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="form-group">
+      <%= form.label :email, "Indirizzo email" %>
+      <%= form.text_field :email, class: "form-control", readonly: ro %>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="form-group">
+      <%= form.label :role, "Ruolo" %>
+      <%= form.collection_select :role, User.roles, :first, ->(e){ t("roles.#{e.first}") }, { prompt: true }, class: "form-control", disabled: ro  %>
+    </div>
+  </div>
+</div>
+
+<% if ro %>
+  <div class="row">
+    <div class="col-md-6">
+      <label for="created_at">Creazione</label>
+      <span class="form-control">
+        <%= livestamp @user.created_at %>
+        <span class="long-format-dt"> // <%= l @user.created_at, format: :long %></span>
+      </span>
+    </div>
+    <div class="col-md-6">
+      <label for="created_at">Ultima modifica</label>
+      <span class="form-control">
+        <%= livestamp @user.updated_at %>
+        <span class="long-format-dt"> // <%= l @user.updated_at, format: :long %></span>
+      </span>
+    </div>
+  </div>
+<% end %>

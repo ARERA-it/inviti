@@ -21,9 +21,11 @@
       <div id="content-wrapper">
         <div class="container-fluid">
           <div class="row">
-            <p class="notice"><%= notice %></p>
-            <p class="alert"><%= alert %></p>
+            <div class="col">
+              <%= flash_alert %>
+            </div>
           </div>
+          
           <%= yield %>
         <!-- /.container-fluid -->
 
