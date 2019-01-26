@@ -1,0 +1,82 @@
+// index view
+
+.inv-cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
+
+  .col {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .inv-card {
+    align-self: flex-start;
+    min-width: 380px;
+    max-width: 420px;
+    cursor: pointer;
+    font-size: 0.85em;
+    // margin-bottom: 20px; // https://getbootstrap.com/docs/4.1/utilities/spacing/
+  }
+
+  .inv-card:hover {
+    -moz-box-shadow: 0 0 20px #666;
+    -webkit-box-shadow: 0 0 20px #666;
+    box-shadow: 0 0 20px #666;
+  }
+
+}
+
+
+
+.card-footer.status-icons {
+  height: 41px;
+  span.icon-wrapper {
+    color: #666;
+    margin-right: 12px;
+  }
+}
+
+.inv-card .location span {
+  margin-left: 6px;
+  color: grey;
+}
+
+.inv-card .datetime span {
+  margin-left: 6px;
+  color: grey;
+}
+
+.card {
+  border-color: #bbb;
+}
+
+.inv-infos {
+  margin-bottom: 20px;
+  p {
+    margin-bottom: 3px;
+  }
+
+  .title {
+    font-size: 1.1rem;
+    font-weight: 800;
+  }
+
+  .alt-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-style: italic;
+    color: #999;
+  }
+  .organizer {
+    font-size: 0.8rem;
+    color: #aaa;
+  }
+}
+
+.inv-card .badge.new-inv {
+  margin-right: 10px;
+}

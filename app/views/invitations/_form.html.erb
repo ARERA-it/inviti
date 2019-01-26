@@ -1,0 +1,62 @@
+<%= form_with(model: invitation, local: true) do |form| %>
+  <% if invitation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(invitation.errors.count, "error") %> prohibited this invitation from being saved:</h2>
+
+      <ul>
+      <% invitation.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :location %>
+    <%= form.text_field :location %>
+  </div>
+
+  <div class="field">
+    <%= form.label :datetime %>
+    <%= form.datetime_select :datetime %>
+  </div>
+
+  <div class="field">
+    <%= form.label :organizer %>
+    <%= form.text_field :organizer %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email_subject %>
+    <%= form.text_field :email_subject %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email_body %>
+    <%= form.text_field :email_body %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email_received_date_time %>
+    <%= form.datetime_select :email_received_date_time %>
+  </div>
+
+  <div class="field">
+    <%= form.label :attachments %>
+    <%= form.text_field :attachments %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email_id %>
+    <%= form.text_field :email_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

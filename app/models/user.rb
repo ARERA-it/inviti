@@ -30,6 +30,8 @@ class User < ApplicationRecord
   enum role: [:top, :advisor, :commissary, :secretary, :viewer, :admin]
   validates :email, uniqueness: true
   scope :appointeeable, -> { where(appointeeable: true) }
+  has_and_belongs_to_many :invitations
+
 
   before_save do |r|
     r.initials = User.calc_initials(r.display_name) if r.initials.blank?

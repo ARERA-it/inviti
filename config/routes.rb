@@ -1,9 +1,16 @@
 Rails.application.routes.draw do
+  get 'welcome', as: 'welcome', to: 'pages#welcome'
+  get 'dashboard', as: 'dashboard', to: 'pages#dashboard'
+
+  resources :invitations
   devise_for :users
   resources :users
+
+  get 'comments/create'
+  resources :comments
+  resources :opinions
+
   # get 'users', to: 'users#index'
-  get 'pages/welcome', as: 'welcome'
-  get 'pages/dashboard', as: 'dashboard'
 
   root 'pages#welcome'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

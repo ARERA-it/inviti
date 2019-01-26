@@ -1,0 +1,54 @@
+<div class="card inv-card mb-3" data-url="<%= invitation_path(inv) %>">
+  <div class="card-header">
+    <span class="location"><%= location_icon inv.location %></span>
+    <span class="datetime float-right"><%= calendar_icon inv.from_date_and_time %></span>
+    <% if !@read_ids.include?(inv.id) %>
+      <span class="float-right badge badge-primary new-inv">Nuovo</span>
+    <% end %>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-9 inv-infos">
+        <% if !inv.title.blank? %>
+          <p class="title"><%= inv.title %></p>
+        <% else %>
+          <p class="alt-title"><%= inv.email_subject %></p>
+        <% end %>
+        <p class="organizer"><%= inv.organizer %></p>
+      </div>
+      <div class="col-3">
+        <%= user_circle(inv.appointee || inv.alt_appointee_name) %>
+      </div>
+    </div>
+
+    <div class="email">
+      <dl class="row">
+        <dt class="col-sm-3 text-right">data</dt><dd class="col-sm-9"><%= formatta_dataora inv.email_received_date_time %></dd>
+        <dt class="col-sm-3 text-right">mittente</dt><dd class="col-sm-9"><%= inv.email_from_name %></dd>
+        <dt class="col-sm-3 text-right">oggetto</dt><dd class="col-sm-9"><strong><%= inv.email_subject %></strong></dd>
+        <dt class="col-sm-3 text-right">allegati</dt>
+        <dd class="col-sm-9">
+          <% if inv.files.size==1 %>
+            <%= inv.files[0].filename %>
+          <% elsif inv.files.size>1 %>
+            <%= " e altri #{inv.files.size-1}" %>
+          <% end %>
+        </dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="card-footer status-icons">
+    <span class="icon-wrapper">
+      <%= approve_icon(inv.opinion.try(:selection)) %>
+    </span>
+    <% if (c=inv.comments.size) > 0 %>
+      <span class="icon-wrapper">
+        <i class="fas fa-comment fa-fw fa-lg"></i><%= c %>
+      </span>
+    <% end %>
+  </div>
+  <%= ribbon(inv) %>
+
+  <!-- ribbon(inv, new_invitation: !@read_ids.include?(inv.id)) -->
+</div>

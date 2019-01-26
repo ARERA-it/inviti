@@ -1,0 +1,30 @@
+<div class="card panel-email mb-3">
+  <div class="card-header">
+    Email
+  </div>
+  <div class="card-body">
+    <dl class="row">
+      <dt class="col-sm-3">ricevuta</dt><dd class="col-sm-9"><%= formatta_dataora @invitation.email_received_date_time %></dd>
+      <dt class="col-sm-3">mittente</dt><dd class="col-sm-9"><%= @invitation.email_from_name %> (<%= @invitation.email_from_address %>)</dd>
+      <dt class="col-sm-3">oggetto</dt><dd class="col-sm-9"><strong><%= @invitation.email_subject %></strong></dd>
+      <dt class="col-sm-3">allegati</dt>
+      <dd class="col-sm-9">
+        <% if @invitation.files.any? %>
+          <ul class="attachments">
+            <% @invitation.files.each do |f| %>
+              <li>
+                <%= link_to url_for(f),  target: "_blank" do %>
+                  <i class="fas fa-file-pdf fa-fw"></i>
+                  <%= f.filename %>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <span class="no-attachments">Nessuno</span>
+        <% end %>
+      </dd>
+      <dt class="col-sm-3">corpo</dt><dd class="col-sm-9"><%= sanitize @invitation.email_body %></dd>
+    </dl>
+  </div>
+</div>

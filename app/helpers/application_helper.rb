@@ -1,4 +1,19 @@
 module ApplicationHelper
+  def fa_icon(name, style: :regular, options: "")
+    s = case style
+    when :regular
+      "far"
+    when :solid
+      "fas"
+    when :light
+      "fal"
+    else
+      "far"
+    end
+    # fas fa-thumbs-up fa-fw
+    content_tag(:i, nil, class: "#{s} fa-#{name} #{options}")
+  end
+
   def flash_alert
     flash.map do |name, msg|
       content_tag(:div, msg, class: "alert alert-#{{ 'alert' => 'danger', 'notice' => 'success'}[name]}")
@@ -40,6 +55,19 @@ module ApplicationHelper
 
   def livestamp(dt)
     content_tag(:span, nil, "data-livestamp" => dt.try(:iso8601))
+  end
+
+  def user_circle(user, color='#023aab')
+    return nil if user.blank?
+    if user.is_a? String
+      initials = user.strip.split(" ")[0..1].map(&:first).join('').upcase
+      name = user
+    else
+      initials = user.initials
+      name = user.display_name
+    end
+    # <p class="img-circle" data-letters="<%= 'SB' %>"></p>
+    content_tag(:p, '', class: "img-circle", 'data-letters': initials, title: name, 'data-bg-color': color)
   end
 
 end

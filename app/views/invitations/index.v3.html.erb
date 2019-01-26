@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header">Lista inviti</h1>
+  </div>
+</div>
+
+
+<div class="row inv-cards">
+  <% @invitations.in_groups_of(3) do |group| %>
+    <% group.each do |invitation| %>
+      <% unless invitation.nil? %>
+        <div class="col-lg-4">
+          <%= render 'inv_card', inv: invitation %>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+
+
+<div class="row">
+  <% if @token %>
+    <%= link_to 'Verifica arrivo nuove email', check_emails_invitations_path, class: "btn btn-default" %>
+  <% end %>
+</div>

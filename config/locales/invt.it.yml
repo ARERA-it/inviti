@@ -1,0 +1,14 @@
+it:
+  sometime: data da spec.
+  somewhere: luogo da spec.
+
+  opinion:
+    undefined: Non espresso
+    do_not_participate: Declinare l'invito
+    president_must_participate: È opportuno che il Presidente partecipi
+    someone_else_must_participate: È opportuno che un rappresentante partecipi
+
+  decision:
+    waiting: "In attesa di decidere..."
+    participate: Invito accettato
+    do_not_participate: Invito declinato

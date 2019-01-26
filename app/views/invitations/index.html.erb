@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-sm">
+    <h1 class="display-4"><%= "Lista inviti #{@sel}" %></h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <p>
+      <%= "Trovati: #{@invitations.size} inviti" %>
+    </p>
+  </div>
+</div>
+
+<div class="row inv-cards">
+  <% @invitations.each do |invitation| %>
+    <div class="col">
+      <%= render 'inv_card', inv: invitation %>
+    </div>
+  <% end %>
+</div>

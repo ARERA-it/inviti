@@ -8,8 +8,15 @@
 @import "welcome";
 @import "tempusdominus-bootstrap-4";
 
+@import "invitations";
+@import "chat";
 
+@import "corner-ribbon";
+// @import "ribbon";
 
+#content-wrapper {
+  background-color: #e0e0d3; // #bfbfb0;
+}
 
 .margin-bottom-20 {
   margin-bottom: 20px;
@@ -26,4 +33,141 @@
 
 .actions.space-top {
   margin-top: 20px;
+}
+
+
+
+
+
+
+
+
+.list-group-item {
+  border: 1px solid #666;
+}
+.list-group-item.header {
+  background-color: #666;
+  color: #eee;
+  padding: 5px 10px;
+
+  .date {
+    float: right;
+  }
+}
+
+.card-body {
+  position: relative;
+
+  .email {
+    border-left: 10px solid orange;
+    padding-left: 4px;
+
+    dl.dl-horizontal {
+      dt {
+        width: 70px;
+      }
+      dd {
+        margin-left: 85px;
+      }
+    }
+  }
+}
+
+
+
+
+.list-group-item.footer {
+  background-color: #666;
+  color: #eee;
+  padding: 5px 10px;
+}
+
+.section.email {
+  margin: 40px 10px;
+  border: 1px solid #999;
+  padding: 30px 20px;
+  -webkit-box-shadow: 10px 10px 20px 0px rgba(153,153,153,1);
+  -moz-box-shadow: 10px 10px 20px 0px rgba(153,153,153,1);
+  box-shadow: 10px 10px 20px 0px rgba(153,153,153,1);
+
+  ul {
+    padding-left: 16px;
+  }
+
+  dt, dd {
+    line-height: 2;
+  }
+}
+
+.panel-email {
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  dt, dd {
+    line-height: 2;
+  }
+
+}
+
+.noticex-wrapper {
+  margin-top: 0px;
+}
+
+.noticex {
+  margin-top: 10px;
+}
+
+
+.opinion-choice {
+  border-bottom: 0.8px solid #ccc;
+  padding-bottom: 20px;
+  margin-bottom: 10px;
+}
+
+.panel-email span.no-attachments {
+  color: #bbb;
+  font-style: italic;
+}
+
+span.long-format-dt {
+  color: #ccc;
+}
+
+.footer-list-edit-destroy-links {
+  margin-top: 40px;
+}
+
+
+
+[data-letters]:before {
+  content: attr(data-letters);
+  display: inline-block;
+  font-size: 1em;
+  width: 3.6em;
+  height: 3.6em;
+  line-height: 3.6em;
+  text-align: center;
+  border-radius: 50%;
+  background: #174d8f;
+  // background: attr(data-bg-color);
+  // background: plum;
+  vertical-align: middle;
+  margin-right: 1em;
+  margin-left: 1em;
+  color: white;
+}
+
+.navbar-logo.navbar-brand {
+  font-family: 'Oleo Script Swash Caps', cursive;
+  color: #ddd;
+  font-size: 1.6rem;
+}
+
+footer.sticky-footer .what {
+  font-family: 'Oleo Script Swash Caps';
+  font-size: 1.2rem;
+  color: #666;
+  margin-right: 20px;
 }

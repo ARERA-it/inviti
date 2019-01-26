@@ -1,0 +1,165 @@
+.inv-card {
+  position: relative;
+}
+
+
+// source: https://codepen.io/nxworld/pen/oLdoWb
+
+.ribbon {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  position: absolute;
+}
+.ribbon::before,
+.ribbon::after {
+  position: absolute;
+  z-index: 5;
+  content: '';
+  display: block;
+  border: 3px solid #2980b9;
+}
+.ribbon span {
+  position: absolute;
+  display: block;
+  width: 150px;
+  padding: 10px 0;
+  background-color: #3498db; // blu
+  box-shadow: 0 3px 10px rgba(0,0,0,.1);
+  color: #fff;
+  font: 700 14px/1 'Lato', sans-serif;
+  text-shadow: 0 1px 1px rgba(0,0,0,.2);
+  // text-transform: uppercase;
+  text-align: center;
+  z-index: 10;
+}
+
+// red: ed3717, a62d17
+// green: 09b800, 11780c
+// dark green: 0d6309, 0c4a09
+// azure: 2a83d1, 0f5999
+
+.red.ribbon span  {
+  background-color: #ed3717;
+}
+.red.ribbon::before,
+.red.ribbon::after {
+  border: 3px solid #a62d17;
+}
+.green.ribbon span  {
+  background-color: #09b800;
+}
+.green.ribbon::before,
+.green.ribbon::after {
+  border: 3px solid #11780c;
+}
+.dark-green.ribbon span  {
+  background-color: #0d6309;
+}
+.dark-green.ribbon::before,
+.dark-green.ribbon::after {
+  border: 3px solid #0c4a09;
+}
+.azure.ribbon span  {
+  background-color: #2a83d1;
+}
+.azure.ribbon::before,
+.azure.ribbon::after {
+  border: 3px solid #0f5999;
+}
+
+/* top left*/
+.ribbon-top-left {
+  top: -6px;
+  left: -6px;
+}
+.ribbon-top-left::before,
+.ribbon-top-left::after {
+  border-top-color: transparent;
+  border-left-color: transparent;
+}
+.ribbon-top-left::before {
+  top: 0;
+  right: 0;
+}
+.ribbon-top-left::after {
+  bottom: 0;
+  left: 0;
+}
+.ribbon-top-left span {
+  right: -16px;
+  top: 18px;
+  transform: rotate(-45deg);
+}
+
+/* top right*/
+.ribbon-top-right {
+  top: -6px;
+  right: -6px;
+}
+.ribbon-top-right::before,
+.ribbon-top-right::after {
+  border-top-color: transparent;
+  border-right-color: transparent;
+}
+.ribbon-top-right::before {
+  top: 0;
+  left: 0;
+}
+.ribbon-top-right::after {
+  bottom: 0;
+  right: 0;
+}
+.ribbon-top-right span {
+  left: -16px;
+  top: 18px;
+  transform: rotate(45deg);
+}
+
+/* bottom left*/
+.ribbon-bottom-left {
+  bottom: -6px;
+  left: -6px;
+}
+.ribbon-bottom-left::before,
+.ribbon-bottom-left::after {
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+}
+.ribbon-bottom-left::before {
+  bottom: 0;
+  right: 0;
+}
+.ribbon-bottom-left::after {
+  top: 0;
+  left: 0;
+}
+.ribbon-bottom-left span {
+  right: -16px;
+  bottom: 18px;
+  transform: rotate(225deg);
+}
+
+/* bottom right*/
+.ribbon-bottom-right {
+  bottom: -6px;
+  right: -6px;
+}
+.ribbon-bottom-right::before,
+.ribbon-bottom-right::after {
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+}
+.ribbon-bottom-right::before {
+  bottom: 0;
+  left: 0;
+}
+.ribbon-bottom-right::after {
+  top: 0;
+  right: 0;
+}
+.ribbon-bottom-right span {
+  left: -16px;
+  bottom: 18px;
+  transform: rotate(-45deg);
+}
