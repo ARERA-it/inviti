@@ -95,4 +95,29 @@ module InvitationsHelper
     end
   end
 
+
+  def icon_for_opinion(op)
+    content_tag(:span, class: "icon-wrapper") do
+      approve_icon(op.try(:selection))
+    end
+  end
+
+  def icon_for_comments(comments)
+    if (size = comments.size) > 0
+      title = size==1 ? "1 commento" : "#{size} commenti"
+      content_tag(:span, class: "icon-wrapper", title: title) do
+        content_tag(:i, '', class: "fas fa-comment fa-fw fa-lg") + " #{size}"
+      end
+    end
+  end
+
+
+  def icon_for_contributions(contributions)
+    if (size = contributions.size) > 0
+      title = size==1 ? "1 contributo" : "#{size} contributi"
+      content_tag(:span, class: "icon-wrapper", title: title) do
+        content_tag(:i, '', class: "fas fa-plane fa-fw fa-lg") + " #{size}"
+      end
+    end
+  end
 end

@@ -3,7 +3,7 @@
     <span class="location"><%= location_icon inv.location %></span>
     <span class="datetime float-right"><%= calendar_icon inv.from_date_and_time %></span>
     <% if !@read_ids.include?(inv.id) %>
-      <span class="float-right badge badge-primary new-inv">Nuovo</span>
+      <div class="niu">Nuovo</div>
     <% end %>
   </div>
   <div class="card-body">
@@ -39,14 +39,9 @@
   </div>
 
   <div class="card-footer status-icons">
-    <span class="icon-wrapper">
-      <%= approve_icon(inv.opinion.try(:selection)) %>
-    </span>
-    <% if (c=inv.comments.size) > 0 %>
-      <span class="icon-wrapper">
-        <i class="fas fa-comment fa-fw fa-lg"></i><%= c %>
-      </span>
-    <% end %>
+    <%= icon_for_opinion(inv.opinion) %>
+    <%= icon_for_comments(inv.comments) %>
+    <%= icon_for_contributions(inv.contributions) %>
   </div>
   <%= ribbon(inv) %>
 

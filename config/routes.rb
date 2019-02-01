@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :contributions, only: [:create, :destroy]
+
+
+
   get 'welcome', as: 'welcome', to: 'pages#welcome'
   get 'dashboard', as: 'dashboard', to: 'pages#dashboard'
 

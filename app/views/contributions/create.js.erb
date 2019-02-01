@@ -1,0 +1,9 @@
+$('div.contributions').append("<%= escape_javascript(render partial: 'contributions/contribution', locals: { c: @contribution } ) %>");
+
+$('#contribution_title').val("");
+$('#contribution_note').val("");
+//
+// // scroll to the new/last message
+// var $p = $('.panel-chat');
+// var height = $p[0].scrollHeight;
+// $p.scrollTop(height);

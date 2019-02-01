@@ -1,0 +1,33 @@
+version: '3'
+services:
+  web:
+    # image: drop_n_run_web
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ./bin/web
+    volumes:
+      - .:/app
+      - gems:/gems
+    ports:
+      - "3010:3000"
+    depends_on:
+      - db
+    env_file: .env.prod
+
+  db:
+    image: postgres
+    ports:
+      - "5432"
+    env_file: .env.prod
+
+volumes:
+  gems:
+
+# docker-compose up -d
+# docker-compose down
+
+# docker-compose up -d --no-deps --build web
+
+# Access the container:
+#   docker exec -it midilab_web_1_e54a4bb5279f /bin/sh

@@ -1,0 +1,39 @@
+# List of env variables used in application
+# -----------------------------------------
+
+# in config/puma.rb
+RAILS_MAX_THREADS (optional, default: 5)
+PORT (optional, default: 3000)
+RAILS_ENV (optional, default: "development")
+
+# in config/application.rb
+SMTP_ADDRESS
+SMTP_USERNAME
+SMTP_PASSWORD
+SMTP_PORT
+HTTP_HOST
+PORT
+
+# in config/database.yml
+RAILS_MAX_THREADS (optional, default: 5)
+MIDILAB_DATABASE_PASSWORD
+
+
+
+
+# -----------------------------------------
+
+WORK_AREA:   define the base path where the files will be uploaded, by default the path is set to 'public/work_area'
+DB_HOST:     (default: localhost)
+DB_POOL:     (default: 10)
+POSTGRES_DB:     database name
+POSTGRES_USER:     db username
+POSTGRES_PASSWORD: db user's password
+
+RAILS_MAX_THREADS:  located in config/puma.rb (default: 5)
+RAILS_ENV:          located in config/puma.rb (default: development)
+PORT:               located in config/puma.rb (default: 3000)
+
+RAILS_SERVE_STATIC_FILES: "true" # located in config/puma.rb, remove this var to set false
+
+SECRET_KEY_BASE: located in config/secret.yml

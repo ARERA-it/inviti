@@ -4,7 +4,6 @@
   </div>
 </div>
 
-
 <div class="row">
   <%= link_to :back, class: "btn btn-link" do %>
     <%= content_tag(:i, "", class: "fas fa-list fa-fw") + " Indietro" %>
@@ -15,6 +14,7 @@
   <div class="col-lg-6">
     <%= render 'opinion_panel' %>
     <%= render 'appointee_panel' %>
+    <%= render 'contributions/panel' %>
   </div>
 
   <div class="col-lg-6">

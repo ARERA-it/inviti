@@ -1,0 +1,39 @@
+// Place all the styles related to the contributions controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.contribution-panel {
+  .contribution {
+    padding-bottom: 0.7rem;
+    border-bottom: 0.5px solid #ddd;
+    margin-bottom: 1.5rem;
+
+    ul.attachments {
+      list-style-type: none;
+      padding-left: 0.5rem;
+    }
+
+
+    .footer {
+      color: #bbb;
+      font-size: 0.85rem;
+    }
+
+    .delete {
+      float: right;
+      z-index: 100;
+
+      a {
+        color: #e37270;
+      }
+      a:hover {
+        color: #e3413e;
+      }
+    }
+  }
+
+  h4 {
+    margin-bottom: 1rem;
+  }
+}

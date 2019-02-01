@@ -38,6 +38,7 @@ class Invitation < ApplicationRecord
   has_one :opinion, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_and_belongs_to_many :users
+  has_many :contributions, :dependent => :destroy
 
   belongs_to :appointee, class_name: "User", foreign_key: "appointee_id", required: false
   enum decision: DECISIONS

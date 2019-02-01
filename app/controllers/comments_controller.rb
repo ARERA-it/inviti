@@ -5,13 +5,17 @@ class CommentsController < ApplicationController
   def create
     current_user = User.advisor.first # TODO: get current_user from session
     options = { user_id: current_user.id }.merge comment_params
-    @comment = Comment.new(options)
-    respond_to do |format|
-      if @comment.save
-        format.js # { render js: "$('<li>#{@comment.content}</li>').prependTo('.comments > ul');"}
-
-      else
-        format.js { render :js => "alert('Qualcosa è andato storto...');" }
+    puts options.inspect
+    if options['content'].blank?
+      render json: { status: 200, message: "Commento assente." }.to_json
+    else
+      @comment = Comment.new(options)
+      respond_to do |format|
+        if @comment.save
+          format.js # { render js: "$('<li>#{@comment.content}</li>').prependTo('.comments > ul');"}
+        else
+          format.js { render js: "alert('Qualcosa è andato storto...');" }
+        end
       end
     end
   end

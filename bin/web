@@ -1,0 +1,8 @@
+#! /bin/sh
+
+bundle check || bundle install --without development test
+bundle exec rake db:create db:migrate
+# bundle exec rake db:seed
+
+bundle exec rake assets:precompile
+bundle exec puma -C config/puma.rb

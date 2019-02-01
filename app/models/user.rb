@@ -31,6 +31,7 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
   scope :appointeeable, -> { where(appointeeable: true) }
   has_and_belongs_to_many :invitations
+  has_many :contributions, dependent: :nullify
 
 
   before_save do |r|

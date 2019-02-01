@@ -1,0 +1,30 @@
+<div class="contribution" id="contr-<%= c.id %>">
+  <div class="delete">
+    <%= link_to c, method: :delete, remote: true, data: { confirm: 'Vuoi eliminare questo contributo?' } do %>
+      <i class="fas fa-times-circle fa-lg"></i>
+    <% end %>
+  </div>
+
+  <h5><%= c.title %></h5>
+  <% if !c.note.blank? %>
+    <p><%= c.note %></p>
+  <% end %>
+
+  <ul class="attachments">
+    <% c.contribution_files.each do |f| %>
+      <li>
+        <%= link_to url_for(f),  target: "_blank" do %>
+          <i class="fas fa-file-pdf fa-fw"></i>
+          <%= f.filename %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+
+  <div class="footer">
+    <div class="text-right">
+      <%= livestamp c.updated_at %> ::
+      <%= c.user.try(:display_name) %>
+    </div>
+  </div>
+</div>

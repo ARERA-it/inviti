@@ -80,3 +80,21 @@
 .inv-card .badge.new-inv {
   margin-right: 10px;
 }
+
+.inv-card .card-header {
+  position: relative;
+}
+.inv-card .card-header .niu {
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  margin-left: -50px;
+  width: 100px;
+  height: 24px;
+  background-color: #2c75e3;
+  color: #dedede;
+  text-align: center;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  content: "Nuovo";
+}

@@ -1,0 +1,9 @@
+#! /bin/sh
+# bundle exec sidekiq
+
+bundle check || bundle install --without development test
+# bundle exec rake db:create db:migrate
+# bundle exec rake db:seed
+
+bundle exec rake assets:precompile
+bundle exec sidekiq -C config/sidekiq.yml

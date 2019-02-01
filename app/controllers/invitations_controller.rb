@@ -26,7 +26,7 @@ class InvitationsController < ApplicationController
       i = i.archived
       @sel = "archiviati"
     end
-    @invitations = i.includes(:opinion, :comments).with_attached_files
+    @invitations = i.includes(:opinion, :comments, :contributions).with_attached_files
 
   end
 
@@ -36,8 +36,10 @@ class InvitationsController < ApplicationController
     @opinion  = @invitation.opinion  || @invitation.create_opinion(user: current_user)
     @comments = @invitation.comments.order(created_at: :asc)
     @comment  = Comment.new(invitation_id: @invitation.id)
+    @contributions = @invitation.contributions
+    @contribution = @invitation.contributions.build
 
-    @invitation.users << current_user
+    @invitation.users << current_user # check invitation as 'read'
   end
 
   # PATCH/PUT /invitations/1
