@@ -78,6 +78,12 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
+staging:
+  <<: *default
+  database: invt_staging
+  username: invt
+  password: <%= ENV['INVT_DATABASE_PASSWORD'] %>
+
 production:
   <<: *default
   database: invt_production
