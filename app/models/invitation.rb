@@ -100,7 +100,7 @@ class Invitation < ApplicationRecord
     self.to_date_and_time = Time.parse(to_date_and_time_view).strftime("%Y-%m-%d %HH:%MM") if !to_date_and_time_view.blank?
   end
 
-
+  # Invitation.create_fake_records(30, email_status_only: true)
   def Invitation.create_fake_records(size=30, email_status_only: false)
     a1 = ["Congresso", "Simposio", "Convegno", "Meeting", "Evento"]
     a2 = ["Trasmissione televisiva"]

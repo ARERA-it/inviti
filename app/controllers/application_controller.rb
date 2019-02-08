@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
 
 
   def current_user
-    User.find_by_email('ibuetti@arera.it') # TODO: rimuovi!!!
+    # User.find_by_email('ibuetti@arera.it') # TODO: rimuovi!!!
+    User.first # TODO: rimuovi!!!
   end
 end
