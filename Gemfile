@@ -42,7 +42,6 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.8'
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
-  gem 'faker' #, :git => 'https://github.com/stympy/faker.git', :branch => 'master' # https://github.com/stympy/faker
   gem 'database_cleaner'
   gem 'factory_bot_rails'
 end
@@ -55,6 +54,8 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
+
+gem 'faker' #, :git => 'https://github.com/stympy/faker.git', :branch => 'master' # https://github.com/stympy/faker
 
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
