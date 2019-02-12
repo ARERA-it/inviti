@@ -1,2 +1,15 @@
-<h1>Inviti accettati</h1>
-<p>Find me in app/views/pages/dashboard.html.erb</p>
+<h2>Nuovi inviti</h2>
+<p>Raccoglie tutti gli inviti che non sono mai stati visionati dall'utente corrente</p>
+<p><%= link_to "Vai...", invitations_path(sel: :new), class: "nav-link" %></p>
+
+<h2>Da assegnare</h2>
+<p>Raccoglie tutti gli inviti non declinati e per i quali non è stato ancora assegnato una persona incaricata</p>
+<p><%= link_to "Vai...", invitations_path(sel: :not_assigned), class: "nav-link" %></p>
+
+<h2>In corso o 'Running'</h2>
+<p>Raccoglie tutti gli inviti accettati, per i quali è stata designata una persona e che devono ancora avere luogo</p>
+<p><%= link_to "Vai...", invitations_path(sel: :running), class: "nav-link" %></p>
+
+<h2>Archiviati</h2>
+<p>Raccoglie tutti gli inviti declinati o passati</p>
+<p><%= link_to "Vai...", invitations_path(sel: :archived), class: "nav-link" %></p>
