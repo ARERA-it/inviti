@@ -73,7 +73,8 @@ gem 'momentjs-rails' # https://github.com/derekprior/momentjs-rails
 gem 'sidekiq'
 gem 'annotate'
 
-gem 'bootstrap4-datetime-picker-rails' # https://github.com/Bialogs/bootstrap4-datetime-picker-rails
+gem 'bootstrap4-datetime-picker-rails', :git => 'https://github.com/iwan/bootstrap4-datetime-picker-rails.git'
+ # https://github.com/Bialogs/bootstrap4-datetime-picker-rails
 
 
 gem 'figaro'

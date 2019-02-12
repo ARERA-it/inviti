@@ -11,6 +11,7 @@
 //= require moment
 //= require moment/it
 //= require livestamp
+//= require moment-timezone-with-data
 //= require tempusdominus-bootstrap-4
 
 //= require init

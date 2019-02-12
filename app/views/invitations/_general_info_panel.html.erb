@@ -42,12 +42,13 @@
         </div>
       </div>
 
+
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
             <%= form.label :from_date_and_time_view, "Data e ora inizio" %>
             <div class='input-group date' id='invitation-from-date-time' data-target-input="nearest">
-              <%= form.text_field :from_date_and_time_view, class: "form-control datetimepicker-input" %>
+              <%= form.text_field :from_date_and_time_view, class: "form-control datetimepicker-input", 'data-target': "#invitation-from-date-time" %>
               <div class="input-group-append" data-target="#invitation-from-date-time" data-toggle="datetimepicker">
                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
               </div>
@@ -58,7 +59,7 @@
           <div class="form-group">
             <%= form.label :to_date_and_time_view, "Data e ora fine (opz.)" %>
             <div class='input-group date' id='invitation-to-date-time' data-target-input="nearest">
-              <%= form.text_field :to_date_and_time_view, class: "form-control datetimepicker-input" %>
+              <%= form.text_field :to_date_and_time_view, class: "form-control datetimepicker-input", 'data-target': "#invitation-to-date-time" %>
               <div class="input-group-append" data-target="#invitation-to-date-time" data-toggle="datetimepicker">
                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
               </div>

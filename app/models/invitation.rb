@@ -91,13 +91,13 @@ class Invitation < ApplicationRecord
   end
 
   def set_date_views
-    self.from_date_and_time_view = from_date_and_time.strftime("%d-%m-%Y %HH:%MM") if from_date_and_time
-    self.to_date_and_time_view = to_date_and_time.strftime("%d-%m-%Y %HH:%MM") if to_date_and_time
+    self.from_date_and_time_view = from_date_and_time.strftime("%d-%m-%Y %H:%M") if from_date_and_time
+    self.to_date_and_time_view = to_date_and_time.strftime("%d-%m-%Y %H:%M") if to_date_and_time
   end
 
   def set_dates
-    self.from_date_and_time = Time.parse(from_date_and_time_view).strftime("%Y-%m-%d %HH:%MM") if !from_date_and_time_view.blank?
-    self.to_date_and_time = Time.parse(to_date_and_time_view).strftime("%Y-%m-%d %HH:%MM") if !to_date_and_time_view.blank?
+    self.from_date_and_time = Time.parse(from_date_and_time_view).strftime("%Y-%m-%d %H:%M") if !from_date_and_time_view.blank?
+    self.to_date_and_time = Time.parse(to_date_and_time_view).strftime("%Y-%m-%d %H:%M") if !to_date_and_time_view.blank?
   end
 
   # Invitation.create_fake_records(30, email_status_only: true)
