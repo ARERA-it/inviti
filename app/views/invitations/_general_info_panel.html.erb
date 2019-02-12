@@ -17,8 +17,14 @@
 
       <div class="form-group">
         <%= form.label :title, "Titolo" %>
-        <%= form.text_field :title, class: "form-control", placeholder: "" %>
+        <div class="input-group">
+          <%= form.text_field :title, class: "form-control", placeholder: "" %>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="button-copy-email-subject">Copia da email</button>
+          </div>
+        </div>
       </div>
+
 
       <div class="row">
         <div class="col-md-6">

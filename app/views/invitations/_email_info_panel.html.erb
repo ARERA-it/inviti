@@ -6,7 +6,7 @@
     <dl class="row">
       <dt class="col-sm-3">ricevuta</dt><dd class="col-sm-9"><%= formatta_dataora @invitation.email_received_date_time %></dd>
       <dt class="col-sm-3">mittente</dt><dd class="col-sm-9"><%= @invitation.email_from_name %> (<%= @invitation.email_from_address %>)</dd>
-      <dt class="col-sm-3">oggetto</dt><dd class="col-sm-9"><strong><%= @invitation.email_subject %></strong></dd>
+      <dt class="col-sm-3">oggetto</dt><dd class="col-sm-9"><strong id="email-subject"><%= @invitation.email_subject %></strong></dd>
       <dt class="col-sm-3">allegati</dt>
       <dd class="col-sm-9">
         <% if @invitation.files.any? %>
