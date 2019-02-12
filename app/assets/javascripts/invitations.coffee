@@ -21,10 +21,9 @@ class InvitationsController
     $('#invitation-from-date-time').datetimepicker({format: 'DD-MM-YYYY HH:mm', locale: 'it'})
     $('#invitation-to-date-time').datetimepicker({format: 'DD-MM-YYYY HH:mm', locale: 'it'})
 
-    $('#button-copy-email-subject').on('click', ->
-      t = $('#email-subject').text()
-      $('#invitation_title').val(t)
-    )
+    $('#button-copy-email-subject').on('click', -> $('#invitation_title').val($('#email-subject').text()) )
+
+
 
     wtf = $('.panel-chat')
     height = wtf[0].scrollHeight

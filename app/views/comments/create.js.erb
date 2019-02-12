@@ -1,6 +1,13 @@
 $('ul.chat').append("<%= escape_javascript(render partial: 'invitations/chat_comment', locals: { comment: @comment } ) %>");
 $('#comment_content').val("");
 
+var $sel = $('#text-after-submit-comment-panel');
+$sel.text("Commento inviato");
+setTimeout(function() {
+  $sel.text("");
+}, 1000);
+
+
 // scroll to the new/last message
 var $p = $('.panel-chat');
 var height = $p[0].scrollHeight;

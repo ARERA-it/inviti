@@ -74,7 +74,9 @@
       </div>
 
       <div class="actions">
+        <%= hidden_field_tag :submit_feedback, 'text-after-submit-info-panel' %>
         <%= form.submit "Salva", class: "btn btn-primary" %>
+        <span class="ajax-submit-feedback" id="text-after-submit-info-panel"></span>
       </div>
     <% end %>
   </div>

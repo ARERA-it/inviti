@@ -16,7 +16,7 @@ class InvitationsController < ApplicationController
 
     when 'not_assigned'
       i = i.not_expired.not_assigned.participate_or_maybe
-      @sel = "non assegnati"
+      @sel = "da assegnare"
 
     when 'running'
       i = i.not_expired.assigned #.info_provided

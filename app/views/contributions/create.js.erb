@@ -7,3 +7,10 @@ $('#contribution_note').val("");
 // var $p = $('.panel-chat');
 // var height = $p[0].scrollHeight;
 // $p.scrollTop(height);
+
+var $sel = $('#text-after-submit-contribution-panel');
+$sel.text("Contributo aggiunto");
+
+setTimeout(function() {
+  $sel.text("");
+}, 1000);

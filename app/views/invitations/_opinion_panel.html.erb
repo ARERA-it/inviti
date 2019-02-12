@@ -8,6 +8,8 @@
         <%= form.collection_select :selection, Opinion.choices, :first, ->(e){ t("opinion.#{e.first}") }, {prompt: true}, class: "form-control"  %>
       </div>
       <%= form.submit "Salva", class: "btn btn-primary ml-3" %>
+      <span class="ajax-submit-feedback" id="text-after-submit-opinion-panel"></span>
+
     <% end %>
 
     <div class="panel-chat">
@@ -26,6 +28,8 @@
 
         <div class="actions">
           <%= form.submit "Invia", class: "btn btn-primary" %>
+          <span class="ajax-submit-feedback" id="text-after-submit-comment-panel"></span>
+
         </div>
       <% end %>
     </div>
