@@ -13,6 +13,8 @@
 
 @import "corner-ribbon";
 @import "contributions";
+@import "calendario";
+
 // @import "ribbon";
 
 #content-wrapper {
@@ -173,4 +175,10 @@ footer.sticky-footer .what {
   font-size: 1.2rem;
   color: #666;
   margin-right: 20px;
+}
+
+table.record-list {
+  tr.clickable {
+    cursor: pointer;
+  }
 }

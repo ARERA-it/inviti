@@ -27,7 +27,23 @@ class InvitationsController < ApplicationController
       @sel = "archiviati"
     end
     @invitations = i.includes(:opinion, :comments, :contributions).with_attached_files
+    @vis_mode = current_user.settings(:invitation).vis_mode
 
+    # Used by calendar
+    if @vis_mode=="calendar"
+      @start_date = Date.today
+      @end_date = Date.today + 2.month
+      @dfd = 1 # desired first day of calendar (1: monday)
+
+      @inv_by_date = {}
+      @invitations.each do |inv|
+        if inv.from_date_and_time
+          @inv_by_date[inv.from_date_and_time.to_date] ||= []
+          @inv_by_date[inv.from_date_and_time.to_date] << inv
+        end
+      end
+      @calendario = Calendario.new(@start_date, @end_date, dtd: 1, workdays: [1,2,3,4,5])
+    end
   end
 
   # GET /invitations/1

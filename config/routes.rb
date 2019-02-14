@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :contributions, only: [:create, :destroy]
 
-
+  get 'settings/update', to: 'settings#update'
 
   get 'welcome', as: 'welcome', to: 'pages#welcome'
   get 'dashboard', as: 'dashboard', to: 'pages#dashboard'

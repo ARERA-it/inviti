@@ -12,10 +12,26 @@
   </div>
 </div>
 
-<div class="row inv-cards">
-  <% @invitations.each do |invitation| %>
-    <div class="col">
-      <%= render 'inv_card', inv: invitation %>
+<div class="row mb-4">
+  <div class="col">
+    <div class="btn-group btn-group-toggle vis-mode" data-toggle="buttons">
+      <label class="btn btn-secondary  vis-mode-selector <%= @vis_mode=='cards' ? 'active' : '' %>">
+        <%= radio_button_tag :vis_mode, :cards, autocomplete: 'off' %> <i class="fas fa-window-maximize"></i>
+      </label>
+      <label class="btn btn-secondary vis-mode-selector <%= @vis_mode=='list' ? 'active' : '' %>"  style="padding-left: 2em;">
+        <%= radio_button_tag :vis_mode, :list, autocomplete: 'off' %> <i class="fas fa-list"></i>
+      </label>
+      <label class="btn btn-secondary vis-mode-selector <%= @vis_mode=='calendar' ? 'active' : '' %>">
+        <%= radio_button_tag :vis_mode, :calendar, autocomplete: 'off' %> <i class="fas fa-calendar-alt"></i>
+      </label>
     </div>
-  <% end %>
+  </div>
 </div>
+
+<% if @vis_mode=='cards' %>
+  <%= render 'cards', invitations: @invitations %>
+<% elsif @vis_mode=='list' %>
+  <%= render 'list', invitations: @invitations %>
+<% else %>
+  <%= render 'calendar', invitations: @invitations %>
+<% end %>

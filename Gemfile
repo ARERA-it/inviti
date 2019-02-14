@@ -79,3 +79,5 @@ gem 'bootstrap4-datetime-picker-rails', :git => 'https://github.com/iwan/bootstr
 
 gem 'figaro'
 gem 'pundit'
+gem 'ledermann-rails-settings' # https://github.com/ledermann/rails-settings
+gem 'holidays'

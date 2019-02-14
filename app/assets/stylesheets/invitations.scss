@@ -40,6 +40,16 @@
   }
 }
 
+td.status-icons {
+  span.icon-wrapper {
+    font-size: 0.9em;
+    color: #666;
+    margin-right: 10px;
+  }
+}
+
+
+
 .inv-card .location span {
   margin-left: 6px;
   color: grey;
@@ -102,4 +112,11 @@
 .ajax-submit-feedback {
   margin-left: 30px;
   color: #aaa;
+}
+
+.vis-mode {
+  label.btn {
+    padding-left: 2em;
+    padding-right: 2em;
+  }
 }

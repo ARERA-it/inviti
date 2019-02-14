@@ -1,0 +1,108 @@
+table.calendario {
+  text-align: center;
+  table-layout: fixed;
+  width: 100%;
+
+  td, th {
+    border-color: #bbb;
+    width: 14.2857%;
+    // height: 200px;
+    min-height: 100px;
+
+    padding: 5px;
+  }
+
+  .cal-event {
+    background-color: #ffc107;
+    padding-left: 0.6em;
+    padding-right: 0.6em;
+    border-radius: 0.8rem;
+    margin-bottom: 0.5em;
+    color: #333;
+
+    .title {
+      font-size: 0.85em;
+      font-weight: bold;
+      line-height: 1.4em;
+      text-align: left;
+
+      padding-top: 16px;
+    }
+
+    .location {
+      font-size: 0.75em;
+      text-align: left;
+      color: #444;
+      padding-top: 1.2em;
+      padding-bottom: 1.2em;
+    }
+
+    .user {
+      margin-left: 0;
+      padding-right: -20px;
+    }
+
+  }
+
+
+  td.outer {
+    color: #ccc;
+  }
+  td.non_workday {
+    background-color: #f3f3f3;
+  }
+  td.holiday {
+    background-color: #f3f3f3;
+  }
+  td.today {
+    .number, .month-name {
+      color: #e3920c;
+      font-weight: bold;
+    }
+  }
+
+  td.top_line {
+    border-top: 3px solid #aaa;
+  }
+  td.bottom_line {
+    border-bottom: 3px solid #aaa;
+  }
+  td.left_line {
+    border-left: 3px solid #aaa;
+  }
+  td.right_line {
+    border-right: 3px solid #aaa;
+  }
+  // td.hover {
+  //   background-color: red;
+  // }
+  td.selected {
+    background-color: orange;
+  }
+
+
+
+  div.number {
+    font-size: 3.2em;
+  }
+  span.number {
+    font-size: 1.6em;
+    margin-left: 0.3em;
+    margin-right: 0.1em;
+  }
+  span.month-name {
+    font-size: 0.8em;
+  }
+  td.inner span.day-name {
+    color: #bbb;
+  }
+
+  td {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+}

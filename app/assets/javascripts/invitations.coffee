@@ -13,16 +13,31 @@ class InvitationsController
 
     $('ul.sidebar li.nav-item').each (el) ->
       filter = getUrlParameter('sel')
-      console.log filter
       if $(this).hasClass(filter)
         $(this).addClass('active')
+
+    $('.vis-mode-selector').on('click', ->
+      v = $(this).find('input').val()
+      $.ajax('/settings/update', method: 'get', data: { vis_mode: v}).done( ->
+        console.log location.toString()
+        Turbolinks.visit(location.toString());
+      ).always( ->
+        console.log "always"
+
+      )
+    )
+
+    $('table.record-list tr.clickable').on('click', ->
+      url = $(this).data('url')
+      Turbolinks.visit(url)
+    )
+
 
   show: ->
     $('#invitation-from-date-time').datetimepicker({format: 'DD-MM-YYYY HH:mm', locale: 'it'})
     $('#invitation-to-date-time').datetimepicker({format: 'DD-MM-YYYY HH:mm', locale: 'it'})
 
     $('#button-copy-email-subject').on('click', -> $('#invitation_title').val($('#email-subject').text()) )
-
 
 
     wtf = $('.panel-chat')

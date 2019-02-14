@@ -1,0 +1,39 @@
+<div class="row mb-4">
+  <div class="col">
+    <table class="table table-striped table-hover table-sm record-list">
+      <thead class="thead-light">
+        <tr>
+          <th>&nbsp;</th>
+          <th>Quando</th>
+          <th>Dove</th>
+          <th>Titolo</th>
+          <th>Incaricato</th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% invitations.each do |inv| %>
+          <tr class="clickable" data-url="<%= invitation_path(inv) %>">
+            <td><%= new_invitation_badge @read_ids.include?(inv.id) %></td>
+            <td><span class="datetime"><%= formatta_dataora inv.from_date_and_time, "" %></span></td>
+            <td><%= inv.location %></td>
+            <td>
+              <% if !inv.title.blank? %>
+                <span class="title"><%= inv.title %></span>
+              <% else %>
+                <span class="alt-title"><%= inv.email_subject %></span>
+              <% end %>
+            </td>
+            <td><%= inv.appointee.try(:display_name) || inv.alt_appointee_name %></td>
+            <td class="status-icons float-right">
+              <%= icon_for_opinion(inv.opinion) %>
+              <%= icon_for_comments(inv.comments) %>
+              <%= icon_for_contributions(inv.contributions) %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

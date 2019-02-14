@@ -1,0 +1,52 @@
+<table class="table table-bordered calendario" id="calendario">
+  <thead>
+    <tr>
+      <th>Lunedì</th>
+      <th>Martedì</th>
+      <th>Mercoledì</th>
+      <th>Giovedì</th>
+      <th>Venerdì</th>
+      <th>Sabato</th>
+      <th>Domenica</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @calendario.weeks.each do |week| %>
+      <tr>
+        <% week.each do |cal_date| %>
+          <td class="<%= cell_classes(cal_date) %>" data-date="<%= cal_date.date.to_s %>">
+            <div class="row">
+              <div class="col">
+                <div class="float-right">
+                  <span class="number"><%= cal_date.day %></span>
+                  <span class="month-name"><%= I18n.t('date.abbr_month_names')[cal_date.month] %></span>
+                </div>
+              </div>
+            </div>
+            <% if @inv_by_date.keys.include? cal_date.date %>
+              <% @inv_by_date[cal_date.date].each do |inv| %>
+                <div class="cal-event">
+                  <div class="row title">
+                    <div class="col">
+                      <span><%= inv.title %></span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6 location">
+                      <span><%= inv.location %></span>
+                    </div>
+                    <div class="col-6 user">
+                      <%= user_circle(inv.appointee || inv.alt_appointee_name) %>
+                    </div>
+                  </div>
+
+                </div>
+              <% end %>
+            <% end %>
+          </td>
+        <% end %>
+      </tr>
+
+    <% end %>
+  </tbody>
+</table>

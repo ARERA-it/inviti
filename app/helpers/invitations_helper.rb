@@ -1,4 +1,11 @@
 module InvitationsHelper
+
+  def new_invitation_badge(old)
+    if !old
+      content_tag(:span, "Nuovo", class: "badge badge-primary")
+    end
+  end
+
   def location_icon(loc)
     fa_icon(:compass)+
     if loc
@@ -13,19 +20,19 @@ module InvitationsHelper
     content_tag(:span, formatta_data(dt))
   end
 
-  def formatta_data(d)
+  def formatta_data(d, alt="...")
     if d
       I18n.localize(d.to_date, format: :card)
     else
-      "..." # I18n.t(:sometime)
+      alt # I18n.t(:sometime)
     end
   end
 
-  def formatta_dataora(d)
+  def formatta_dataora(d, alt=I18n.t(:sometime))
     if d
       I18n.localize(d, format: :card)
     else
-      I18n.t(:sometime)
+      alt
     end
   end
 

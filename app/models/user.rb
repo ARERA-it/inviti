@@ -40,6 +40,9 @@ class User < ApplicationRecord
     r.username = r.email if r.username.blank?
   end
 
+  has_settings do |s|
+    s.key :invitation, :defaults => { :visualization_mode => 'cards' }
+  end
 
 
   def User.calc_initials(name)

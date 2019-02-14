@@ -1,0 +1,7 @@
+<div class="row inv-cards">
+  <% invitations.each do |invitation| %>
+    <div class="col">
+      <%= render 'inv_card', inv: invitation %>
+    </div>
+  <% end %>
+</div>
