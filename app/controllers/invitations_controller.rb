@@ -27,7 +27,7 @@ class InvitationsController < ApplicationController
       @sel = "archiviati"
     end
     @invitations = i.includes(:opinion, :comments, :contributions).with_attached_files
-    @vis_mode = current_user.settings(:invitation).vis_mode
+    @vis_mode = current_user.settings(:invitation).visualization_mode
 
     # Used by calendar
     if @vis_mode=="calendar"
