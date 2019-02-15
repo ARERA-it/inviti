@@ -120,3 +120,13 @@ td.status-icons {
     padding-right: 2em;
   }
 }
+
+
+.cal-event {
+  cursor: pointer;
+}
+.cal-event:hover {
+  -moz-box-shadow: 0 0 20px #666;
+  -webkit-box-shadow: 0 0 20px #666;
+  box-shadow: 0 0 20px #666;
+}

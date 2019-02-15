@@ -25,7 +25,7 @@
             </div>
             <% if @inv_by_date.keys.include? cal_date.date %>
               <% @inv_by_date[cal_date.date].each do |inv| %>
-                <div class="cal-event">
+                <div class="cal-event" data-url="<%= invitation_path(inv) %>">
                   <div class="row title">
                     <div class="col">
                       <span><%= inv.title %></span>

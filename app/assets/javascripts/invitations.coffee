@@ -11,6 +11,12 @@ class InvitationsController
       Turbolinks.visit(url)
     )
 
+    $('.cal-event').on('click', ->
+      url = $(this).data('url')
+      Turbolinks.visit(url)
+    )
+
+
     $('ul.sidebar li.nav-item').each (el) ->
       filter = getUrlParameter('sel')
       if $(this).hasClass(filter)
