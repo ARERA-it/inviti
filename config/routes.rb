@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   get 'welcome', as: 'welcome', to: 'pages#welcome'
   get 'dashboard', as: 'dashboard', to: 'pages#dashboard'
 
-  resources :invitations
+  resources :invitations do
+    get 'update_invitation_expired_statuses', on: :collection
+  end
   devise_for :users
   resources :users
 

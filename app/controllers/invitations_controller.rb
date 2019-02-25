@@ -74,6 +74,12 @@ class InvitationsController < ApplicationController
     end
   end
 
+
+  def update_invitation_expired_statuses
+    UpdateInvitationsJob.perform_later
+    redirect_to invitations_path(sel: 'running')
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_invitation

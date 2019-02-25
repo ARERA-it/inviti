@@ -77,9 +77,19 @@ class Invitation < ApplicationRecord
     do_not_participate?
   end
 
-  # def expired?
-  #   i.from_date_and_time < Time.now
-  # end
+  def expired_changed?
+    event_date = to_date_and_time.try(:to_date) || from_date_and_time.try(:to_date)
+    exp = event_date && event_date<Date.today
+    exp = false if exp.nil?
+    expired!=exp
+  end
+
+
+  def Invitation.update_invitation_expired_statuses
+    Invitation.not_expired.each do |inv|
+      inv.save if inv.expired_changed?
+    end
+  end
 
   def Invitation.decisions
     DECISIONS.map{ |c| [c]}
