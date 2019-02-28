@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :contributions, only: [:create, :destroy]
 
+  patch 'appointee', to: 'invitations#update_appointee'
   get 'settings/update', to: 'settings#update'
 
   get 'welcome', as: 'welcome', to: 'pages#welcome'

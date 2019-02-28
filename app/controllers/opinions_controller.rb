@@ -1,9 +1,10 @@
 class OpinionsController < ApplicationController
   before_action :set_opinion, only: [:show, :update ]
 
-  # PATCH/PUT /opinions/1
-  # PATCH/PUT /opinions/1.json
+  # PATCH/PUT /opinions/1.js
+  # Qualcuno esprime un parere
   def update
+    authorize @opinion
     respond_to do |format|
       if @opinion.update(opinion_params)
         format.js {}

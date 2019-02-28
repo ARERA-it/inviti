@@ -12,14 +12,24 @@
 
 <div class="row">
   <div class="col-lg-6">
-    <%= render 'opinion_panel' %>
-    <%= render 'appointee_panel' %>
-    <%= render 'contributions/panel' %>
+    <% if policy(:invitation).view_opinion? %>
+      <%= render 'opinion_panel' %>
+    <% end %>
+    <% if policy(:invitation).view_appointee? %>
+      <%= render 'appointee_panel' %>
+    <% end %>
+    <% if policy(:invitation).view_contributions? %>
+      <%= render 'contributions/panel' %>
+    <% end %>
   </div>
 
   <div class="col-lg-6">
-    <%= render 'general_info_panel' %>
-    <%= render 'email_info_panel' %>
+    <% if policy(:invitation).view_general_info? %>
+      <%= render 'general_info_panel' %>
+    <% end %>
+    <% if policy(:invitation).view_email_info? %>
+      <%= render 'email_info_panel' %>
+    <% end %>
   </div>
 </div>
 

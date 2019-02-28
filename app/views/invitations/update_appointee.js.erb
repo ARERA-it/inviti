@@ -1,0 +1,6 @@
+var $sel = $('#<%= params[:submit_feedback] %>');
+$sel.text("Dati salvati");
+
+setTimeout(function() {
+  $sel.text("");
+}, 1000);

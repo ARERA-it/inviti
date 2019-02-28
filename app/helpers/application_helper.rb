@@ -57,7 +57,8 @@ module ApplicationHelper
     content_tag(:span, nil, "data-livestamp" => dt.try(:iso8601))
   end
 
-  def user_circle(user, color='#023aab')
+  # size: '' => standard, 'sm' => small
+  def user_circle(user, size='')
     return nil if user.blank?
     if user.is_a? String
       initials = user.strip.split(" ")[0..1].map(&:first).join('').upcase
@@ -66,8 +67,7 @@ module ApplicationHelper
       initials = user.initials
       name = user.display_name
     end
-    # <p class="img-circle" data-letters="<%= 'SB' %>"></p>
-    content_tag(:p, '', class: "img-circle", 'data-letters': initials, title: name, 'data-bg-color': color)
+    content_tag(:p, '', class: size, 'data-letters': initials, title: name)
   end
 
 end

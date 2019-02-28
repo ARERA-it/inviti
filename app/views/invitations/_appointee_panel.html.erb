@@ -3,39 +3,36 @@
     Incarico
   </div>
   <div class="card-body">
-    <%= form_with(model: @invitation, class: 'appointee-choice') do |form| %>
-
+    <%= form_with(model: @invitation, url: appointee_path, class: 'appointee-choice') do |form| %>
+      <%= hidden_field_tag :id, @invitation.id %>
       <div class="form-group">
         <%= form.label :decision, "Partecipazione" %>
-        <%= form.collection_select :decision, Invitation.decisions, :first, ->(e){ t("decision.#{e.first}") }, { }, class: "form-control"  %>
-      </div>
-
-      <div class="">
-
+        <%= form.collection_select :decision, Invitation.decisions, :first, ->(e){ t("decision.#{e.first}") }, { }, class: "form-control", disabled: !policy(:invitation).update_appointee?  %>
       </div>
 
       <div class="row who-participates">
         <div class="col-md-6">
           <div class="form-group">
             <%= form.label :appointee_id, "Partecipante" %>
-            <%= form.collection_select :appointee_id, User.appointeeable, :id, :display_name, { prompt: "Seleziona...", include_blank: "Altro" }, class: "form-control"  %>
+            <% options = User.appointeeable.to_a.unshift User.new(id: 0, display_name: 'Altro') %>
+            <%= form.collection_select :appointee_id, options, :id, :display_name, { prompt: "Seleziona..." }, class: "form-control", disabled: !policy(:invitation).update_appointee?  %>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
             <%= form.label :alt_appointee_name, "Partecipante (altro)" %>
-            <%= form.text_field :alt_appointee_name, class: "form-control" %>
+            <%= form.text_field :alt_appointee_name, class: "form-control", readonly: !policy(:invitation).update_appointee? %>
           </div>
         </div>
       </div>
 
       <div class="form-group">
         <%= form.label :delegation_notes, "Osservazioni" %>
-        <%= form.text_area :delegation_notes, rows: 4, class: "form-control" %>
+        <%= form.text_area :delegation_notes, rows: 4, class: "form-control", readonly: !policy(:invitation).update_appointee? %>
       </div>
 
       <%= hidden_field_tag :submit_feedback, 'text-after-submit-appointee-panel' %>
-      <%= form.submit "Salva", class: "btn btn-primary pull-right" %>
+      <%= form.submit "Salva", class: "btn btn-primary pull-right", disabled: !policy(:invitation).update_appointee? %>
       <span class="ajax-submit-feedback" id="text-after-submit-appointee-panel"></span>
     <% end %>
   </div>

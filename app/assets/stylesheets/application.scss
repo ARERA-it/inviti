@@ -164,6 +164,13 @@ span.long-format-dt {
   color: white;
 }
 
+[data-letters].sm:before {
+  font-size: 0.75em;
+  width: 3.0em;
+  height: 3.0em;
+  line-height: 3.0em;
+}
+
 .navbar-logo.navbar-brand {
   font-family: 'Oleo Script Swash Caps', cursive;
   color: #ddd;

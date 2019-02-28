@@ -3,6 +3,7 @@ class ContributionsController < ApplicationController
 
   # Add a contribution
   def create
+    authorize :contribution
     params = contribution_params
     @contribution = Contribution.new(contribution_params)
     @contribution.user = current_user
@@ -19,6 +20,7 @@ class ContributionsController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
+    authorize @contribution
     @contribution.destroy
     respond_to do |format|
       format.js

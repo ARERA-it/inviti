@@ -47,24 +47,36 @@ class InvitationsController
 
 
     wtf = $('.panel-chat')
-    height = wtf[0].scrollHeight
-    wtf.scrollTop(height)
+    if wtf[0]
+      height = wtf[0].scrollHeight
+      wtf.scrollTop(height)
 
     $('#invitation_appointee_id').on('change', ->
       InvitationsController.manage_dropdown()
     )
+    if $('#invitation_alt_appointee_name').val()!=''
+      $('#invitation_appointee_id').val("0")
+
     InvitationsController.manage_dropdown()
     $('#invitation_decision').on('change', ->
       InvitationsController.manage_participation()
     )
     InvitationsController.manage_participation()
 
+
+
   @manage_dropdown: ->
     val = $('#invitation_appointee_id').val()
-    text = $("#invitation_appointee_id option:selected").text()
-    # disabilito se è selezionato un nome (val!='') oppure se c'è scritto 'Seleziona...'
-    #   o in alternativa non c'è scritto 'Altro'
-    $("#invitation_alt_appointee_name").prop('disabled', val!="" || text!='Altro')
+    console.log val
+    console.log "-- disabled: #{val!='0'}"
+    if val=='0'
+      # 'Altro'
+      $("#invitation_alt_appointee_name").prop('disabled', false)
+    else
+      $("#invitation_alt_appointee_name").prop('disabled', true)
+      $('#invitation_alt_appointee_name').val('')
+
+
 
   @manage_participation: ->
     val = $('#invitation_decision').val()

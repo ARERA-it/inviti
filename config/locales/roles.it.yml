@@ -1,6 +1,6 @@
 it:
   roles:
-    top: Presidente
+    president: Presidente
     advisor: Consigliere
     commissary: Commissario
     secretary: Segreterie

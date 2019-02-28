@@ -27,7 +27,7 @@ class User < ApplicationRecord
   # :registerable, :recoverable, :rememberable, :validatable
   devise :cas_authenticatable, :trackable
 
-  enum role: [:top, :advisor, :commissary, :secretary, :viewer, :admin]
+  enum role: [:president, :advisor, :commissary, :secretary, :viewer, :admin]
   validates :email, uniqueness: true
   scope :appointeeable, -> { where(appointeeable: true) }
   has_and_belongs_to_many :invitations

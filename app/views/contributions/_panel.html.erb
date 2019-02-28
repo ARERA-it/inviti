@@ -11,27 +11,29 @@
       <% end %>
     </div>
 
-    <h4>Aggiungi nuovo contributo</h4>
-    <%= form_with(model: @contribution, class: 'contrib-form', html: { autocomplete: :off }) do |form| %>
-      <%= form.hidden_field :invitation_id %>
+    <% if policy(@contribution).create? %>
+      <h4>Aggiungi nuovo contributo</h4>
+      <%= form_with(model: @contribution, class: 'contrib-form', html: { autocomplete: :off }) do |form| %>
+        <%= form.hidden_field :invitation_id %>
 
-      <div class="form-group">
-        <%= form.label :title, "Descrizione" %>
-        <%= form.text_field :title, class: "form-control"  %>
-      </div>
+        <div class="form-group">
+          <%= form.label :title, "Descrizione" %>
+          <%= form.text_field :title, class: "form-control"  %>
+        </div>
 
-      <div class="form-group">
-        <%= form.label :contribution_files, "Allegati" %>
-        <%= form.file_field :contribution_files, multiple: true, class: "form-control"  %>
-      </div>
+        <div class="form-group">
+          <%= form.label :contribution_files, "Allegati" %>
+          <%= form.file_field :contribution_files, multiple: true, class: "form-control"  %>
+        </div>
 
-      <div class="form-group">
-        <%= form.label :note, "Note" %>
-        <%= form.text_area :note, rows: 4, class: "form-control" %>
-      </div>
+        <div class="form-group">
+          <%= form.label :note, "Note" %>
+          <%= form.text_area :note, rows: 4, class: "form-control" %>
+        </div>
 
-      <%= form.submit "Carica", class: "btn btn-primary pull-right" %>
-      <span class="ajax-submit-feedback" id="text-after-submit-contribution-panel"></span>
+        <%= form.submit "Carica", class: "btn btn-primary pull-right" %>
+        <span class="ajax-submit-feedback" id="text-after-submit-contribution-panel"></span>
+      <% end %>
     <% end %>
   </div>
 </div>

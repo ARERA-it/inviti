@@ -44,7 +44,7 @@ class Invitation < ApplicationRecord
   enum decision: DECISIONS
 
   after_initialize :set_date_views
-  before_save :set_dates, :need_infos, :set_expired, :unset_appointee
+  before_save :set_dates, :need_infos, :set_expired, :clear_alt_appointee_name, :nullify_appointee_id, :unset_appointee
 
   # default_scope { order(:from_date_and_time, :email_received_date_time) }
   scope :expired, -> { where(expired: true) }
@@ -54,6 +54,16 @@ class Invitation < ApplicationRecord
   scope :info_provided, -> { where(need_infos: false) }
   scope :participate_or_maybe, -> { where("decision<>2") }
   scope :archived, -> { where("expired=TRUE OR decision=2") }
+  scope :missing_info, -> { where("title IS NULL AND location IS NULL AND from_date_and_time IS NULL")}
+
+  # Cancella il nome del partecipante_altro se appointee_id è >0
+  def clear_alt_appointee_name
+    self.alt_appointee_name = nil if appointee_id && appointee_id>0
+  end
+
+  def nullify_appointee_id
+    self.appointee_id=nil if appointee_id==0 || appointee_id=='0'
+  end
 
   def unset_appointee
     if do_not_participate? || waiting?

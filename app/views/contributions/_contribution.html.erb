@@ -1,7 +1,9 @@
 <div class="contribution" id="contr-<%= c.id %>">
   <div class="delete">
-    <%= link_to c, method: :delete, remote: true, data: { confirm: 'Vuoi eliminare questo contributo?' } do %>
-      <i class="fas fa-times-circle fa-lg"></i>
+    <% if policy(c).destroy? %>
+      <%= link_to c, method: :delete, remote: true, data: { confirm: 'Vuoi eliminare questo contributo?' } do %>
+        <i class="fas fa-times-circle fa-lg"></i>
+      <% end %>
     <% end %>
   </div>
 

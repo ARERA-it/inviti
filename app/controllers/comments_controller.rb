@@ -3,9 +3,9 @@ class CommentsController < ApplicationController
 
   # Add a comment
   def create
-    current_user = User.advisor.first # TODO: get current_user from session
+    authorize :comment
     options = { user_id: current_user.id }.merge comment_params
-    puts options.inspect
+
     if options['content'].blank?
       render json: { status: 200, message: "Commento assente." }.to_json
     else

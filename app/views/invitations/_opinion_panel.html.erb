@@ -5,9 +5,9 @@
   <div class="card-body">
     <%= form_with(model: @opinion, class: 'form-inline opinion-choice') do |form| %>
       <div class="form-group">
-        <%= form.collection_select :selection, Opinion.choices, :first, ->(e){ t("opinion.#{e.first}") }, {prompt: true}, class: "form-control"  %>
+        <%= form.collection_select :selection, Opinion.choices, :first, ->(e){ t("opinion.#{e.first}") }, {prompt: true}, class: "form-control", disabled: !policy(@opinion).update?  %>
       </div>
-      <%= form.submit "Salva", class: "btn btn-primary ml-3" %>
+      <%= form.submit "Salva", class: "btn btn-primary ml-3", disabled: !policy(@opinion).update? %>
       <span class="ajax-submit-feedback" id="text-after-submit-opinion-panel"></span>
 
     <% end %>
@@ -29,7 +29,6 @@
         <div class="actions">
           <%= form.submit "Invia", class: "btn btn-primary" %>
           <span class="ajax-submit-feedback" id="text-after-submit-comment-panel"></span>
-
         </div>
       <% end %>
     </div>

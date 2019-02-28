@@ -1,9 +1,9 @@
 class CreateInvitations < ActiveRecord::Migration[5.2]
   def change
     create_table :invitations do |t|
-      t.string   :title
-      t.string   :location
-      t.datetime :from_date_and_time, index: true
+      t.string   :title, default: nil, index: true
+      t.string   :location, default: nil, index: true
+      t.datetime :from_date_and_time, default: nil, index: true
       t.datetime :to_date_and_time
       t.string   :organizer
       t.text     :notes

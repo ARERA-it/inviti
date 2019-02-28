@@ -7,10 +7,10 @@
     <% end %>
   </li>
 
-  <li class="nav-item new">
-    <%= link_to invitations_path(sel: :new), class: "nav-link" do %>
-      <i class="far fa-fw fa-star"></i>
-      <span>Nuovi inviti</span>
+  <li class="nav-item to_be_filled">
+    <%= link_to invitations_path(sel: :to_be_filled), class: "nav-link" do %>
+      <i class="far fa-fw fa-edit"></i>
+      <span>Info da compilare</span>
     <% end %>
   </li>
 
@@ -25,6 +25,7 @@
     <%= link_to invitations_path(sel: :running), class: "nav-link" do %>
       <i class="fas fa-fw fa-running"></i>
       <span>In corso</span>
+      <span class="badge badge-light float-right">9</span>
     <% end %>
   </li>
 

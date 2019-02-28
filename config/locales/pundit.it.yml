@@ -1,0 +1,5 @@
+it:
+  pundit:
+    default: Non hai i privilegi per eseguire l'azione.
+    user_policy:
+      index?: Non puoi visualizzare l'elenco di utenti.
