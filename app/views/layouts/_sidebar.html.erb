@@ -11,6 +11,9 @@
     <%= link_to invitations_path(sel: :to_be_filled), class: "nav-link" do %>
       <i class="far fa-fw fa-edit"></i>
       <span>Info da compilare</span>
+      <span class="badge badge-light float-right inv-count">
+        <%= Invitation.to_be_filled.count %>
+      </span>
     <% end %>
   </li>
 
@@ -18,6 +21,9 @@
     <%= link_to invitations_path(sel: :not_assigned), class: "nav-link" do %>
       <i class="fas fa-fw fa-user-plus"></i>
       <span>Da assegnare</span>
+      <span class="badge badge-light float-right inv-count">
+        <%= Invitation.not_assigned.count %>
+      </span>
     <% end %>
   </li>
 
@@ -25,7 +31,9 @@
     <%= link_to invitations_path(sel: :running), class: "nav-link" do %>
       <i class="fas fa-fw fa-running"></i>
       <span>In corso</span>
-      <span class="badge badge-light float-right">9</span>
+      <span class="badge badge-light float-right inv-count">
+        <%= Invitation.running.count %>
+      </span>
     <% end %>
   </li>
 
@@ -33,6 +41,9 @@
     <%= link_to invitations_path(sel: :archived), class: "nav-link" do %>
       <i class="fas fa-fw fa-archive"></i>
       <span>Archiviati</span>
+      <span class="badge badge-light float-right inv-count">
+        <%= Invitation.archived.count %>
+      </span>
     <% end %>
   </li>
 

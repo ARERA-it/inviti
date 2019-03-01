@@ -41,20 +41,30 @@ class Invitation < ApplicationRecord
   has_many :contributions, :dependent => :destroy
 
   belongs_to :appointee, class_name: "User", foreign_key: "appointee_id", required: false
-  enum decision: DECISIONS
+  enum decision: DECISIONS # zero based
 
   after_initialize :set_date_views
   before_save :set_dates, :need_infos, :set_expired, :clear_alt_appointee_name, :nullify_appointee_id, :unset_appointee
 
-  # default_scope { order(:from_date_and_time, :email_received_date_time) }
   scope :expired, -> { where(expired: true) }
   scope :not_expired, -> { where(expired: false) }
-  scope :assigned, -> { where("decision=1 AND (appointee_id IS NOT NULL OR (alt_appointee_name = '') IS FALSE)") }
-  scope :not_assigned, -> { where("decision<>1") }
+  scope :assigned, -> { where("decision=1 AND (appointee_id IS NOT NULL OR alt_appointee_name IS NOT NULL)") }
   scope :info_provided, -> { where(need_infos: false) }
-  scope :participate_or_maybe, -> { where("decision<>2") }
+  scope :missing_info, -> { where("title IS NULL AND location IS NULL AND from_date_and_time IS NULL") }
+  scope :filled_info, -> { where.not("title IS NULL AND location IS NULL AND from_date_and_time IS NULL") }
+
+  scope :to_be_filled, -> { missing_info.not_expired }
+  # not_assigned è sbagliata: prende anche i declinati
+  # scope :not_assigned, -> { filled_info.where("decision<>1 OR (appointee_id IS NULL AND (alt_appointee_name = '') IS TRUE)").not_expired }
+  # scope :not_assigned, -> { filled_info.where("decision=0 OR (appointee_id IS NULL AND alt_appointee_name IS NULL)").not_expired }
+  scope :not_assigned, -> { filled_info.where("decision=0 OR (decision=1 AND appointee_id IS NULL AND alt_appointee_name IS NULL)").not_expired }
+  scope :running, -> { assigned.not_expired }
   scope :archived, -> { where("expired=TRUE OR decision=2") }
-  scope :missing_info, -> { where("title IS NULL AND location IS NULL AND from_date_and_time IS NULL")}
+
+
+  def Invitation.rest
+    Invitation.pluck(:id) - Invitation.to_be_filled.pluck(:id) - Invitation.not_assigned.pluck(:id) - Invitation.running.pluck(:id) - Invitation.archived.pluck(:id)
+  end
 
   # Cancella il nome del partecipante_altro se appointee_id è >0
   def clear_alt_appointee_name
@@ -70,6 +80,7 @@ class Invitation < ApplicationRecord
       self.appointee_id = nil
       self.alt_appointee_name = nil
     end
+    self.alt_appointee_name = nil if alt_appointee_name==''
   end
 
   def need_infos

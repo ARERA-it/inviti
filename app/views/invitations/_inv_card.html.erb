@@ -39,8 +39,10 @@
   </div>
 
   <div class="card-footer status-icons">
-    <%= icon_for_opinion(inv.opinion) %>
-    <%= icon_for_comments(inv.comments) %>
+    <% if policy(inv).view_opinion? %>
+      <%= icon_for_opinion(inv.opinion) %>
+      <%= icon_for_comments(inv.comments) %>
+    <% end %>
     <%= icon_for_contributions(inv.contributions) %>
   </div>
   <%= ribbon(inv) %>

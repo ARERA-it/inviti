@@ -15,15 +15,15 @@ class InvitationsController < ApplicationController
       @sel = "nuovi"
 
     when 'to_be_filled'
-      i = i.not_expired.missing_info
+      i = i.to_be_filled
       @sel = "da compilare"
 
     when 'not_assigned'
-      i = i.not_expired.not_assigned.participate_or_maybe
+      i = i.not_assigned
       @sel = "da assegnare"
 
     when 'running'
-      i = i.not_expired.assigned #.info_provided
+      i = i.running
       @sel = "running"
 
     when 'archived'

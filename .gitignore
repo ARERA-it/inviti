@@ -31,3 +31,5 @@
 /config/secrets.yml
 
 dump.rdb
+
+/ansible

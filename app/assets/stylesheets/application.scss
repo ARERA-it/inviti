@@ -189,3 +189,12 @@ table.record-list {
     cursor: pointer;
   }
 }
+
+
+.navbar-nav .nav-item .nav-link .badge.inv-count {
+  position: static;
+  // margin-left: 0.75rem;
+  // top: 0.3rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
