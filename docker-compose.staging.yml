@@ -1,0 +1,39 @@
+version: '3'
+volumes:
+  postgres_data: {}
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/staging/app/Dockerfile
+    env_file:
+      .staging.env
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis
+
+  web:
+    build:
+      context: .
+      dockerfile: ./docker/staging/web/Dockerfile
+    depends_on:
+      - app
+    ports:
+      - 80:80
+
+# docker-compose up -d
+# docker-compose down
+
+# docker-compose up -d --no-deps --build web
+
+# Access the container:
+#   docker exec -it midilab_web_1_e54a4bb5279f /bin/sh

@@ -1,4 +1,9 @@
 
+Attenzione: vanno precompilati gli assets prima di fare il build,
+solo quelli precompilati nell'host verranno passati a nginx,
+non quelli
+bundle exec rake assets:precompile
+
 
 docker-compose up -d
 
@@ -9,7 +14,34 @@ docker-compose up --build -d
 WARNING: Image for service web was built because it did not already exist.
 To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
 
+docker-compose build
+docker-compose up --scale app=2 --build -d
 
-
+Copiato/preso l'ispirazione da:
 https://itnext.io/docker-rails-puma-nginx-postgres-999cd8866b18
+
 https://gist.github.com/satendra02/1b335b06bfc5921df486f26bd98e0e89
+
+https://www.sep.com/sep-blog/2017/02/28/load-balancing-with-nginx-and-docker/
+
+
+See logs of Rails app:
+docker exec -it invt_app_1 bash
+
+
+docker exec -it invt_web_1 bash
+> tail -f log/nginx.access.log
+
+
+
+Problemi con gli assets?
+Ricorda di settare a true config.public_file_server.enabled
+presente in config/environments/production.rb
+
+
+----------------
+
+
+docker-compose -f docker-compose.staging.yml
+
+docker-compose -f docker-compose.staging.yml up --scale app=2 --build -d

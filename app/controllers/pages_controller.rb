@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  # skip_before_action :authenticate_user!, only: :welcome
+  skip_before_action :authenticate_user!, only: :welcome
   layout 'layouts/welcome', only: :welcome
 
   def welcome

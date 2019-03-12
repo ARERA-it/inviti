@@ -288,23 +288,9 @@ Devise.setup do |config|
   #   include Turbolinks::Controller
   # end
 
-  require 'socket'
-  addr_info = Socket.ip_address_list.detect{|intf| intf.ipv4_private?}
-  ip_address = addr_info && addr_info.ip_address
-
-  if Rails.env=="production" && ip_address=="192.168.170.20" # -> programmazione
-    config.cas_base_url = "https://www.aeegnet.energia.it/casshib/shib/applicazioniProduzione/"
-    config.cas_logout_url = "https://www.aeegnet.energia.it/casshib/shib/applicazioniProduzione/logout?service=/spending-time"
-    config.cas_validate_url = "https://www.aeegnet.energia.it/casshib/shib/538941/serviceValidate"
-    # config.cas_force_ssl_service = true
-  else
-    config.cas_base_url = "https://intranet-test.arera.it/casshib/shib/applicazioniLocale/"
-    config.cas_logout_url = "https://intranet-test.arera.it/casshib/shib/applicazioniLocale/logout?service=/spending-time"
-    config.cas_validate_url = "https://intranet-test.arera.it/casshib/shib/457342/serviceValidate"
-    # config.cas_base_url = "https://aeeg-dev-web14.aeegdomain.lan/casshib/shib/applicazioniRubyLocale/"
-    # config.cas_logout_url = "https://aeeg-dev-web14.aeegdomain.lan/casshib/shib/applicazioniRubyLocale/logout?service=/spending-time"
-    # config.cas_validate_url = "https://aeeg-dev-web14.aeegdomain.lan/casshib/shib/180985/serviceValidate"
-  end
+  config.cas_base_url = ENV['cas_base_url']
+  config.cas_logout_url = ENV['cas_logout_url']
+  config.cas_validate_url = ENV['cas_validate_url']
+  config.cas_force_ssl_service = ENV['cas_force_ssl_service'].present? if ENV['rails_environment']=='production'
   config.cas_create_user = false
-
 end

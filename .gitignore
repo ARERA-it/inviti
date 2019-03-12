@@ -33,3 +33,6 @@
 dump.rdb
 
 /ansible
+
+.staging.env
+.production.env

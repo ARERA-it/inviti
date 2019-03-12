@@ -4,7 +4,6 @@ default: &default
   username: postgres
   password:
   pool: 5
-  host: db
 
 development:
   <<: *default
@@ -12,4 +11,5 @@ development:
 
 production:
   <<: *default
+  host: db
   database: invt_production
