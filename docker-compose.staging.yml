@@ -22,32 +22,32 @@ services:
   #   volumes:
   #     - /box
 
-  # check_emails:
-  #   build:
-  #     context: .
-  #     dockerfile: ./docker/staging/app/Dockerfile
-  #   env_file:
-  #     .staging.env
-  #   command: bin/check_emails
-  #   volumes:
-  #     - gems:/gems
-  #   depends_on:
-  #     - db
-  #     - web
-  #
-  # worker:
-  #   build:
-  #     context: .
-  #     dockerfile: ./docker/staging/app/Dockerfile
-  #   env_file:
-  #     .staging.env
-  #   command: bin/worker
-  #   volumes:
-  #     - gems:/gems
-  #   depends_on:
-  #     - db
-  #     - redis
-  #     - web
+  check_emails:
+    build:
+      context: .
+      dockerfile: ./docker/staging/app/Dockerfile
+    env_file:
+      .staging.env
+    command: bin/check_emails
+    volumes:
+      - gems:/gems
+    depends_on:
+      - db
+      - web
+
+  worker:
+    build:
+      context: .
+      dockerfile: ./docker/staging/app/Dockerfile
+    env_file:
+      .staging.env
+    command: bin/worker
+    volumes:
+      - gems:/gems
+    depends_on:
+      - db
+      - redis
+      - web
 
 
   db:
