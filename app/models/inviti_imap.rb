@@ -18,14 +18,16 @@ class InvitiIMAP
   def get_one_msg
     @imap.examine('INBOX') # read only
     if seqno = @imap.search(["RECENT"]).shift
-      msg = @imap.fetch(seqno, "ENVELOPE")[0]
+      msg = {}
+      msg[:envelope] = @imap.fetch(seqno, "ENVELOPE")[0]
+      msg[:body]     = @imap.fetch(seqno, "RFC822")[0].attr['RFC822']
       @imap.move(seqno, "LETTE")
       return msg
     end
     nil
   end
 
-  
+
   # return an object like this:
   # => #<struct Net::IMAP::FetchData seqno=1, attr={"ENVELOPE"=>#<struct Net::IMAP::Envelope
   #    date="Thu, 14 Mar 2019 17:27:12 +0100", subject="email7",

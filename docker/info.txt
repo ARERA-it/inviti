@@ -45,3 +45,8 @@ presente in config/environments/production.rb
 docker-compose -f docker-compose.staging.yml
 
 docker-compose -f docker-compose.staging.yml up --scale app=2 --build -d
+
+
+docker-compose -f docker-compose.staging.yml build web
+docker-compose -f docker-compose.staging.yml up web
+docker-compose -f docker-compose.staging.yml up web -d
