@@ -70,6 +70,7 @@ services:
 
 volumes:
   gems:
+  storage:
   postgres_data:
 
 # docker-compose up -d
