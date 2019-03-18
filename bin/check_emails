@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# bundle check || bundle install --without development test
+bundle check || bundle install --without development test
 # # bundle exec rake db:create db:migrate
 # # bundle exec rake db:seed
 #

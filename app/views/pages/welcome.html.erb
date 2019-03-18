@@ -2,7 +2,11 @@
   <div class="col-4">
     <p class="inviti">inviti</p>
     <div class="button">
-      <%= link_to "Accedi", new_user_session_path, class: "btn btn-info btn-lg" %>
+      <% if Rails.env=="development" %>
+        <%= link_to "Accedi", dashboard_path, class: "btn btn-info btn-lg" %>
+      <% else %>
+        <%= link_to "Accedi", new_user_session_path, class: "btn btn-info btn-lg" %>
+      <% end %>
     </div>
     <div class="arera">
       <%= image_tag "arera401x57.png", height: 40 %>

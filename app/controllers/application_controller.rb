@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user!
+  before_action :authenticate_user! if Rails.env!="development"
   helper_method :current_user
   include Pundit
   protect_from_forgery
@@ -24,7 +24,13 @@ class ApplicationController < ActionController::Base
   end
 
 
+
+
   private
+
+  def in
+
+  end
 
   def user_not_authorized(exception)
     policy_name = exception.policy.class.to_s.underscore

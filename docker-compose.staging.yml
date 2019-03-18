@@ -17,11 +17,6 @@ services:
       - db
       - redis
 
-  # box:
-  #   image: busybox
-  #   volumes:
-  #     - /box
-
   check_emails:
     build:
       context: .
@@ -44,6 +39,7 @@ services:
     command: bin/worker
     volumes:
       - gems:/gems
+      - storage:/storage      
     depends_on:
       - db
       - redis
@@ -66,12 +62,12 @@ services:
       - web
     restart: on-failure
     ports:
-      - 80:80
+      - 8080:80
 
 volumes:
-  gems:
-  storage:
-  postgres_data:
+  gems: {}
+  storage: {}
+  postgres_data: {}
 
 # docker-compose up -d
 # docker-compose down
