@@ -1,6 +1,4 @@
 version: '3'
-volumes:
-  postgres_data: {}
 
 services:
   web:
@@ -16,6 +14,7 @@ services:
     depends_on:
       - db
       - redis
+    network_mode: "host"
 
   check_emails:
     build:
@@ -28,7 +27,9 @@ services:
       - gems:/gems
     depends_on:
       - db
+      - redis
       - web
+    network_mode: "host"
 
   worker:
     build:
@@ -39,11 +40,12 @@ services:
     command: bin/worker
     volumes:
       - gems:/gems
-      - storage:/storage      
+      - storage:/storage
     depends_on:
       - db
       - redis
       - web
+    network_mode: "host"
 
 
   db:
