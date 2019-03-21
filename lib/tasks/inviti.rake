@@ -1,3 +1,5 @@
+require 'net/imap'
+
 namespace :inviti do
 
   desc "Update invitation expired statuses"
@@ -25,5 +27,11 @@ namespace :inviti do
       end
     end
 
+  end
+
+
+  desc "Simply put hello message"
+  task :hello => :environment do
+    puts "Hello!!"
   end
 end

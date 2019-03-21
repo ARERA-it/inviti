@@ -62,7 +62,7 @@ gem 'faker' #, :git => 'https://github.com/stympy/faker.git', :branch => 'master
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'devise'
-gem 'devise_cas_authenticatable'
+gem 'devise_cas_authenticatable' # c'è anche la versione Lutech: https://github.com/lutechspa/devise_cas_authenticatable
 
 # gem 'bootstrap-sass', '~> 3.3.7'
 gem 'bootstrap', '~> 4.2.1'

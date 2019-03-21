@@ -13,6 +13,9 @@
 #
 # Crono.perform(TestJob).every 2.days, at: '15:30'
 #
+require 'rake'
+
+Rails.app_class.load_tasks
 
 Crono.perform(CheckNewEmailsJob).every 30.seconds
 # Crono.perform(CheckNewEmailsJob).every 3.minutes
