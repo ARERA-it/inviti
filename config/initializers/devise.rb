@@ -289,10 +289,8 @@ Devise.setup do |config|
   # end
 
   config.cas_base_url = ENV['cas_base_url']
-  config.cas_login_url = ENV['cas_login_url']
+  # config.cas_login_url = ENV['cas_login_url']
   config.cas_logout_url = ENV['cas_logout_url']
   config.cas_validate_url = ENV['cas_validate_url']
-  # config.cas_force_ssl_service = true
-  # config.cas_force_ssl_service = ENV['cas_force_ssl_service'].present? if ENV['deploy_env']=='production'
   config.cas_create_user = true
 end
