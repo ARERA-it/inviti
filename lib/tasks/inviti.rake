@@ -17,16 +17,22 @@ namespace :inviti do
       ff = e.from.first
       datetime = DateTime.parse(e.date)
 
-      Invitation.find_or_create_by(email_id: mail.message_id) do |inv|
+      inv = Invitation.find_by(email_id: mail.message_id)
+      if inv.nil?
+        inv = Invitation.new
         inv.email_from_name = ff.name
         inv.email_from_address = "#{ff.mailbox}@#{ff.host}"
         inv.email_subject = e.subject
         inv.email_body_preview = (mail.text_part && mail.text_part.body.to_s) || ""
         inv.email_body = mail.html_part && mail.html_part.body.raw_source.gsub("\r\n", "\n")
         inv.email_received_date_time = datetime
+        inv.save
+
+        mail.attachments.each do |att|
+          inv.files.attach(io: att.body.decoded, filename: att.filename)
+        end
       end
     end
-
   end
 
 
