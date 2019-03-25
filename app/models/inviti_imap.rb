@@ -19,7 +19,7 @@ class InvitiIMAP
     @imap.examine('INBOX') # read only
     if seqno = @imap.search(["RECENT"]).shift
       msg = {}
-      msg[:envelope] = @imap.fetch(seqno, "ENVELOPE")[0]
+      msg[:envelope] = @imap.fetch(seqno, "ENVELOPE")[0].attr["ENVELOPE"]
       msg[:body]     = @imap.fetch(seqno, "RFC822")[0].attr['RFC822']
       @imap.move(seqno, "LETTE")
       return msg
