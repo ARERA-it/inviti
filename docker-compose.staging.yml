@@ -86,6 +86,7 @@ services:
       - ./ssl_certificates:/etc/nginx/certs
     ports:
       - 443:443
+      - 80:80
     extra_hosts:
       - "posta.arera.it:192.168.200.21"
       - "posta.arera.it:192.168.200.22"
