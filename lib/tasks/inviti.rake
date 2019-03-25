@@ -18,7 +18,7 @@ namespace :inviti do
       datetime = DateTime.parse(e.date)
 
       Invitation.find_or_create_by(email_id: mail.message_id) do |inv|
-        inv.email_from_name = ff.name,
+        inv.email_from_name = ff.name
         inv.email_from_address = "#{ff.mailbox}@#{ff.host}"
         inv.email_subject = e.subject
         inv.email_body_preview = (mail.text_part && mail.text_part.body.to_s) || ""
