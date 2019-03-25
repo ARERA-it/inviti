@@ -1,8 +1,5 @@
 version: '3'
 
-# networks:
-
-
 services:
   web:
     build:
@@ -17,8 +14,13 @@ services:
     depends_on:
       - db
       - redis
-    # networks:
-    #   - host
+    extra_hosts:
+      - "posta.arera.it:192.168.200.21"
+      - "posta.arera.it:192.168.200.22"
+      - "relay1.arera.it:192.168.0.251"
+      - "relay2.arera.it:192.168.0.252"
+      - "intranet.arera.it:192.168.170.4"
+
 
   check_emails:
     build:
@@ -33,8 +35,13 @@ services:
       - db
       - redis
       - web
-    # networks:
-    #   - host
+    extra_hosts:
+      - "posta.arera.it:192.168.200.21"
+      - "posta.arera.it:192.168.200.22"
+      - "relay1.arera.it:192.168.0.251"
+      - "relay2.arera.it:192.168.0.252"
+      - "intranet.arera.it:192.168.170.4"
+
 
   worker:
     build:
@@ -50,21 +57,23 @@ services:
       - db
       - redis
       - web
-    # networks:
-    #   - host
+    extra_hosts:
+      - "posta.arera.it:192.168.200.21"
+      - "posta.arera.it:192.168.200.22"
+      - "relay1.arera.it:192.168.0.251"
+      - "relay2.arera.it:192.168.0.252"
+      - "intranet.arera.it:192.168.170.4"
 
 
   db:
     image: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    # networks:
-    #   - host
+
 
   redis:
     image: redis
-    # networks:
-    #   - host
+
 
   nginx:
     build:
@@ -77,8 +86,13 @@ services:
       - ./ssl_certificates:/etc/nginx/certs
     ports:
       - 443:443
-    # networks:
-    #   - host
+    extra_hosts:
+      - "posta.arera.it:192.168.200.21"
+      - "posta.arera.it:192.168.200.22"
+      - "relay1.arera.it:192.168.0.251"
+      - "relay2.arera.it:192.168.0.252"
+      - "intranet.arera.it:192.168.170.4"
+
 
 volumes:
   gems: {}
