@@ -7,11 +7,12 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
 
+  alias :devise_current_user :current_user
   def current_user
     if ENV.fetch('user_mode'){ 'devise' }=='switchable'
       @current_user ||= User.find_by(id: session[:user_id]) || User.first
     else
-      # TODO
+      devise_current_user
     end
   end
 
@@ -27,10 +28,6 @@ class ApplicationController < ActionController::Base
 
 
   private
-
-  def in
-
-  end
 
   def user_not_authorized(exception)
     policy_name = exception.policy.class.to_s.underscore
