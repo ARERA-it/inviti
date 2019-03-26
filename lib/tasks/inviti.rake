@@ -18,13 +18,17 @@ namespace :inviti do
       datetime = DateTime.parse(e.date)
 
       inv = Invitation.find_by(email_id: mail.message_id)
+      email_body = mail.html_part && mail.html_part.body.raw_source
+      email_body_preview = (mail.text_part && mail.text_part.body.to_s) || Nokogiri::HTML(email_body).text
+
+
       if inv.nil?
         inv = Invitation.new
         inv.email_from_name = ff.name
         inv.email_from_address = "#{ff.mailbox}@#{ff.host}"
         inv.email_subject = e.subject
-        inv.email_body = mail.html_part && mail.html_part.body.raw_source.gsub("\r\n", "\n")
-        inv.email_body_preview = (mail.text_part && mail.text_part.body.to_s) || Nokogiri::HTML(inv.email_body).text
+        inv.email_body = email_body.gsub("\r\n", "\n").gsub(/<!-- (.)+ -->/, "")
+        inv.email_body_preview = email_body_preview.gsub("\r\n", "\n").gsub(/<!-- (.)+ -->/, "")
         inv.email_received_date_time = datetime
         inv.save
 
