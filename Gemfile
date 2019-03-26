@@ -84,3 +84,4 @@ gem 'holidays'
 
 gem 'mail'
 gem 'crono'
+gem 'daemons'
