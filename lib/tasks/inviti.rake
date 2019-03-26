@@ -23,13 +23,20 @@ namespace :inviti do
         inv.email_from_name = ff.name
         inv.email_from_address = "#{ff.mailbox}@#{ff.host}"
         inv.email_subject = e.subject
-        inv.email_body_preview = (mail.text_part && mail.text_part.body.to_s) || ""
         inv.email_body = mail.html_part && mail.html_part.body.raw_source.gsub("\r\n", "\n")
+        inv.email_body_preview = (mail.text_part && mail.text_part.body.to_s) || Nokogiri::HTML(inv.email_body).text
         inv.email_received_date_time = datetime
         inv.save
 
-        mail.attachments.each do |att|
-          inv.files.attach(io: att.body.decoded, filename: att.filename)
+        temp_file = Tempfile.new('attachment')
+        begin
+          File.open(temp_file.path, 'wb') do |file|
+            file.write(att.body.decoded)
+          end
+          inv.files.attach(io: File.open(temp_file.path), filename: att.filename)
+        ensure
+           temp_file.close
+           temp_file.unlink   # deletes the temp file
         end
       end
     end
