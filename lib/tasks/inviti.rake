@@ -9,6 +9,8 @@ namespace :inviti do
 
   desc "Check for new emails"
   task :check_emails => :environment do
+    Rails.logger.info "-----> Check for new emails -------"
+
     imap = InvitiIMAP.new
     while msg = imap.get_one_msg
       e = msg[:envelope]
