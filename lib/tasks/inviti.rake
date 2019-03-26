@@ -13,6 +13,7 @@ namespace :inviti do
     while msg = imap.get_one_msg
       e = msg[:envelope]
       b = msg[:body]
+      Rails.logger.info "-----> found a new email! title: '#{e.subject}' -------"
       mail = Mail.new(b)
       ff = e.from.first
       datetime = DateTime.parse(e.date)
