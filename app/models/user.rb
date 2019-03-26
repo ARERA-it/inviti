@@ -37,6 +37,7 @@ class User < ApplicationRecord
   before_save do |r|
     r.username = r.username.downcase
     r.email    = "#{r.username}@arera.it" if r.username && r.email.blank?
+    r.display_name = r.username if r.display_name.blank?
     r.initials = User.calc_initials(r.display_name) if r.initials.blank?
   end
 
