@@ -25,15 +25,17 @@ class ApplicationController < ActionController::Base
   end
 
 
-
+  protected
+    def after_sign_in_path_for(resource)
+      request.env['omniauth.origin'] || stored_location_for(resource) || dashboard_path
+    end
 
   private
 
-  def user_not_authorized(exception)
-    policy_name = exception.policy.class.to_s.underscore
+    def user_not_authorized(exception)
+      policy_name = exception.policy.class.to_s.underscore
 
-    flash[:alert] = t "#{policy_name}.#{exception.query}", scope: "pundit", default: :default
-    redirect_to(request.referrer || root_path)
-end
-
+      flash[:alert] = t "#{policy_name}.#{exception.query}", scope: "pundit", default: :default
+      redirect_to(request.referrer || root_path)
+    end
 end
