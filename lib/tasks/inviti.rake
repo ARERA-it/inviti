@@ -30,8 +30,8 @@ namespace :inviti do
         inv.email_from_name = ff.name
         inv.email_from_address = "#{ff.mailbox}@#{ff.host}"
         inv.email_subject = e.subject
-        inv.email_body = email_body.gsub("\r\n", "\n").gsub(/<!-- (.)+ -->/, "")
-        inv.email_body_preview = email_body_preview.gsub("\r\n", "\n").gsub(/<!-- (.)+ -->/, "")
+        inv.email_body = email_body.gsub("\r\n", "\n").gsub("\n\n", "\n").gsub(/<!-- (.)+(\n)?(.)+ -->/, "")
+        inv.email_body_preview = email_body_preview.gsub("\r\n", "\n").gsub("\n\n", "\n").gsub(/<!-- (.)+(\n)?(.)+ -->/m, "")
         inv.email_received_date_time = datetime
         inv.save
 
