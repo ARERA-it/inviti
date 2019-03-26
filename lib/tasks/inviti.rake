@@ -28,15 +28,17 @@ namespace :inviti do
         inv.email_received_date_time = datetime
         inv.save
 
-        temp_file = Tempfile.new('attachment')
-        begin
-          File.open(temp_file.path, 'wb') do |file|
-            file.write(att.body.decoded)
+        mail.attachments.each do |att|
+          temp_file = Tempfile.new('attachment')
+          begin
+            File.open(temp_file.path, 'wb') do |file|
+              file.write(att.body.decoded)
+            end
+            inv.files.attach(io: File.open(temp_file.path), filename: att.filename)
+          ensure
+             temp_file.close
+             temp_file.unlink   # deletes the temp file
           end
-          inv.files.attach(io: File.open(temp_file.path), filename: att.filename)
-        ensure
-           temp_file.close
-           temp_file.unlink   # deletes the temp file
         end
       end
     end
