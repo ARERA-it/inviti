@@ -11,22 +11,25 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    authorize @user
   end
 
   # GET /users/new
   def new
+    authorize :user
     @user = User.new
   end
 
   # GET /users/1/edit
   def edit
+    authorize @user
   end
 
   # POST /users
   # POST /users.json
   def create
+    authorize :user
     @user = User.new(user_params)
-
     respond_to do |format|
       if @user.save
         format.html { redirect_to @user, notice: "L'utente è stato creato con successo." }
@@ -41,6 +44,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+    authorize @user
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to @user, notice: "L'utente è stato modificato con successo." }
@@ -55,6 +59,7 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
+    authorize @user
     @user.destroy
     respond_to do |format|
       format.html { redirect_to users_url, notice: "L'utente è stato eliminato." }
@@ -70,6 +75,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:username, :display_name, :initials, :job_title, :role, :title, :appointeeable)
+      params.require(:user).permit(policy(@user).permitted_attributes)
     end
 end

@@ -3,7 +3,7 @@
     <div class="checkbox">
       <label>
         <%= form.check_box :appointeeable, disabled: ro %>
-        <%= "Il nome appare nella lista delle persone a cui delegare l'invito" %>
+        <%= " Incaricabile" %>
       </label>
     </div>
   </div>
@@ -26,27 +26,29 @@
   </div>
   <div class="col-md-3">
     <div class="form-group">
-      <%= form.label :display_name, "Nome" %>
+      <%= form.label :display_name, "Nome e cognome" %>
       <%= form.text_field :display_name, class: "form-control", readonly: ro %>
     </div>
   </div>
   <div class="col-md-3">
     <div class="form-group">
-      <%= form.label :display_name, "Indirizzo email" %>
+      <%= form.label :username, "Indirizzo email" %>
       <div class="input-group mb-3">
-        <input type="text" class="form-control" name="user[username]" id="user_username" aria-describedby="basic-addon2">
+        <%= form.text_field :username, class: "form-control", readonly: ro %>
         <div class="input-group-append">
           <span class="input-group-text" id="basic-addon2">@arera.it</span>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-md-3">
-    <div class="form-group">
-      <%= form.label :role, "Ruolo" %>
-      <%= form.collection_select :role, User.roles, :first, ->(e){ t("roles.#{e.first}") }, { prompt: true }, class: "form-control", disabled: ro  %>
+  <% if policy(@user).change_role? %>
+    <div class="col-md-3">
+      <div class="form-group">
+        <%= form.label :role, "Ruolo" %>
+        <%= form.collection_select :role, User.roles, :first, ->(e){ t("roles.#{e.first}") }, { prompt: true }, class: "form-control", disabled: ro  %>
+      </div>
     </div>
-  </div>
+  <% end %>
 </div>
 
 <% if ro %>
