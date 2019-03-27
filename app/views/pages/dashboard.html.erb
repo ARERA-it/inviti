@@ -1,6 +1,6 @@
-<h2>Nuovi inviti</h2>
-<p>Raccoglie tutti gli inviti che non sono mai stati visionati dall'utente corrente</p>
-<p><%= link_to "Vai...", invitations_path(sel: :new), class: "nav-link" %></p>
+<h2>Da compliare</h2>
+<p>Raccoglie tutti gli inviti, tipicamente nuovi, che necessitano l'inserimento di informazioni generali</p>
+<p><%= link_to "Vai...", invitations_path(sel: :to_be_filled), class: "nav-link" %></p>
 
 <h2>Da assegnare</h2>
 <p>Raccoglie tutti gli inviti non declinati e per i quali non è stato ancora assegnato una persona incaricata</p>
