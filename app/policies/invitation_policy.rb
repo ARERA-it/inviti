@@ -4,15 +4,34 @@ class InvitationPolicy < ApplicationPolicy
   end
 
   def show?
-    true
+    if user.viewer?
+      record.appointee_id == user.id
+    else
+      true
+    end
   end
 
+  # Le info generali
   def update?
-    !user.viewer?
+    if user.viewer?
+      record.appointee_id == user.id
+    else
+      true
+    end
   end
 
+  # Le info sull'incarico
   def update_appointee?
     user.president?
+  end
+
+
+  def update_general_info?
+    if user.viewer?
+      record.appointee_id == user.id
+    else
+      true
+    end
   end
 
 
@@ -44,5 +63,15 @@ class InvitationPolicy < ApplicationPolicy
     true
   end
 
+  class Scope < Scope
+    def resolve
+      if user.viewer?
+        puts "------>>>>><<<<<<------"
+        scope.where(appointee_id: user.id)
+      else
+        scope.all
+      end
+    end
+  end
 
 end

@@ -38,3 +38,6 @@ dump.rdb
 .production.env
 
 /ssl_certificates
+
+comandi_docker.txt
+docker-compose.staging-with-network.yml

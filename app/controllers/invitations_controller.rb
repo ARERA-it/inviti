@@ -6,7 +6,8 @@ class InvitationsController < ApplicationController
   def index
     @read_ids = current_user.invitations.pluck(:id) # invitation already read
 
-    i = Invitation
+    # i = Invitation
+    i = policy_scope(Invitation)
     sel = params['sel'] || 'to_be_filled'
     case sel
     when 'new'
@@ -63,8 +64,10 @@ class InvitationsController < ApplicationController
     @invitation.users << current_user # check invitation as 'read'
   end
 
+
   # PATCH/PUT /invitations/1
   # PATCH/PUT /invitations/1.json
+  # Modifica le info generali
   def update
     authorize @invitation
     respond_to do |format|
@@ -80,7 +83,7 @@ class InvitationsController < ApplicationController
     end
   end
 
-
+  # Modifica le info sull'incarico
   def update_appointee
     authorize @invitation
     respond_to do |format|

@@ -12,7 +12,7 @@
       <i class="far fa-fw fa-edit"></i>
       <span>Info da compilare</span>
       <span class="badge badge-light float-right inv-count">
-        <%= Invitation.to_be_filled.count %>
+        <%= policy_scope(Invitation).to_be_filled.count %>
       </span>
     <% end %>
   </li>
@@ -22,7 +22,7 @@
       <i class="fas fa-fw fa-user-plus"></i>
       <span>Da assegnare</span>
       <span class="badge badge-light float-right inv-count">
-        <%= Invitation.not_assigned.count %>
+        <%= policy_scope(Invitation).not_assigned.count %>
       </span>
     <% end %>
   </li>
@@ -32,7 +32,7 @@
       <i class="fas fa-fw fa-running"></i>
       <span>In corso</span>
       <span class="badge badge-light float-right inv-count">
-        <%= Invitation.running.count %>
+        <%= policy_scope(Invitation).running.count %>
       </span>
     <% end %>
   </li>
@@ -42,7 +42,7 @@
       <i class="fas fa-fw fa-archive"></i>
       <span>Archiviati</span>
       <span class="badge badge-light float-right inv-count">
-        <%= Invitation.archived.count %>
+        <%= policy_scope(Invitation).archived.count %>
       </span>
     <% end %>
   </li>

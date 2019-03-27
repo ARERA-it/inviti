@@ -5,4 +5,4 @@ bundle check || bundle install --without development test
 # # bundle exec rake db:seed
 #
 # bundle exec rake assets:precompile
-bundle exec crono start
+bundle exec crono
