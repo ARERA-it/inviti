@@ -37,7 +37,7 @@
         <% if policy(:user).index? %>
           <%= link_to "Utenti", users_path, class: "dropdown-item" %>
         <% end %>
-        <%= link_to current_user.display_name, current_user, class: 'dropdown-item' %>
+        <%= link_to current_user.display_name || current_user.username || current_user.email, current_user, class: 'dropdown-item' %>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Esci</a>
       </div>
