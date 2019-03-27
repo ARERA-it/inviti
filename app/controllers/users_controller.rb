@@ -29,7 +29,9 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     authorize :user
-    @user = User.new(user_params)
+    @user = User.new
+    @user.update_attributes permitted_attributes(@user)
+    authorize @user
     respond_to do |format|
       if @user.save
         format.html { redirect_to @user, notice: "L'utente è stato creato con successo." }
@@ -46,7 +48,7 @@ class UsersController < ApplicationController
   def update
     authorize @user
     respond_to do |format|
-      if @user.update(user_params)
+      if @user.update(permitted_attributes(@user))
         format.html { redirect_to @user, notice: "L'utente è stato modificato con successo." }
         format.json { render :show, status: :ok, location: @user }
       else
