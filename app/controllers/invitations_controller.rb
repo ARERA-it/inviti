@@ -109,8 +109,9 @@ class InvitationsController < ApplicationController
       # Rake::Task['inviti:check_emails'].invoke
       CheckNewEmailsJob.perform_later
     end
-
-    redirect_to invitations_path(sel: 'running')
+    respond_to do |format|
+      format.js {}
+    end
   end
 
   private
