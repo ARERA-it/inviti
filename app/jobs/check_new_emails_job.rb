@@ -17,7 +17,7 @@ class CheckNewEmailsJob < ApplicationJob
       datetime = DateTime.parse(e.date)
 
       inv = Invitation.find_by(email_id: mail.message_id)
-      email_body = mail.html_part && mail.html_part.body.raw_source
+      email_body = (mail.html_part && mail.html_part.body.raw_source) || mail.body.to_s
       email_body_preview = (mail.text_part && mail.text_part.body.to_s) || Nokogiri::HTML(email_body).text
 
 
