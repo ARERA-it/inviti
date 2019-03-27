@@ -102,7 +102,13 @@ class InvitationsController < ApplicationController
 
 
   def update_invitation_expired_statuses
-    UpdateInvitationsJob.perform_later
+    case params['env']
+    when 'dev'
+      UpdateInvitationsJob.perform_later
+    else
+      Rake::Task['inviti:check_emails'].invoke
+    end
+    
     redirect_to invitations_path(sel: 'running')
   end
 
