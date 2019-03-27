@@ -106,9 +106,10 @@ class InvitationsController < ApplicationController
     when 'dev'
       UpdateInvitationsJob.perform_later
     else
-      Rake::Task['inviti:check_emails'].invoke
+      # Rake::Task['inviti:check_emails'].invoke
+      CheckNewEmailsJob.perform_later
     end
-    
+
     redirect_to invitations_path(sel: 'running')
   end
 
