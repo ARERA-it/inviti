@@ -22,7 +22,7 @@ class InvitationPolicy < ApplicationPolicy
 
   # Le info sull'incarico
   def update_appointee?
-    user.president?
+    user.president? || user.admin?
   end
 
 
