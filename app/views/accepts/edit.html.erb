@@ -1,0 +1,80 @@
+<div class="row mb-3">
+  <div class="col-md">
+    <h1 class="display-5">Invito ad un evento</h1>
+  </div>
+</div>
+
+<div class="card panel-email mb-3">
+  <div class="card-header">
+    Email
+  </div>
+  <div class="card-body">
+    <dl class="row">
+      <dt class="col-sm-3">ricevuta</dt><dd class="col-sm-9"><%= formatta_dataora @invitation.email_received_date_time %></dd>
+      <dt class="col-sm-3">mittente</dt><dd class="col-sm-9"><%= @invitation.email_from_name %> (<%= @invitation.email_from_address %>)</dd>
+      <dt class="col-sm-3">oggetto</dt><dd class="col-sm-9"><strong id="email-subject"><%= @invitation.email_subject %></strong></dd>
+      <dt class="col-sm-3">allegati</dt>
+      <dd class="col-sm-9">
+        <% if @invitation.files.any? %>
+          <ul class="attachments">
+            <% @invitation.files.each do |f| %>
+              <li>
+                <%= link_to url_for(f),  target: "_blank" do %>
+                  <i class="fas fa-file-pdf fa-fw"></i>
+                  <%= f.filename %>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <span class="no-attachments">Nessuno</span>
+        <% end %>
+      </dd>
+      <dt class="col-sm-3">corpo</dt><dd class="col-sm-9"><%= sanitize @invitation.email_body %></dd>
+    </dl>
+  </div>
+</div>
+
+<div class="card panel-email mb-3">
+  <div class="card-header">
+    Informazioni sull'evento
+  </div>
+  <div class="card-body">
+    <dl class="row">
+      <dt class="col-sm-3">titolo</dt><dd class="col-sm-9"><%= @invitation.title %></dd>
+      <dt class="col-sm-3">luogo</dt><dd class="col-sm-9"><%= @invitation.location %></dd>
+      <dt class="col-sm-3">organizzazione</dt><dd class="col-sm-9"><%= @invitation.organizer %></dd>
+      <dt class="col-sm-3">data e ora</dt><dd class="col-sm-9"><%= formatta_dataora @invitation.from_date_and_time %></dd>
+      <dt class="col-sm-3">note</dt><dd class="col-sm-9"><%= @invitation.notes %></dd>
+    </dl>
+  </div>
+</div>
+
+<% unless @invitation.delegation_notes.blank? %>
+  <div class="card panel-email mb-3">
+    <div class="card-header">
+      Osservazioni relative all'incarico
+    </div>
+    <div class="card-body">
+      <p>
+        <%= @invitation.delegation_notes %>
+      </p>
+    </div>
+  </div>
+<% end %>
+
+<div class="row mt-5 mb-5">
+  <div class="col-sm" style="font-size: 4em;">
+    <h4>Accetti l'invito?</h4>
+    <%= form_with(model: @accept, html: { autocomplete: :off }) do |form| %>
+      <%= hidden_field_tag :token, params[:token] %>
+      <div class="form-group">
+        <%= form.select :decision, [["Sì, accetto l'invito", 'accepted'],["No, rifiuto l'invito", 'rejected']], { include_blank: "Seleziona..." }, class: "form-control"  %>
+      </div>
+      <div class="form-group">
+        <%= form.text_area :comment, rows: 4, class: "form-control", placeholder: "Commenti e osservazioni" %>
+      </div>
+      <%= form.submit "Invia", class: "btn btn-success btn-lg", id: 'submit-btn' %>
+    <% end %>
+  </div>
+</div>

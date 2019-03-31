@@ -41,8 +41,10 @@ it:
     formats:
       default: "%d/%m/%Y"
       long: "%d %B %Y"
+      long_w_weekday: "%A %d %B %Y"
       short: "%d %b"
       card: '%a, %d %b %Y'
+
 
     month_names:
     -

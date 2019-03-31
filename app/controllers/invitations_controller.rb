@@ -1,5 +1,7 @@
 class InvitationsController < ApplicationController
   before_action :set_invitation, only: [:show, :update, :update_appointee]
+  autocomplete :user, :display_name, full: true
+
 
   # GET /invitations
   # GET /invitations.json
@@ -60,6 +62,7 @@ class InvitationsController < ApplicationController
     @comment  = Comment.new(invitation_id: @invitation.id)
     @contributions = @invitation.contributions
     @contribution = @invitation.contributions.build
+    # @invitation.user_display_name =
 
     @invitation.users << current_user # check invitation as 'read'
   end
@@ -72,22 +75,6 @@ class InvitationsController < ApplicationController
     authorize @invitation
     respond_to do |format|
       if @invitation.update(invitation_params)
-        format.html { redirect_to @invitation, notice: 'Dati modificati con successo.' }
-        format.json { render :show, status: :ok, location: @invitation }
-        format.js {}
-      else
-        format.html { render :edit }
-        format.json { render json: @invitation.errors, status: :unprocessable_entity }
-        format.js { render :js => "alert('Qualcosa è andato storto...')" }
-      end
-    end
-  end
-
-  # Modifica le info sull'incarico
-  def update_appointee
-    authorize @invitation
-    respond_to do |format|
-      if @invitation.update(invitation_params)
         # format.html { redirect_to @invitation, notice: 'Dati modificati con successo.' }
         # format.json { render :show, status: :ok, location: @invitation }
         format.js {}
@@ -97,7 +84,31 @@ class InvitationsController < ApplicationController
         format.js { render :js => "alert('Qualcosa è andato storto...')" }
       end
     end
+  end
 
+  # Modifica le info sull'incarico
+  def update_appointee
+    authorize @invitation
+    find_appointee
+    respond_to do |format|
+      if params[:invitation][:decision]=="participate" && params[:invitation][:appointee_id].nil?
+        @feedback_hash = { msg: "L'utente non è stato trovato" }
+      else
+        if @invitation.update(appointee_params)
+          # la notifica dell'incarico viene inviata dal modello (mail_to_appointee)
+          @feedback_hash = { msg: "Dati salvati con successo" }
+        else
+          @feedback_hash = { msg: "Qualcosa è andato storto" }
+        end
+      end
+      format.js {}
+    end
+
+  end
+
+  def find_appointee
+    appointee = User.find_by(display_name: params[:invitation][:user_display_name])
+    params[:invitation][:appointee_id] = appointee ? appointee.id : nil
   end
 
 
@@ -107,7 +118,7 @@ class InvitationsController < ApplicationController
       UpdateInvitationsJob.perform_later
     else
       # Rake::Task['inviti:check_emails'].invoke
-      CheckNewEmailsJob.perform_later
+      CheckNewEmailsJob.perform_later # perform_now ?
     end
     respond_to do |format|
       format.js {}
@@ -121,7 +132,10 @@ class InvitationsController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
+    def appointee_params
+      params.require(:invitation).permit(:decision, :appointee_id, :delegation_notes) #, :user_display_name)
+    end
     def invitation_params
-      params.require(:invitation).permit(:title, :location, :from_date_and_time_view, :to_date_and_time_view, :organizer, :notes, :appointee_id, :alt_appointee_name, :delegation_notes, :decision)
+      params.require(:invitation).permit(:title, :location, :from_date_and_time_view, :to_date_and_time_view, :organizer, :notes, :appointee_id, :alt_appointee_name, :delegation_notes, :decision) #, :user_display_name)
     end
 end

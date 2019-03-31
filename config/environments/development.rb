@@ -60,4 +60,13 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.action_mailer.default_url_options = { host: ENV.fetch("HOST"){ 'localhost' }, port: ENV.fetch("PORT"){ 3000 } }
+  config.action_mailer.smtp_settings = {
+    :port           => ENV['SMTP_PORT'].to_i,
+    :address        => ENV['SMTP_HOST'],
+    :user_name      => ENV['SMTP_USERNAME'],
+    :password       => ENV['SMTP_PASSWORD'],
+    :enable_starttls_auto => true,
+    :authentication => :plain,
+  }
+
 end

@@ -27,9 +27,126 @@
 #  need_info                :boolean          default(TRUE)
 #  opinion_expressed        :boolean          default(FALSE)
 #  expired                  :boolean          default(FALSE)
+#  state                    :integer          default("no_info")
+#  appointee_message        :string
 #
 
 class Invitation < ApplicationRecord
+  include AASM
+
+  enum state: {
+    no_info: 0,
+    info: 1,
+    appointee: 2,
+    accepted: 3,
+    rejected: 4
+  }
+
+  aasm column: :state, enum: true, whiny_transitions: false do
+    state :no_info, initial: true
+    state :info
+    state :appointee
+    state :accepted
+    state :rejected
+
+    event :add_info do
+      transitions from: :no_info, to: :info
+    end
+
+    # Assegna l'incarico a qualcuno
+    event :instructs, after: :mail_to_appointee do
+      transitions from: :info, to: :appointee
+      transitions from: :appointee, to: :appointee # OOOOCHIOOO!
+    end
+
+    event :accept, after: :actions_after_accept do
+      transitions from: :appointee, to: :accepted
+    end
+
+    event :reject, after: :actions_after_reject do
+      transitions from: :appointee, to: :rejected
+    end
+
+    event :reset_appointee, after: :resetting_appointee do
+      transitions from: :rejected, to: :info
+    end
+  end
+
+  # after_update do |i|
+  #   if i.saved_changes["appointee_id"] &&  #|| i.saved_changes["alt_appointee_name"]
+  #
+  #   end
+  # end
+  before_update do |i|
+
+  end
+
+
+  after_save do |i|
+    if i.no_info?
+      if i.has_basic_info?
+        i.add_info!
+      end
+    end
+    if i.info?
+      i.instructs! if i.appointee_id #|| i.alt_appointee_name
+    end
+
+  end
+
+  def has_basic_info?
+    !title.blank? && !location.blank? && !from_date_and_time.nil?
+  end
+
+  def mail_to_appointee
+    if appointee_id
+      if Rails.env=="development" && appointee.email=="ibuetti@arera.it"
+        acc = Accept.create(invitation_id: id, user_id: appointee_id)
+        puts "------> #{acc.inspect}"
+        AppointeeMailer.with(inv: id, acc: acc.id).appointed.deliver_later
+        write_appointee_message
+      else
+        if !appointee.role.president?
+          acc = Accept.create(invitation_id: id, user_id: appointee_id)
+          AppointeeMailer.with(inv: id, acc: acc.id).appointed.deliver_later
+          write_appointee_message
+        else
+          clear_appointee_message
+        end
+      end
+    end
+  end
+
+  def actions_after_accept
+    update_column(:appointee_message, "#{appointee.display_name} ha accettato l'incarico")
+  end
+
+
+  def actions_after_reject
+    # TODO: send an email to president
+    update_column(:appointee_message, "#{appointee.display_name} ha rifiutato l'incarico")
+    reset_appointee!
+  end
+
+  def resetting_appointee
+    # update_columns(appointee_id: nil, alt_appointee_name: nil)
+    update_columns(appointee_id: nil)
+  end
+
+  def write_appointee_message
+    # TODO: aggiungi QUANDO è stata inviata
+    t = Time.now
+    update_column(:appointee_message, "E' stata inviata un'email a #{appointee.display_name}") # livestamp(dt)
+  end
+
+  def clear_appointee_message
+    update_column(:appointee_message, "")
+  end
+
+  def user_display_name
+    appointee.try(:display_name)
+  end
+
   DECISIONS = [ :waiting, :participate, :do_not_participate ]
 
   attr_accessor :from_date_and_time_view, :to_date_and_time_view
@@ -44,11 +161,12 @@ class Invitation < ApplicationRecord
   enum decision: DECISIONS # zero based
 
   after_initialize :set_date_views
-  before_save :set_dates, :need_infos, :set_expired, :clear_alt_appointee_name, :nullify_appointee_id, :unset_appointee
+  before_save :set_dates, :need_infos, :set_expired, :unset_appointee  # :clear_alt_appointee_name, :nullify_appointee_id
 
   scope :expired, -> { where(expired: true) }
   scope :not_expired, -> { where(expired: false) }
-  scope :assigned, -> { where("decision=1 AND (appointee_id IS NOT NULL OR alt_appointee_name IS NOT NULL)") }
+  # scope :assigned, -> { where("decision=1 AND (appointee_id IS NOT NULL OR alt_appointee_name IS NOT NULL)") }
+  scope :assigned, -> { where("decision=1 AND appointee_id IS NOT NULL") }
   scope :info_provided, -> { where(need_infos: false) }
   scope :missing_info, -> { where("title IS NULL AND location IS NULL AND from_date_and_time IS NULL") }
   scope :filled_info, -> { where.not("title IS NULL AND location IS NULL AND from_date_and_time IS NULL") }
@@ -57,7 +175,8 @@ class Invitation < ApplicationRecord
   # not_assigned è sbagliata: prende anche i declinati
   # scope :not_assigned, -> { filled_info.where("decision<>1 OR (appointee_id IS NULL AND (alt_appointee_name = '') IS TRUE)").not_expired }
   # scope :not_assigned, -> { filled_info.where("decision=0 OR (appointee_id IS NULL AND alt_appointee_name IS NULL)").not_expired }
-  scope :not_assigned, -> { filled_info.where("decision=0 OR (decision=1 AND appointee_id IS NULL AND alt_appointee_name IS NULL)").not_expired }
+  # scope :not_assigned, -> { filled_info.where("decision=0 OR (decision=1 AND appointee_id IS NULL AND alt_appointee_name IS NULL)").not_expired }
+  scope :not_assigned, -> { filled_info.where("decision=0 OR (decision=1 AND appointee_id IS NULL)").not_expired }
   scope :running, -> { assigned.not_expired }
   scope :archived, -> { where("expired=TRUE OR decision=2") }
 
@@ -67,20 +186,20 @@ class Invitation < ApplicationRecord
   end
 
   # Cancella il nome del partecipante_altro se appointee_id è >0
-  def clear_alt_appointee_name
-    self.alt_appointee_name = nil if appointee_id && appointee_id>0
-  end
+  # def clear_alt_appointee_name
+  #   self.alt_appointee_name = nil if appointee_id && appointee_id>0
+  # end
 
-  def nullify_appointee_id
-    self.appointee_id=nil if appointee_id==0 || appointee_id=='0'
-  end
+  # def nullify_appointee_id
+  #   self.appointee_id=nil if appointee_id==0 || appointee_id=='0'
+  # end
 
   def unset_appointee
     if do_not_participate? || waiting?
       self.appointee_id = nil
-      self.alt_appointee_name = nil
+      # self.alt_appointee_name = nil
     end
-    self.alt_appointee_name = nil if alt_appointee_name==''
+    # self.alt_appointee_name = nil if alt_appointee_name==''
   end
 
   def need_infos
@@ -153,13 +272,14 @@ class Invitation < ApplicationRecord
       from_dt = Faker::Time.between(2.weeks.ago, 3.weeks.from_now, :all)
 
       appointee_id = nil    # id incaricato
-      alt_appointee_name = nil  # nome incaricato
+      # alt_appointee_name = nil  # nome incaricato
       if stato>2
-        if dice(0.167)
-          alt_appointee_name = Faker::Name.name
-        else
-          appointee_id = appointeeables.sample
-        end
+        appointee_id = appointeeables.sample
+        # if dice(0.167)
+        #   alt_appointee_name = Faker::Name.name
+        # else
+        #   appointee_id = appointeeables.sample
+        # end
       end
 
 
@@ -177,7 +297,7 @@ class Invitation < ApplicationRecord
         organizer: stato>0 ? org : nil,
         notes: stato>0 && dice(0.2) ? Faker::Lorem.paragraph : nil,
         appointee_id: appointee_id,
-        alt_appointee_name: alt_appointee_name,
+        # alt_appointee_name: alt_appointee_name,
         delegation_notes: dice(0.25) ? Faker::Lorem.sentence : ""
       )
       if i.nil?
@@ -196,29 +316,5 @@ class Invitation < ApplicationRecord
         end
       end
     end
-
-
-
-
   end
-
-  #  title                    :string
-  #  location                 :string
-  #  from_date_and_time       :datetime
-  #  to_date_and_time         :datetime
-  #  organizer                :string
-  #  notes                    :text
-  #  email_id                 :string
-  #  email_from_name          :string
-  #  email_from_address       :string
-  #  email_subject            :string
-  #  email_body_preview       :string
-  #  email_body               :text
-  #  email_received_date_time :datetime
-  #  has_attachments          :boolean
-  #  attachments              :string
-  #  appointee_id             :integer
-  #  alt_appointee_name       :string
-  #  delegation_notes         :text
-
 end

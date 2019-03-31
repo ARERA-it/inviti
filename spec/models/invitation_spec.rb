@@ -27,6 +27,8 @@
 #  need_info                :boolean          default(TRUE)
 #  opinion_expressed        :boolean          default(FALSE)
 #  expired                  :boolean          default(FALSE)
+#  state                    :integer          default("no_info")
+#  appointee_message        :string
 #
 
 require 'rails_helper'

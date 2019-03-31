@@ -1,6 +1,23 @@
 var $sel = $('#<%= params[:submit_feedback] %>');
 $sel.text("Dati salvati");
 
+$('#appointee_panel').replaceWith("<%= j render('appointee_panel', read_only: !policy(:invitation).update_appointee? || @invitation.no_info?) %>");
+
+function manageParticipation() {
+  var val = $('#invitation_decision').val();
+  if (val=='participate') {
+    $('.who-participates').removeClass('d-none');
+  } else {
+    $('.who-participates').addClass('d-none');
+  }
+}
+
+$('#invitation_decision').on('change', function(){
+  manageParticipation();
+})
+manageParticipation();
+
+
 setTimeout(function() {
   $sel.text("");
 }, 1000);

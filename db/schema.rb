@@ -10,10 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_15_180125) do
+ActiveRecord::Schema.define(version: 2019_03_28_221221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accepts", force: :cascade do |t|
+    t.string "token"
+    t.bigint "invitation_id"
+    t.bigint "user_id"
+    t.integer "decision", default: 0
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invitation_id"], name: "index_accepts_on_invitation_id"
+    t.index ["user_id"], name: "index_accepts_on_user_id"
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -92,6 +104,8 @@ ActiveRecord::Schema.define(version: 2019_03_15_180125) do
     t.boolean "need_info", default: true
     t.boolean "opinion_expressed", default: false
     t.boolean "expired", default: false
+    t.integer "state", default: 0
+    t.string "appointee_message"
     t.index ["appointee_id"], name: "index_invitations_on_appointee_id"
     t.index ["email_received_date_time"], name: "index_invitations_on_email_received_date_time"
     t.index ["from_date_and_time"], name: "index_invitations_on_from_date_and_time"
@@ -146,6 +160,8 @@ ActiveRecord::Schema.define(version: 2019_03_15_180125) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "accepts", "invitations"
+  add_foreign_key "accepts", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "invitations"
   add_foreign_key "comments", "users"

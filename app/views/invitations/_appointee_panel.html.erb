@@ -1,39 +1,46 @@
-<div class="card mb-3">
+<div class="card mb-3" id="appointee_panel">
   <div class="card-header">
     Incarico
   </div>
   <div class="card-body">
-    <%= form_with(model: @invitation, url: appointee_path, class: 'appointee-choice') do |form| %>
+    <% if @invitation.no_info? %>
+      <div class="alert alert-warning" role="alert">
+        I campi sono temporaneamente disabilitati!
+        Occorre compilare le informazioni generali: titolo, luogo e data
+      </div>
+    <% end %>
+
+    <%= form_with(model: @invitation, url: appointee_path, class: 'appointee-choice', html: { autocomplete: :off }) do |form| %>
       <%= hidden_field_tag :id, @invitation.id %>
       <div class="form-group">
-        <%= form.label :decision, "Partecipazione" %>
-        <%= form.collection_select :decision, Invitation.decisions, :first, ->(e){ t("decision.#{e.first}") }, { }, class: "form-control", disabled: !policy(:invitation).update_appointee?  %>
+        <%= form.label :decision, "Partecipa qualcuno?" %>
+        <%= form.collection_select :decision, Invitation.decisions, :first, ->(e){ t("decision.#{e.first}") }, { }, class: "form-control", disabled: read_only  %>
       </div>
 
       <div class="row who-participates">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div class="form-group">
-            <%= form.label :appointee_id, "Partecipante" %>
-            <% options = User.appointeeable.to_a.unshift User.new(id: 0, display_name: 'Altro') %>
-            <%= form.collection_select :appointee_id, options, :id, :display_name, { prompt: "Seleziona..." }, class: "form-control", disabled: !policy(:invitation).update_appointee?  %>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <%= form.label :alt_appointee_name, "Partecipante (altro)" %>
-            <%= form.text_field :alt_appointee_name, class: "form-control", readonly: !policy(:invitation).update_appointee? %>
+            <%= form.label :alt_appointee_name, "Partecipante" %>
+            <%= form.autocomplete_field :user_display_name, autocomplete_user_display_name_invitations_path, class: "form-control", readonly: read_only %>
           </div>
         </div>
       </div>
 
       <div class="form-group">
         <%= form.label :delegation_notes, "Osservazioni" %>
-        <%= form.text_area :delegation_notes, rows: 4, class: "form-control", readonly: !policy(:invitation).update_appointee? %>
+        <%= form.text_area :delegation_notes, rows: 4, class: "form-control", readonly: read_only %>
       </div>
 
+      <% if @invitation.appointee_message %>
+        <div class="alert alert-thin alert-info" role="alert">
+          <%= @invitation.appointee_message %>
+        </div>
+      <% end %>
+
       <%= hidden_field_tag :submit_feedback, 'text-after-submit-appointee-panel' %>
-      <%= form.submit "Salva", class: "btn btn-primary pull-right", disabled: !policy(:invitation).update_appointee? %>
+      <%= form.submit "Salva", class: "btn btn-primary pull-right", disabled: read_only %>
       <span class="ajax-submit-feedback" id="text-after-submit-appointee-panel"></span>
+
     <% end %>
   </div>
 </div>

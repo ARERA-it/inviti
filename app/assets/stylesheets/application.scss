@@ -15,6 +15,8 @@
 @import "contributions";
 @import "calendario";
 
+@import "autocomplete";
+
 // @import "ribbon";
 
 #content-wrapper {
@@ -197,4 +199,13 @@ table.record-list {
   // top: 0.3rem;
   font-weight: 500;
   font-size: 0.9rem;
+}
+
+.sticky-footer.sticky-footer-100 {
+  width: 100%;
+}
+
+.alert.alert-thin {
+  padding: 0.30rem 0.50rem;
+  font-size: 0.85em;
 }

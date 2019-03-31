@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :accepts
   resources :contributions, only: [:create, :destroy]
 
   patch 'appointee', to: 'invitations#update_appointee'
@@ -8,7 +9,8 @@ Rails.application.routes.draw do
   get 'dashboard', as: 'dashboard', to: 'pages#dashboard'
 
   resources :invitations do
-    get 'update_invitation_expired_statuses', on: :collection
+    get :update_invitation_expired_statuses, on: :collection
+    get :autocomplete_user_display_name, on: :collection
   end
   devise_for :users
   resources :users

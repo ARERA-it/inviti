@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Inviti ARERA</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body id="page-top" role="document" data-controller="<%= controller_name %>" data-action="<%= action_name %>" %>
+    <%= render "layouts/navbar" %>
+    <div id="wrapper">
+      <div id="content-wrapper">
+        <div class="container" style="max-width: 800px;">
+          <div class="row">
+            <div class="col">
+              <%= flash_alert %>
+            </div>
+          </div>
+
+          <%= yield %>
+        <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <%= render "layouts/footer_100" %>
+
+      </div>
+      <!-- /.content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <%= render "layouts/logout_modal" %>
+
+
+
+  </body>
+</html>

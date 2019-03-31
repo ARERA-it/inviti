@@ -18,7 +18,7 @@
       <div class="form-group">
         <%= form.label :title, "Titolo" %>
         <div class="input-group">
-          <%= form.text_field :title, class: "form-control", placeholder: "", readonly: !policy(@invitation).update_general_info? %>
+          <%= form.text_field :title, class: "form-control", placeholder: "", readonly: read_only %>
           <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="button" id="button-copy-email-subject">Copia da email</button>
           </div>
@@ -30,14 +30,14 @@
         <div class="col-md-6">
           <div class="form-group">
             <%= form.label :location, "Luogo" %>
-            <%= form.text_field :location, class: "form-control", placeholder: "", readonly: !policy(@invitation).update_general_info? %>
+            <%= form.text_field :location, class: "form-control", placeholder: "", readonly: read_only %>
           </div>
         </div>
 
         <div class="col-md-6">
           <div class="form-group">
             <%= form.label :organizer, "Organizzazione" %>
-            <%= form.text_field :organizer, class: "form-control", placeholder: "", readonly: !policy(@invitation).update_general_info? %>
+            <%= form.text_field :organizer, class: "form-control", placeholder: "", readonly: read_only %>
           </div>
         </div>
       </div>
@@ -48,7 +48,7 @@
           <div class="form-group">
             <%= form.label :from_date_and_time_view, "Data e ora inizio" %>
             <div class='input-group date' id='invitation-from-date-time' data-target-input="nearest">
-              <%= form.text_field :from_date_and_time_view, class: "form-control datetimepicker-input", 'data-target': "#invitation-from-date-time", readonly: !policy(@invitation).update_general_info? %>
+              <%= form.text_field :from_date_and_time_view, class: "form-control datetimepicker-input", 'data-target': "#invitation-from-date-time", readonly: read_only %>
               <div class="input-group-append" data-target="#invitation-from-date-time" data-toggle="datetimepicker">
                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
               </div>
@@ -59,7 +59,7 @@
           <div class="form-group">
             <%= form.label :to_date_and_time_view, "Data e ora fine (opz.)" %>
             <div class='input-group date' id='invitation-to-date-time' data-target-input="nearest">
-              <%= form.text_field :to_date_and_time_view, class: "form-control datetimepicker-input", 'data-target': "#invitation-to-date-time", readonly: !policy(@invitation).update_general_info? %>
+              <%= form.text_field :to_date_and_time_view, class: "form-control datetimepicker-input", 'data-target': "#invitation-to-date-time", readonly: read_only %>
               <div class="input-group-append" data-target="#invitation-to-date-time" data-toggle="datetimepicker">
                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
               </div>
@@ -71,12 +71,12 @@
 
       <div class="form-group">
         <%= form.label :notes, "Note" %>
-        <%= form.text_area :notes, class: "form-control", rows: 3, placeholder: "", readonly: !policy(@invitation).update_general_info? %>
+        <%= form.text_area :notes, class: "form-control", rows: 3, placeholder: "", readonly: read_only %>
       </div>
 
       <div class="actions">
         <%= hidden_field_tag :submit_feedback, 'text-after-submit-info-panel' %>
-        <%= form.submit "Salva", class: "btn btn-primary", disabled: !policy(@invitation).update_general_info? %>
+        <%= form.submit "Salva", class: "btn btn-primary", disabled: read_only %>
         <span class="ajax-submit-feedback" id="text-after-submit-info-panel"></span>
       </div>
     <% end %>

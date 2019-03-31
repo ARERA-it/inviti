@@ -10,5 +10,5 @@ it:
 
   decision:
     waiting: "In attesa di decidere..."
-    participate: Invito accettato
-    do_not_participate: Invito declinato
+    participate: Sì # Invito accettato
+    do_not_participate: "No" # Invito declinato

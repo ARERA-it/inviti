@@ -42,7 +42,6 @@ class InvitationsController
   show: ->
     $('#invitation-from-date-time').datetimepicker({format: 'DD-MM-YYYY HH:mm', locale: 'it'})
     $('#invitation-to-date-time').datetimepicker({format: 'DD-MM-YYYY HH:mm', locale: 'it'})
-
     $('#button-copy-email-subject').on('click', -> $('#invitation_title').val($('#email-subject').text()) )
 
 
@@ -51,13 +50,13 @@ class InvitationsController
       height = wtf[0].scrollHeight
       wtf.scrollTop(height)
 
-    $('#invitation_appointee_id').on('change', ->
-      InvitationsController.manage_dropdown()
-    )
-    if $('#invitation_alt_appointee_name').val()!=''
-      $('#invitation_appointee_id').val("0")
+    # $('#invitation_appointee_id').on('change', ->
+    #   InvitationsController.manage_dropdown()
+    # )
+    # InvitationsController.manage_dropdown()
+    # if $('#invitation_alt_appointee_name').val()!=''
+    #   $('#invitation_appointee_id').val("0")
 
-    InvitationsController.manage_dropdown()
     $('#invitation_decision').on('change', ->
       InvitationsController.manage_participation()
     )
@@ -65,24 +64,26 @@ class InvitationsController
 
 
 
-  @manage_dropdown: ->
-    val = $('#invitation_appointee_id').val()
-    console.log val
-    console.log "-- disabled: #{val!='0'}"
-    if val=='0'
-      # 'Altro'
-      $("#invitation_alt_appointee_name").prop('disabled', false)
-    else
-      $("#invitation_alt_appointee_name").prop('disabled', true)
-      $('#invitation_alt_appointee_name').val('')
+  # @manage_dropdown: ->
+  #   val = $('#invitation_appointee_id').val()
+  #   # console.log val
+  #   # console.log "-- disabled: #{val!='0'}"
+  #   if val=='0'
+  #     # 'Altro'
+  #     # $("#invitation_alt_appointee_name").prop('disabled', false)
+  #   else
+  #     $("#invitation_alt_appointee_name").prop('disabled', true)
+  #     $('#invitation_alt_appointee_name').val('')
 
 
 
   @manage_participation: ->
     val = $('#invitation_decision').val()
     if val=='participate'
-      $('.who-participates').show()
+      # $('.who-participates').show()
+      $('.who-participates').removeClass('d-none')
     else
-      $('.who-participates').hide()
+      # $('.who-participates').hide()
+      $('.who-participates').addClass('d-none')
 
 this.App.invitations = new InvitationsController

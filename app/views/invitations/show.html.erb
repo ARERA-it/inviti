@@ -16,7 +16,7 @@
       <%= render 'opinions/panel' %>
     <% end %>
     <% if policy(:invitation).view_appointee? %>
-      <%= render 'appointee_panel' %>
+      <%= render 'appointee_panel', read_only: !policy(:invitation).update_appointee? || @invitation.no_info? %>
     <% end %>
     <% if policy(:invitation).view_contributions? %>
       <%= render 'contributions/panel' %>
@@ -25,7 +25,7 @@
 
   <div class="col-lg-6">
     <% if policy(:invitation).view_general_info? %>
-      <%= render 'general_info_panel' %>
+      <%= render 'general_info_panel', read_only: !policy(@invitation).update_general_info? %>
     <% end %>
     <% if policy(:invitation).view_email_info? %>
       <%= render 'email_info_panel' %>

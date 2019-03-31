@@ -1,5 +1,5 @@
 var $sel = $('#<%= params[:submit_feedback] %>');
-$sel.text("Dati salvati");
+$sel.text("<%= raw @feedback_hash[:msg] %>");
 
 setTimeout(function() {
   $sel.text("");

@@ -8,6 +8,11 @@
 //= require sb-admin
 //= require jquery.easing
 
+// Autocomplete feature:
+//= require jquery-ui
+//= require autocomplete-rails
+
+
 //= require moment
 //= require moment/it
 //= require livestamp
@@ -16,6 +21,7 @@
 
 //= require init
 //= require invitations
+//= require accepts
 
 //= require helper-functions
 
@@ -37,3 +43,6 @@ $(document).on("turbolinks:load", function() {
   }
 
 });
+
+
+jQuery.railsAutocomplete.options.noMatchesLabel = "Nessun nominativo trovato";

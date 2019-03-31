@@ -85,3 +85,5 @@ gem 'holidays'
 gem 'mail'
 gem 'crono'
 gem 'daemons'
+gem 'aasm'  # https://github.com/aasm/aasm
+gem 'rails-jquery-autocomplete' # https://github.com/risuiowa/rails-jquery-autocomplete
