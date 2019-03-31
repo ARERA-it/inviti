@@ -106,7 +106,7 @@ class Invitation < ApplicationRecord
         AppointeeMailer.with(inv: id, acc: acc.id).appointed.deliver_later
         write_appointee_message
       else
-        if !appointee.role.president?
+        if !appointee.president?
           acc = Accept.create(invitation_id: id, user_id: appointee_id)
           AppointeeMailer.with(inv: id, acc: acc.id).appointed.deliver_later
           write_appointee_message
