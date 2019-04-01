@@ -62,7 +62,7 @@ gem 'faker' #, :git => 'https://github.com/stympy/faker.git', :branch => 'master
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'devise'
-gem 'devise_cas_authenticatable', git: "https://github.com/ARERA-it/devise_cas_authenticatable.git"
+gem 'devise_cas_authenticatable', git: "https://github.com/ARERA-it/devise_cas_authenticatable"
 
 # gem 'bootstrap-sass', '~> 3.3.7'
 gem 'bootstrap', '~> 4.2.1'
