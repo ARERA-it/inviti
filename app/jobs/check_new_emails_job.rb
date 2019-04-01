@@ -29,6 +29,12 @@ class CheckNewEmailsJob < ApplicationJob
         inv.email_body = email_body.gsub("\r\n", "\n").gsub("\n\n", "\n").gsub(/<!-- (.)+(\n)?(.)+ -->/, "") if email_body
         inv.email_body_preview = email_body_preview.gsub("\r\n", "\n").gsub("\n\n", "\n").gsub(/<!-- (.)+(\n)?(.)+ -->/, "") if email_body_preview
         inv.email_received_date_time = datetime
+
+        # keep the original attributes
+        inv.email_decoded   = mail.decoded
+        inv.email_text_part = mail.text_part && mail.text_part.body.to_s
+        inv.email_html_part = mail.html_part && mail.html_part.body.raw_source
+
         inv.save
 
         mail.attachments.each do |att|
