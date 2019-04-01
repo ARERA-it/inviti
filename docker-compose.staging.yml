@@ -10,7 +10,7 @@ services:
     command: bin/web
     volumes:
       - gems:/gems
-      - storage:/storage
+      - /home/ibuetti/staging/storage:/storage
     depends_on:
       - db
       - redis
@@ -22,25 +22,25 @@ services:
       - "intranet.arera.it:192.168.170.4"
 
 
-  # check_emails:
-  #   build:
-  #     context: .
-  #     dockerfile: ./docker/staging/app/Dockerfile
-  #   env_file:
-  #     .staging.env
-  #   command: bin/check_emails
-  #   volumes:
-  #     - gems:/gems
-  #   depends_on:
-  #     - db
-  #     - redis
-  #     - web
-  #   extra_hosts:
-  #     - "posta.arera.it:192.168.200.21"
-  #     - "posta.arera.it:192.168.200.22"
-  #     - "relay1.arera.it:192.168.0.251"
-  #     - "relay2.arera.it:192.168.0.252"
-  #     - "intranet.arera.it:192.168.170.4"
+  check_emails:
+    build:
+      context: .
+      dockerfile: ./docker/staging/app/Dockerfile
+    env_file:
+      .staging.env
+    command: bin/check_emails
+    volumes:
+      - gems:/gems
+    depends_on:
+      - db
+      - redis
+      # - web
+    extra_hosts:
+      - "posta.arera.it:192.168.200.21"
+      - "posta.arera.it:192.168.200.22"
+      - "relay1.arera.it:192.168.0.251"
+      - "relay2.arera.it:192.168.0.252"
+      - "intranet.arera.it:192.168.170.4"
 
 
   worker:
@@ -56,7 +56,7 @@ services:
     depends_on:
       - db
       - redis
-      - web
+      # - web
     extra_hosts:
       - "posta.arera.it:192.168.200.21"
       - "posta.arera.it:192.168.200.22"
