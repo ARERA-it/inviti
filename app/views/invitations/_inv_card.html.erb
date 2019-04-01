@@ -30,8 +30,10 @@
         <dd class="col-sm-9">
           <% if inv.files.size==1 %>
             <%= inv.files[0].filename %>
+          <% elsif inv.files.size==2 %>
+            <%= "#{inv.files[0].filename} e un altro" %>
           <% elsif inv.files.size>1 %>
-            <%= " e altri #{inv.files.size-1}" %>
+            <%= "#{inv.files[0].filename} e altri #{inv.files.size-1}" %>
           <% end %>
         </dd>
       </dl>

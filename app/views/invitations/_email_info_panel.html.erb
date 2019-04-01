@@ -24,7 +24,7 @@
           <span class="no-attachments">Nessuno</span>
         <% end %>
       </dd>
-      <dt class="col-sm-3">corpo</dt><dd class="col-sm-9"><%= sanitize @invitation.email_body %></dd>
+      <dt class="col-sm-3">corpo</dt><dd class="col-sm-9"><%= @invitation.email_body.html_safe %></dd>
     </dl>
   </div>
 </div>
