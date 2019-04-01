@@ -10,7 +10,7 @@ services:
     command: bin/web
     volumes:
       - gems:/gems
-      - /home/ibuetti/production/storage:/storage
+      - ./storage:/storage
     depends_on:
       - db
       - redis
@@ -31,6 +31,7 @@ services:
     command: bin/check_emails
     volumes:
       - gems:/gems
+      - ./storage:/storage
     depends_on:
       - db
       - redis
@@ -52,7 +53,7 @@ services:
     command: bin/worker
     volumes:
       - gems:/gems
-      - storage:/storage
+      - ./storage:/storage
     depends_on:
       - db
       - redis
