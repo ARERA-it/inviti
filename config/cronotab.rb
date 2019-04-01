@@ -17,5 +17,5 @@ require 'rake'
 
 Rails.app_class.load_tasks
 
-Crono.perform(CheckNewEmailsJob).every 30.seconds
-# Crono.perform(CheckNewEmailsJob).every 3.minutes
+# Crono.perform(CheckNewEmailsJob).every 30.seconds
+Crono.perform(CheckNewEmailsJob).every 5.minutes
