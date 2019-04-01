@@ -6,7 +6,7 @@
 #  token         :string
 #  invitation_id :bigint(8)
 #  user_id       :bigint(8)
-#  decision      :integer          default(0)
+#  decision      :integer          default("not_yet")
 #  comment       :text
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
