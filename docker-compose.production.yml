@@ -4,9 +4,9 @@ services:
   web:
     build:
       context: .
-      dockerfile: ./docker/staging/app/Dockerfile
+      dockerfile: ./docker/production/app/Dockerfile
     env_file:
-      .staging.env
+      .production.env
     command: bin/web
     volumes:
       - gems:/gems
@@ -25,9 +25,9 @@ services:
   check_emails:
     build:
       context: .
-      dockerfile: ./docker/staging/app/Dockerfile
+      dockerfile: ./docker/production/app/Dockerfile
     env_file:
-      .staging.env
+      .production.env
     command: bin/check_emails
     volumes:
       - gems:/gems
@@ -46,9 +46,9 @@ services:
   worker:
     build:
       context: .
-      dockerfile: ./docker/staging/app/Dockerfile
+      dockerfile: ./docker/production/app/Dockerfile
     env_file:
-      .staging.env
+      .production.env
     command: bin/worker
     volumes:
       - gems:/gems
@@ -78,7 +78,7 @@ services:
   nginx:
     build:
       context: .
-      dockerfile: ./docker/staging/nginx/Dockerfile
+      dockerfile: ./docker/production/nginx/Dockerfile
     depends_on:
       - web
     restart: on-failure
