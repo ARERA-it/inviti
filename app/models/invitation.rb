@@ -29,6 +29,9 @@
 #  expired                  :boolean          default(FALSE)
 #  state                    :integer          default("no_info")
 #  appointee_message        :string
+#  email_decoded            :text
+#  email_text_part          :text
+#  email_html_part          :text
 #
 
 class Invitation < ApplicationRecord
