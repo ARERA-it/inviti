@@ -9,7 +9,7 @@ class InvitationsController < ApplicationController
     @read_ids = current_user.invitations.pluck(:id) # invitation already read
 
     # i = Invitation
-    i = policy_scope(Invitation)
+    i = policy_scope(Invitation).order(created_at: :desc)
     sel = params['sel'] || 'to_be_filled'
     case sel
     when 'new'
