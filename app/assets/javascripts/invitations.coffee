@@ -6,6 +6,21 @@ class InvitationsController
   init: ->
 
   index: ->
+    $('.archive-btn').on('click', (e) ->
+      console.log "archive!"
+      id = $(this).parents('.inv-card').first().data('id')
+      if id
+        console.log id
+        options = {}
+        # $('#confirm-archive-modal').data('foo', id)
+        $('#modal-submit-btn').attr('href', "/invitations/#{id}/remove")
+        $('#confirm-archive-modal').modal(options)
+
+
+
+      e.stopPropagation()
+    )
+
     $('.inv-card').on('click', ->
       url = $(this).data('url')
       Turbolinks.visit(url)

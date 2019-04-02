@@ -24,7 +24,17 @@
           <span class="no-attachments">Nessuno</span>
         <% end %>
       </dd>
-      <dt class="col-sm-3">corpo</dt><dd class="col-sm-9"><%= @invitation.email_body.html_safe %></dd>
+      <dt class="col-sm-3">corpo</dt>
+      <dd class="col-sm-9">
+        <div class="scroll-email">
+          <%= @invitation.email_body.html_safe %>
+        </div>
+        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#email-modal">
+          Dettaglio email...
+        </button>
+      </dd>
     </dl>
   </div>
 </div>
+
+<%= render "email_modal" %>
