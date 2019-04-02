@@ -101,4 +101,15 @@ Rails.application.configure do
     :enable_starttls_auto => true,
     # :authentication => 'login',
   }
+
+
+
+  Rails.application.config.middleware.use ExceptionNotification::Rack,
+  email: {
+    # deliver_with: :deliver, # Rails >= 4.2.1 do not need this option since it defaults to :deliver_now
+    email_prefix: '[Errore] ',
+    :sender_address       => %{"Notifiche errori" <notifiche-errori@arera.it>},
+    :exception_recipients => %w{iwan.buetti@gmail.com}
+  },
+  error_grouping: true
 end
