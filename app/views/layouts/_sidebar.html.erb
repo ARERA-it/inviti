@@ -47,20 +47,5 @@
     <% end %>
   </li>
 
-  <% if Rails.env=="development" %>
-    <li class="nav-item update_invitations">
-      <%= link_to update_invitation_expired_statuses_invitations_path(env: 'dev'), class: "nav-link", remote: true do %>
-        <i class="fas fa-fw fa-clock"></i>
-        <span>Aggiorna</span>
-      <% end %>
-    </li>
-  <% else %>
-    <li class="nav-item update_invitations">
-      <%= link_to update_invitation_expired_statuses_invitations_path, class: "nav-link", remote: true do %>
-        <i class="fas fa-fw fa-clock"></i>
-        <span>Aggiorna</span>
-      <% end %>
-    </li>
-
-  <% end %>
+  <%= render 'layouts/update_check_emails' %>
 </ul>
