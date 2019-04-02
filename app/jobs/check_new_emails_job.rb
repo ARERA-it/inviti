@@ -29,12 +29,12 @@ class CheckNewEmailsJob < ApplicationJob
         inv.email_received_date_time = datetime
 
         # keep the original attributes
-        inv.email_decoded   = mail.html_part.decoded
+        inv.email_decoded   = mail.html_part.try(:decoded) || mail.body.to_s
         # inv.email_text_part = mail.text_part && mail.text_part.body.to_s
         # inv.email_html_part = mail.html_part && mail.html_part.decoded # mail.html_part.body.raw_source
 
 
-        inv.email_body         = mail.html_part.decoded
+        inv.email_body         = mail.html_part.try(:decoded) || mail.body.to_s
         s = Nokogiri::HTML(mail.html_part.decoded).text
         s = s.gsub("\r\n", "\n").gsub(/[\n]+/, "\n").gsub(/<!--.+-->/m, "")
         inv.email_body_preview = s
