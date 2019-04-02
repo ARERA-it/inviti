@@ -35,7 +35,7 @@ class CheckNewEmailsJob < ApplicationJob
 
 
         inv.email_body         = mail.html_part.try(:decoded) || mail.body.to_s
-        s = Nokogiri::HTML(mail.html_part.decoded).text
+        s = Nokogiri::HTML(inv.email_decoded).text
         s = s.gsub("\r\n", "\n").gsub(/[\n]+/, "\n").gsub(/<!--.+-->/m, "")
         inv.email_body_preview = s
 
