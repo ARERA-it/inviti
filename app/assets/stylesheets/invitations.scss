@@ -21,14 +21,13 @@
     font-size: 0.85em;
     // margin-bottom: 20px; // https://getbootstrap.com/docs/4.1/utilities/spacing/
   }
-
-  .inv-card:hover {
-    -moz-box-shadow: 0 0 20px #666;
-    -webkit-box-shadow: 0 0 20px #666;
-    box-shadow: 0 0 20px #666;
-  }
-
 }
+.inv-card:hover {
+  -moz-box-shadow: 0 0 20px #666;
+  -webkit-box-shadow: 0 0 20px #666;
+  box-shadow: 0 0 20px #666;
+}
+
 
 
 
@@ -133,4 +132,25 @@ td.status-icons {
 
 .update_invitations {
   margin-top: 50px;
+}
+
+
+.inv-card .archive-btn {
+  z-index: 100;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 100px;
+  height: 100px;
+  color: red;
+  color: rgba(220, 0, 0, 0.45);
+
+  &:hover {
+    color: rgba(220, 0, 0, 0.7);
+  }
+}
+
+.scroll-email {
+  overflow-y: scroll;
+  height: 250px;
 }
