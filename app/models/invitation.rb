@@ -51,6 +51,7 @@ class Invitation < ApplicationRecord
     state :appointee
     state :accepted
     state :rejected
+    state :archived
 
     event :add_info do
       transitions from: :no_info, to: :info
@@ -73,16 +74,12 @@ class Invitation < ApplicationRecord
     event :reset_appointee, after: :resetting_appointee do
       transitions from: :rejected, to: :info
     end
+
+    event :archive do
+      transitions to: :archived
+    end
   end
 
-  # after_update do |i|
-  #   if i.saved_changes["appointee_id"] &&  #|| i.saved_changes["alt_appointee_name"]
-  #
-  #   end
-  # end
-  before_update do |i|
-
-  end
 
 
   after_save do |i|
