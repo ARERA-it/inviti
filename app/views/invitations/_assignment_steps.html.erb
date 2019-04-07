@@ -1,0 +1,14 @@
+<% if @invitation.assignment_steps.any? %>
+  <div class="dropup assignment-steps">
+    <button class="btn btn-info btn-sm dropdown-toggle mb-3" type="button" id="dropupMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= assignment_step_msg @invitation.assignment_steps.last, truncate_at: 80 %>
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <% @invitation.assignment_steps.each_with_index do |as, i| %>
+        <div class="dropdown-item">
+          <%= "#{i+1}. " %><%= assignment_step_msg as %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

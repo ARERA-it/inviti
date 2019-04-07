@@ -12,3 +12,6 @@ it:
     waiting: "In attesa di decidere..."
     participate: Sì # Invito accettato
     do_not_participate: "No" # Invito declinato
+
+  date_from_tm_to_tm: "%{date} da %{from_tm} a %{to_tm}"
+  from_dt_to_dt: "da %{from_dt} a %{to_dt}"

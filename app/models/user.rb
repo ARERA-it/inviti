@@ -35,7 +35,7 @@ class User < ApplicationRecord
 
   before_save do |r|
     r.username = r.username.downcase
-    r.email    = "#{r.username}@arera.it" if r.username && r.email.blank?
+    r.email    = "#{r.username}@#{ENV['DOMAIN']}" if r.username && r.email.blank?
     r.display_name = r.username if r.display_name.blank?
     r.initials = User.calc_initials(r.display_name) if r.initials.blank?
   end
@@ -49,6 +49,17 @@ class User < ApplicationRecord
     name.split(" ").map(&:first).join.upcase[0..1]
   rescue
     ""
+  end
+
+  def name
+    display_name || username
+  end
+
+  def self.current
+    Thread.current[:user]
+  end
+  def self.current=(user)
+    Thread.current[:user] = user
   end
 
 end

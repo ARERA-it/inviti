@@ -43,7 +43,8 @@ it:
       long: "%d %B %Y"
       long_w_weekday: "%A %d %B %Y"
       short: "%d %b"
-      card: '%a, %d %b %Y'
+      card: '%a %d %b %Y'
+      hh_mm: '%H:%M'
 
 
     month_names:
@@ -213,5 +214,7 @@ it:
       default: "%a %d %b %Y, %H:%M:%S %z"
       long: "%d %B %Y %H:%M"
       short: "%d %b %H:%M"
-      card: '%a, %d %b %Y, %H:%M'
+      card: '%a %d %b %Y, %H:%M'
+      hh_mm: '%H:%M'
+
     pm: pm

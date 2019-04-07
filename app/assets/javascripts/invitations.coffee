@@ -13,7 +13,7 @@ class InvitationsController
         console.log id
         options = {}
         # $('#confirm-archive-modal').data('foo', id)
-        $('#modal-submit-btn').attr('href', "/invitations/#{id}/remove")
+        $('#modal-submit-btn').attr('href', "/invitations/#{id}")
         $('#confirm-archive-modal').modal(options)
 
 

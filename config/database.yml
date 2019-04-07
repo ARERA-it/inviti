@@ -3,7 +3,11 @@ default: &default
   encoding: unicode
   username: postgres
   password:
-  pool: 5
+  pool: 15
+
+test:
+  <<: *default
+  database: invt_test
 
 development:
   <<: *default

@@ -1,4 +1,10 @@
-<div class="card inv-card mb-3" data-url="<%= invitation_path(inv) %>">
+<div class="card inv-card mb-3" data-url="<%= invitation_path(inv) %>" data-id="<%= inv.id %>">
+  <% if policy(inv).destroy? %>
+    <div class="archive-btn">
+      <%= fa_icon("times-circle", style: :solid, options: "fa-7x") %>
+    </div>
+  <% end %>
+
   <div class="card-header">
     <span class="location"><%= location_icon inv.location %></span>
     <span class="datetime float-right"><%= calendar_icon inv.from_date_and_time %></span>

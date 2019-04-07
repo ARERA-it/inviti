@@ -67,13 +67,14 @@ module InvitationsHelper
 
   def ribbon(inv)
     # basic_ribbon
-    if inv.do_not_participate?
-      ribbon_do_not_participate
-    elsif inv.participate?
-      ribbon_participate
-
-    # elsif new_invitation
-    #   ribbon_new
+    if inv.assigned?
+      ribbon_assigned
+    elsif inv.accepted?
+      ribbon_accepted
+    elsif inv.declined?
+      ribbon_declined
+    elsif inv.past?
+      ribbon_past
     end
   end
 
@@ -83,22 +84,27 @@ module InvitationsHelper
     end
   end
 
-  def ribbon_new
-    content_tag(:div, class: "ribbon ribbon-bottom-right") do
-      content_tag(:span, "nuovo")
-    end
-  end
-
-
-  def ribbon_do_not_participate
+  def ribbon_declined
     content_tag(:div, class: "ribbon ribbon-bottom-right red") do
       content_tag(:span, "declinato")
     end
   end
 
-  def ribbon_participate
+  def ribbon_past
+    content_tag(:div, class: "ribbon ribbon-bottom-right red") do
+      content_tag(:span, "scaduto")
+    end
+  end
+
+  def ribbon_accepted
     content_tag(:div, class: "ribbon ribbon-bottom-right green") do
       content_tag(:span, "accettato")
+    end
+  end
+
+  def ribbon_assigned
+    content_tag(:div, class: "ribbon ribbon-bottom-right green") do
+      content_tag(:span, "in attesa")
     end
   end
 
@@ -126,5 +132,32 @@ module InvitationsHelper
         content_tag(:i, '', class: "fas fa-plane fa-fw fa-lg") + " #{size}"
       end
     end
+  end
+
+  def assignment_step_msg(as, truncate_at: nil)
+    if truncate_at
+      livestamp(as.timestamp)+" #{as.description.truncate(truncate_at)}"
+    else
+      livestamp(as.timestamp)+" #{as.description}"
+    end
+  end
+
+  def invitation_timestamp(inv)
+    if inv.to_date_and_time.nil?
+      formatta_dataora inv.from_date_and_time
+    else
+      if inv.from_date_and_time.to_date==inv.to_date_and_time.to_date
+        # same date
+        from_tm = I18n.localize(inv.from_date_and_time, format: :hh_mm)
+        to_tm   = I18n.localize(inv.to_date_and_time, format: :hh_mm)
+        I18n.translate(:date_from_tm_to_tm, date: formatta_data(inv.from_date_and_time), from_tm: from_tm, to_tm: to_tm)
+      else
+        # two or more days
+        from_dt = formatta_dataora @invitation.from_date_and_time
+        to_dt   = formatta_dataora @invitation.to_date_and_time
+        I18n.translate(:from_dt_to_dt, from_dt: from_dt, to_dt: to_dt)
+      end
+    end
+
   end
 end

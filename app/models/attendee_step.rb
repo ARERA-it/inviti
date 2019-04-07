@@ -12,5 +12,9 @@
 
 class AttendeeStep < ApplicationRecord
   belongs_to :invitation
-  belongs_to :attendee
+  belongs_to :user # the current_user
+  enum step: [:nil, :assigned, :accepted, :rejected]
+
+
+
 end

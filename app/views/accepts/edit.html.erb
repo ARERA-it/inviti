@@ -44,7 +44,7 @@
       <dt class="col-sm-3">titolo</dt><dd class="col-sm-9"><%= @invitation.title %></dd>
       <dt class="col-sm-3">luogo</dt><dd class="col-sm-9"><%= @invitation.location %></dd>
       <dt class="col-sm-3">organizzazione</dt><dd class="col-sm-9"><%= @invitation.organizer %></dd>
-      <dt class="col-sm-3">data e ora</dt><dd class="col-sm-9"><%= formatta_dataora @invitation.from_date_and_time %></dd>
+      <dt class="col-sm-3">data e ora</dt><dd class="col-sm-9"><%= invitation_timestamp(@invitation) %></dd>
       <dt class="col-sm-3">note</dt><dd class="col-sm-9"><%= @invitation.notes %></dd>
     </dl>
   </div>

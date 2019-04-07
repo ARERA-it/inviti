@@ -12,6 +12,8 @@
 #  updated_at    :datetime         not null
 #
 
+# class used to manage accept or reject of invitation
+#
 class Accept < ApplicationRecord
   enum decision: [:not_yet, :accepted, :rejected]
   belongs_to :invitation
@@ -25,6 +27,11 @@ class Accept < ApplicationRecord
     elsif a.rejected?
       inv.reject!
     end
+  end
+
+  after_create do
+    AppointeeMailer.with(inv: invitation.id, acc: id).appointed.deliver_later
+    invitation.assignment_steps.create(assigned_user: user, step: :mailed)
   end
 
   def add_token

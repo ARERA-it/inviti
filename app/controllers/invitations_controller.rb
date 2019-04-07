@@ -1,5 +1,5 @@
 class InvitationsController < ApplicationController
-  before_action :set_invitation, only: [:show, :update, :update_appointee]
+  before_action :set_invitation, only: [:show, :update, :update_appointee, :destroy]
   autocomplete :user, :display_name, full: true
 
 
@@ -12,21 +12,21 @@ class InvitationsController < ApplicationController
     i = policy_scope(Invitation).order(created_at: :desc)
     sel = params['sel'] || 'to_be_filled'
     case sel
-    when 'new'
-      unread_ids = i.not_expired.pluck(:id) - @read_ids
-      i = Invitation.where(id: unread_ids)
-      @sel = "nuovi"
+    # when 'new'
+    #   unread_ids = i.not_expired.pluck(:id) - @read_ids
+    #   i = Invitation.where(id: unread_ids)
+    #   @sel = "nuovi"
 
     when 'to_be_filled'
-      i = i.to_be_filled
+      i = i.no_info
       @sel = "da compilare"
 
-    when 'not_assigned'
-      i = i.not_assigned
+    when 'to_be_assigned'
+      i = i.to_be_assigned
       @sel = "da assegnare"
 
     when 'running'
-      i = i.running
+      i = i.are_assigned
       @sel = "running"
 
     when 'archived'
@@ -95,7 +95,7 @@ class InvitationsController < ApplicationController
         @feedback_hash = { msg: "L'utente non è stato trovato" }
       else
         if @invitation.update(appointee_params)
-          # la notifica dell'incarico viene inviata dal modello (mail_to_appointee)
+          # la notifica dell'incarico viene inviata dal modello (mail_to_assigned)
           @feedback_hash = { msg: "Dati salvati con successo" }
         else
           @feedback_hash = { msg: "Qualcosa è andato storto" }
@@ -107,7 +107,7 @@ class InvitationsController < ApplicationController
   end
 
   def find_appointee
-    appointee = User.find_by(display_name: params[:invitation][:user_display_name])
+    appointee = User.find_by(display_name: params[:invitation].delete(:user_display_name))
     params[:invitation][:appointee_id] = appointee ? appointee.id : nil
   end
 
@@ -125,6 +125,33 @@ class InvitationsController < ApplicationController
     end
   end
 
+
+  # DELETE /invitations/1
+  # DELETE /invitation/1.json
+  def destroy
+    authorize @invitation
+    @invitation.destroy
+    respond_to do |format|
+      format.html { redirect_to invitations_path, notice: "L'invito è stato eliminato con successo." }
+      # format.json { head :no_content }
+    end
+  end
+
+
+  # archive_invitation_path()
+  def remove
+    authorize @invitation
+    respond_to do |format|
+      if @invitation.remove!
+        format.html { redirect_to invitations_path, notice: "L'invito è stato rimosso e spostato in archivio con successo." }
+        # format.json { render :show, status: :created, location: @user }
+      else
+        format.html { render :new }
+        # format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_invitation
@@ -133,7 +160,7 @@ class InvitationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def appointee_params
-      params.require(:invitation).permit(:decision, :appointee_id, :delegation_notes) #, :user_display_name)
+      params.require(:invitation).permit(:decision, :appointee_id, :delegation_notes, :send_email) #, :user_display_name)
     end
     def invitation_params
       params.require(:invitation).permit(:title, :location, :from_date_and_time_view, :to_date_and_time_view, :organizer, :notes, :appointee_id, :alt_appointee_name, :delegation_notes, :decision) #, :user_display_name)

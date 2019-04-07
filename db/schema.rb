@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_01_095706) do
+ActiveRecord::Schema.define(version: 2019_04_03_092118) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2019_04_01_095706) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invitation_id"], name: "index_accepts_on_invitation_id"
+    t.index ["token"], name: "index_accepts_on_token"
     t.index ["user_id"], name: "index_accepts_on_user_id"
   end
 
@@ -46,6 +47,18 @@ ActiveRecord::Schema.define(version: 2019_04_01_095706) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "assignment_steps", force: :cascade do |t|
+    t.bigint "invitation_id"
+    t.string "description"
+    t.integer "curr_user_id"
+    t.integer "assigned_user_id"
+    t.integer "step"
+    t.datetime "timestamp"
+    t.index ["assigned_user_id"], name: "index_assignment_steps_on_assigned_user_id"
+    t.index ["curr_user_id"], name: "index_assignment_steps_on_curr_user_id"
+    t.index ["invitation_id"], name: "index_assignment_steps_on_invitation_id"
   end
 
   create_table "attendee_steps", force: :cascade do |t|
@@ -122,6 +135,8 @@ ActiveRecord::Schema.define(version: 2019_04_01_095706) do
     t.index ["appointee_id"], name: "index_invitations_on_appointee_id"
     t.index ["email_received_date_time"], name: "index_invitations_on_email_received_date_time"
     t.index ["from_date_and_time"], name: "index_invitations_on_from_date_and_time"
+    t.index ["location"], name: "index_invitations_on_location"
+    t.index ["title"], name: "index_invitations_on_title"
   end
 
   create_table "invitations_users", id: false, force: :cascade do |t|
@@ -176,6 +191,7 @@ ActiveRecord::Schema.define(version: 2019_04_01_095706) do
   add_foreign_key "accepts", "invitations"
   add_foreign_key "accepts", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "assignment_steps", "invitations"
   add_foreign_key "attendee_steps", "invitations"
   add_foreign_key "attendee_steps", "users"
   add_foreign_key "comments", "invitations"

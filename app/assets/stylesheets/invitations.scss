@@ -154,3 +154,15 @@ td.status-icons {
   overflow-y: scroll;
   height: 250px;
 }
+
+
+.dropup.assignment-steps {
+  button {
+    width: 100%;
+    text-align: left;
+    font-size: 0.8em;
+  }
+  .dropdown-menu {
+    font-size: 0.8em;
+  }
+}

@@ -17,12 +17,15 @@
         <%= form.collection_select :decision, Invitation.decisions, :first, ->(e){ t("decision.#{e.first}") }, { }, class: "form-control", disabled: read_only  %>
       </div>
 
-      <div class="row who-participates">
-        <div class="col-md-12">
-          <div class="form-group">
-            <%= form.label :alt_appointee_name, "Partecipante" %>
-            <%= form.autocomplete_field :user_display_name, autocomplete_user_display_name_invitations_path, class: "form-control", readonly: read_only %>
-          </div>
+      <div class="who-participates">
+        <div class="form-group">
+          <%= form.label :alt_appointee_name, "Partecipante" %>
+          <%= form.autocomplete_field :user_display_name, autocomplete_user_display_name_invitations_path, class: "form-control", readonly: read_only %>
+        </div>
+
+        <div class="form-check">
+          <%= check_box_tag 'invitation[send_email]', '1', true %>
+          <%= label_tag 'invitation[send_email]', "Richiedi conferma tramite e-mail" %>
         </div>
       </div>
 
@@ -31,11 +34,9 @@
         <%= form.text_area :delegation_notes, rows: 4, class: "form-control", readonly: read_only %>
       </div>
 
-      <% if @invitation.appointee_message %>
-        <div class="alert alert-thin alert-info" role="alert">
-          <%= @invitation.appointee_message %>
-        </div>
-      <% end %>
+      <div id="assignment-steps">
+        <%= render 'assignment_steps' %>
+      </div>
 
       <%= hidden_field_tag :submit_feedback, 'text-after-submit-appointee-panel' %>
       <%= form.submit "Salva", class: "btn btn-primary pull-right", disabled: read_only %>

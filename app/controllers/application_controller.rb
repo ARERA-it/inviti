@@ -4,13 +4,16 @@ class ApplicationController < ActionController::Base
   include Pundit
   protect_from_forgery
   before_action :detect_user_switch
+  before_action :set_current_user # GET CURRENT_USER IN MODEL
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
+  puts ENV.fetch('user_mode').inspect
 
   alias :devise_current_user :current_user
   def current_user
     if ENV.fetch('user_mode'){ 'devise' }=='switchable'
       @current_user ||= User.find_by(id: session[:user_id]) || User.first
+      @current_user
     else
       devise_current_user
     end
@@ -28,6 +31,10 @@ class ApplicationController < ActionController::Base
   protected
     def after_sign_in_path_for(resource)
       request.env['omniauth.origin'] || stored_location_for(resource) || dashboard_path
+    end
+
+    def set_current_user
+      User.current = current_user
     end
 
   private

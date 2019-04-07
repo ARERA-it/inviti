@@ -34,6 +34,12 @@ class InvitationPolicy < ApplicationPolicy
     end
   end
 
+  def destroy?
+    if user.admin? || (record.no_info? && !user.viewer?)
+      true
+    end
+  end
+
 
   # Vedere i pareri
   def view_opinion?
