@@ -3,12 +3,9 @@ class InvitationsController
 
   index: ->
     $('.archive-btn').on('click', (e) ->
-      console.log "archive!"
       id = $(this).parents('.inv-card').first().data('id')
       if id
-        console.log id
         options = {}
-        # $('#confirm-archive-modal').data('foo', id)
         $('#modal-submit-btn').attr('href', "/invitations/#{id}")
         $('#confirm-archive-modal').modal(options)
 
@@ -29,7 +26,6 @@ class InvitationsController
 
     # highlight selected item on sidebar
     $('ul.sidebar li.nav-item').each (el) ->
-      console.log "1"
       filter = getUrlParameter('sel')
       if $(this).hasClass(filter)
         $(this).addClass('active')
@@ -38,12 +34,11 @@ class InvitationsController
     $('.vis-mode-selector').on('click', ->
       v = $(this).find('input').val()
       $.ajax('/settings/update', method: 'get', data: { vis_mode: v}).done( ->
-        console.log location.toString()
         Turbolinks.visit(location.toString());
-      ).always( ->
-        console.log "always"
-
       )
+      # .always( ->
+      #   console.log "always"
+      # )
     )
 
     $('table.record-list tr.clickable').on('click', ->

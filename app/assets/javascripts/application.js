@@ -27,7 +27,7 @@
 //= require pages
 //= require helper-functions
 
-const datatableItalian = {
+datatableItalian = {
   "sEmptyTable":     "Nessun dato presente nella tabella",
   "sInfo":           "Vista da _START_ a _END_ di _TOTAL_ elementi",
   "sInfoEmpty":      "Vista da 0 a 0 di 0 elementi",
