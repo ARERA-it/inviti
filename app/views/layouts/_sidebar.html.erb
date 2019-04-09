@@ -1,51 +1,86 @@
-<!-- Sidebar -->
-<ul class="sidebar navbar-nav">
-  <li class="nav-item">
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+  <!-- Sidebar - Brand -->
+  <%= link_to dashboard_path, class: "sidebar-brand d-flex align-items-center justify-content-center" do %>
+    <div class="sidebar-brand-icon rotate-n-15">
+      <i class="fas fa-calendar-check"></i>
+    </div>
+
+    <div class="sidebar-brand-text mx-3 inviti-logo">
+      Inviti
+    </div>
+  <% end %>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider my-0">
+
+  <!-- Nav Item - Dashboard -->
+  <li class="nav-item dashboard">
     <%= link_to dashboard_path, class: "nav-link" do %>
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>Dashboard</span>
     <% end %>
   </li>
 
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  <!-- Heading -->
+  <div class="sidebar-heading">
+    Viste
+  </div>
+
+  <!-- Nav Item - Da compilare -->
   <li class="nav-item to_be_filled">
     <%= link_to invitations_path(sel: :to_be_filled), class: "nav-link" do %>
       <i class="far fa-fw fa-edit"></i>
       <span>Info da compilare</span>
-      <span class="badge badge-light float-right inv-count">
+      <span class="badge badge-light inv-count">
         <%= policy_scope(Invitation).no_info.count %>
       </span>
     <% end %>
   </li>
 
-  <li class="nav-item not_assigned">
+  <!-- Nav Item - Da assegnare -->
+  <li class="nav-item to_be_assigned">
     <%= link_to invitations_path(sel: :to_be_assigned), class: "nav-link" do %>
       <i class="fas fa-fw fa-user-plus"></i>
       <span>Da assegnare</span>
-      <span class="badge badge-light float-right inv-count">
+      <span class="badge badge-light inv-count">
         <%= policy_scope(Invitation).to_be_assigned.count %>
       </span>
     <% end %>
   </li>
 
+  <!-- Nav Item - In corso -->
   <li class="nav-item running">
     <%= link_to invitations_path(sel: :running), class: "nav-link" do %>
       <i class="fas fa-fw fa-running"></i>
       <span>In corso</span>
-      <span class="badge badge-light float-right inv-count">
+      <span class="badge badge-light inv-count">
         <%= policy_scope(Invitation).are_assigned.count %>
       </span>
     <% end %>
   </li>
 
+  <!-- Nav Item - Archiviati -->
   <li class="nav-item archived">
     <%= link_to invitations_path(sel: :archived), class: "nav-link" do %>
       <i class="fas fa-fw fa-archive"></i>
       <span>Archiviati</span>
-      <span class="badge badge-light float-right inv-count">
+      <span class="badge badge-light inv-count">
         <%= policy_scope(Invitation).archived.count %>
       </span>
     <% end %>
   </li>
 
-  <%= render 'layouts/update_check_emails' %>
+  <!-- Divider -->
+  <hr class="sidebar-divider d-none d-md-block">
+
+  <!-- Sidebar Toggler (Sidebar) -->
+  <div class="text-center d-none d-md-inline">
+    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+  </div>
+
 </ul>
+<!-- End of Sidebar -->

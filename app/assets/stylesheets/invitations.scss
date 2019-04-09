@@ -19,13 +19,12 @@
     max-width: 420px;
     cursor: pointer;
     font-size: 0.85em;
+
     // margin-bottom: 20px; // https://getbootstrap.com/docs/4.1/utilities/spacing/
+    &:hover {
+      box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.60) !important;
+    }
   }
-}
-.inv-card:hover {
-  -moz-box-shadow: 0 0 20px #666;
-  -webkit-box-shadow: 0 0 20px #666;
-  box-shadow: 0 0 20px #666;
 }
 
 
@@ -136,12 +135,10 @@ td.status-icons {
 
 
 .inv-card .archive-btn {
-  z-index: 100;
+  z-index: 1000;
   position: absolute;
-  bottom: 20px;
-  right: 20px;
-  width: 100px;
-  height: 100px;
+  bottom: 10px;
+  right: 10px;
   color: red;
   color: rgba(220, 0, 0, 0.45);
 
@@ -165,4 +162,26 @@ td.status-icons {
   .dropdown-menu {
     font-size: 0.8em;
   }
+}
+
+
+.badge-assigned {
+  color: #fff;
+  background-color: #add44b;
+}
+.badge-accepted {
+  color: #fff;
+  background-color: #0d6309;
+}
+.badge-declined {
+  color: #fff;
+  background-color: #ed3717;
+}
+.badge-past {
+  color: #fff;
+  background-color: #ae1d0e;
+}
+
+.invitation-table {
+  font-size: 0.85em;
 }

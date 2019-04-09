@@ -1,9 +1,4 @@
-<div class="card inv-card mb-3" data-url="<%= invitation_path(inv) %>" data-id="<%= inv.id %>">
-  <% if policy(inv).destroy? %>
-    <div class="archive-btn">
-      <%= fa_icon("times-circle", style: :solid, options: "fa-7x") %>
-    </div>
-  <% end %>
+<div class="card shadow inv-card mb-3" data-url="<%= invitation_path(inv) %>" data-id="<%= inv.id %>">
 
   <div class="card-header">
     <span class="location"><%= location_icon inv.location %></span>
@@ -12,6 +7,7 @@
       <div class="niu">Nuovo</div>
     <% end %>
   </div>
+
   <div class="card-body">
     <div class="row">
       <div class="col-9 inv-infos">
@@ -44,6 +40,13 @@
         </dd>
       </dl>
     </div>
+
+    <% if policy(inv).destroy? %>
+      <div class="archive-btn">
+        <%= fa_icon("trash-alt", style: :solid, options: "fa-2x") %>
+      </div>
+    <% end %>
+
   </div>
 
   <div class="card-footer status-icons">

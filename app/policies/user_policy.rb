@@ -28,4 +28,7 @@ class UserPolicy < ApplicationPolicy
     end
   end
 
+  def topbar_full_menu?
+    user.admin?
+  end
 end

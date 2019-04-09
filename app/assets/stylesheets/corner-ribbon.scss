@@ -46,6 +46,17 @@
 .red.ribbon::after {
   border: 3px solid #a62d17;
 }
+
+
+.dark-red.ribbon span  {
+  background-color: #ae1d0e;
+}
+.dark-red.ribbon::before,
+.dark-red.ribbon::after {
+  border: 3px solid #7f150a;
+}
+
+
 .green.ribbon span  {
   background-color: #09b800;
 }
@@ -53,6 +64,16 @@
 .green.ribbon::after {
   border: 3px solid #11780c;
 }
+
+.light-green.ribbon span  {
+  background-color: #add44b;
+}
+.light-green.ribbon::before,
+.light-green.ribbon::after {
+  border: 3px solid #728c32;
+}
+
+
 .dark-green.ribbon span  {
   background-color: #0d6309;
 }
@@ -60,6 +81,7 @@
 .dark-green.ribbon::after {
   border: 3px solid #0c4a09;
 }
+
 .azure.ribbon span  {
   background-color: #2a83d1;
 }

@@ -1,7 +1,3 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
-
 class InvitationsController
   init: ->
 
@@ -31,11 +27,13 @@ class InvitationsController
       Turbolinks.visit(url)
     )
 
-
+    # highlight selected item on sidebar
     $('ul.sidebar li.nav-item').each (el) ->
+      console.log "1"
       filter = getUrlParameter('sel')
       if $(this).hasClass(filter)
         $(this).addClass('active')
+
 
     $('.vis-mode-selector').on('click', ->
       v = $(this).find('input').val()
@@ -65,30 +63,11 @@ class InvitationsController
       height = wtf[0].scrollHeight
       wtf.scrollTop(height)
 
-    # $('#invitation_appointee_id').on('change', ->
-    #   InvitationsController.manage_dropdown()
-    # )
-    # InvitationsController.manage_dropdown()
-    # if $('#invitation_alt_appointee_name').val()!=''
-    #   $('#invitation_appointee_id').val("0")
 
     $('#invitation_decision').on('change', ->
       InvitationsController.manage_participation()
     )
     InvitationsController.manage_participation()
-
-
-
-  # @manage_dropdown: ->
-  #   val = $('#invitation_appointee_id').val()
-  #   # console.log val
-  #   # console.log "-- disabled: #{val!='0'}"
-  #   if val=='0'
-  #     # 'Altro'
-  #     # $("#invitation_alt_appointee_name").prop('disabled', false)
-  #   else
-  #     $("#invitation_alt_appointee_name").prop('disabled', true)
-  #     $('#invitation_alt_appointee_name').val('')
 
 
 

@@ -67,13 +67,13 @@ GEM
       activerecord (>= 3.2, < 6.0)
       rake (>= 10.4, < 13.0)
     arel (9.0.0)
-    autoprefixer-rails (9.5.0)
+    autoprefixer-rails (9.5.1)
       execjs
     bcrypt (3.1.12)
     bindex (0.6.0)
     bootsnap (1.4.2)
       msgpack (~> 1.0)
-    bootstrap (4.2.1)
+    bootstrap (4.3.1)
       autoprefixer-rails (>= 9.1.0)
       popper_js (>= 1.14.3, < 2)
       sassc-rails (>= 2.0.0)
@@ -303,7 +303,7 @@ DEPENDENCIES
   aasm
   annotate
   bootsnap (>= 1.1.0)
-  bootstrap (~> 4.2.1)
+  bootstrap (~> 4.3.1)
   bootstrap4-datetime-picker-rails!
   byebug
   capybara (~> 2.13)

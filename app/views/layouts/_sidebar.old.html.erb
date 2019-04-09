@@ -1,0 +1,51 @@
+<!-- Sidebar -->
+<ul class="sidebar navbar-nav">
+  <li class="nav-item">
+    <%= link_to dashboard_path, class: "nav-link" do %>
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>Dashboard</span>
+    <% end %>
+  </li>
+
+  <li class="nav-item to_be_filled">
+    <%= link_to invitations_path(sel: :to_be_filled), class: "nav-link" do %>
+      <i class="far fa-fw fa-edit"></i>
+      <span>Info da compilare</span>
+      <span class="badge badge-light float-right inv-count">
+        <%= policy_scope(Invitation).no_info.count %>
+      </span>
+    <% end %>
+  </li>
+
+  <li class="nav-item not_assigned">
+    <%= link_to invitations_path(sel: :to_be_assigned), class: "nav-link" do %>
+      <i class="fas fa-fw fa-user-plus"></i>
+      <span>Da assegnare</span>
+      <span class="badge badge-light float-right inv-count">
+        <%= policy_scope(Invitation).to_be_assigned.count %>
+      </span>
+    <% end %>
+  </li>
+
+  <li class="nav-item running">
+    <%= link_to invitations_path(sel: :running), class: "nav-link" do %>
+      <i class="fas fa-fw fa-running"></i>
+      <span>In corso</span>
+      <span class="badge badge-light float-right inv-count">
+        <%= policy_scope(Invitation).are_assigned.count %>
+      </span>
+    <% end %>
+  </li>
+
+  <li class="nav-item archived">
+    <%= link_to invitations_path(sel: :archived), class: "nav-link" do %>
+      <i class="fas fa-fw fa-archive"></i>
+      <span>Archiviati</span>
+      <span class="badge badge-light float-right inv-count">
+        <%= policy_scope(Invitation).archived.count %>
+      </span>
+    <% end %>
+  </li>
+
+  <%= render 'layouts/update_check_emails' %>
+</ul>

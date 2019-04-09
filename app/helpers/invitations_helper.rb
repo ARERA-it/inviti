@@ -2,7 +2,19 @@ module InvitationsHelper
 
   def new_invitation_badge(old)
     if !old
-      content_tag(:span, "Nuovo", class: "badge badge-primary")
+      content_tag(:span, "nuovo", class: "badge badge-primary")
+    end
+  end
+
+  def status_badge(inv)
+    if inv.assigned?
+      content_tag(:span, "in attesa", class: "badge badge-assigned")
+    elsif inv.accepted?
+      content_tag(:span, "accettato", class: "badge badge-accepted")
+    elsif inv.declined?
+      content_tag(:span, "declinato", class: "badge badge-declined")
+    elsif inv.past?
+      content_tag(:span, "scaduto", class: "badge badge-past")
     end
   end
 
@@ -91,7 +103,7 @@ module InvitationsHelper
   end
 
   def ribbon_past
-    content_tag(:div, class: "ribbon ribbon-bottom-right red") do
+    content_tag(:div, class: "ribbon ribbon-bottom-right dark-red") do
       content_tag(:span, "scaduto")
     end
   end
@@ -103,7 +115,7 @@ module InvitationsHelper
   end
 
   def ribbon_assigned
-    content_tag(:div, class: "ribbon ribbon-bottom-right green") do
+    content_tag(:div, class: "ribbon ribbon-bottom-right light-green") do
       content_tag(:span, "in attesa")
     end
   end

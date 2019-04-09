@@ -65,7 +65,7 @@ gem 'devise'
 gem 'devise_cas_authenticatable', git: "https://github.com/ARERA-it/devise_cas_authenticatable"
 
 # gem 'bootstrap-sass', '~> 3.3.7'
-gem 'bootstrap', '~> 4.2.1'
+gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
 gem 'font-awesome-sass', '~> 5.4.1'
 gem 'momentjs-rails' # https://github.com/derekprior/momentjs-rails

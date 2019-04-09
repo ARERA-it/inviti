@@ -1,5 +1,4 @@
-@import "bootstrap";
-@import "sb-admin";
+@import "sb-admin-2";
 
 @import "font-awesome-sprockets";
 @import "font-awesome";
@@ -7,6 +6,9 @@
 @import url('https://fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps');
 @import "welcome";
 @import "tempusdominus-bootstrap-4";
+
+@import "jquery.dataTables";
+@import "dataTables.bootstrap4";
 
 @import "invitations";
 @import "chat";
@@ -16,11 +18,16 @@
 @import "calendario";
 
 @import "autocomplete";
+@import "avatar-style";
 
 // @import "ribbon";
 
 #content-wrapper {
   background-color: #e0e0d3; // #bfbfb0;
+}
+
+#content {
+  background-color: #ebf4ff;
 }
 
 .margin-bottom-20 {
@@ -173,17 +180,23 @@ span.long-format-dt {
   line-height: 3.0em;
 }
 
-.navbar-logo.navbar-brand {
+.sidebar-brand-text.inviti-logo {
   font-family: 'Oleo Script Swash Caps', cursive;
+  text-transform: none;
   color: #ddd;
   font-size: 1.6rem;
 }
 
-footer.sticky-footer .what {
-  font-family: 'Oleo Script Swash Caps';
-  font-size: 1.2rem;
-  color: #666;
-  margin-right: 20px;
+footer.sticky-footer {
+  border-top: 1px solid #ddd;
+
+  .what {
+    font-family: 'Oleo Script Swash Caps';
+    font-size: 1.2rem;
+    color: #666;
+    margin-right: 20px;
+
+  }
 }
 
 table.record-list {
@@ -193,13 +206,20 @@ table.record-list {
 }
 
 
-.navbar-nav .nav-item .nav-link .badge.inv-count {
+// .navbar-nav .nav-item .nav-link .badge.inv-count {
+.sidebar .badge.inv-count {
   position: static;
-  // margin-left: 0.75rem;
-  // top: 0.3rem;
   font-weight: 500;
   font-size: 0.9rem;
+  float: right;
 }
+.sidebar.toggled .badge.inv-count {
+  position: static;
+  font-weight: 500;
+  font-size: 0.7rem;
+  float: none;
+}
+
 
 .sticky-footer.sticky-footer-100 {
   width: 100%;
