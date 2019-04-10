@@ -187,17 +187,17 @@ class Invitation < ApplicationRecord
   belongs_to :appointee, class_name: "User", foreign_key: "appointee_id", required: false
 
   after_initialize :set_date_views
-  before_save :set_dates, :need_infos, :set_expired, :unset_appointee  # :clear_alt_appointee_name, :nullify_appointee_id
+  before_save :set_dates, :need_infos, :unset_appointee  # :clear_alt_appointee_name, :nullify_appointee_id
 
 
 
   scope :expired, -> { past }
   # TODO: sostituisci tutte le occorrenze di expired con past
-  scope :to_be_assigned, -> { where("state=1 or state=4") } # <<<<<------- mi serve ???? -----------
+  scope :to_be_assigned, -> { where("state=1 or state=4") }
   scope :are_assigned, -> { where("state=2 OR state=3")}
-  scope :archived, -> { where("state>4") }
+  scope :archived, -> { where("state>4") } # declined or past
   scope :not_expired, -> { where.not(state: 6) }
-
+  scope :alive, -> { where("state>0 AND state<5")}
 
   # # scope :expired, -> { where(expired: true) }
   # scope :not_expired, -> { where.not(state: 6) }
@@ -258,10 +258,6 @@ class Invitation < ApplicationRecord
     !title.blank? && !location.blank? && !from_date_and_time.nil?
   end
 
-  def set_expired
-    self.expired = is_expired
-  end
-
   def is_expired
     event_date = to_date_and_time.try(:to_date) || from_date_and_time.try(:to_date)
     exp = event_date && event_date<Date.today
@@ -269,19 +265,12 @@ class Invitation < ApplicationRecord
     exp
   end
 
-  def Invitation.update_invitation_expired_statuses
-    Invitation.not_expired.each do |i|
-      is_expired = i.is_expired
-    end
-
+  def Invitation.update_expired_statuses
+    Invitation.save_alive
   end
 
-
-
-  def Invitation.check_expiration
-    Invitation.not_expired.each do |i|
-
-    end
+  def Invitation.save_alive
+    Invitation.alive.each(&:save)
   end
 
   def location!

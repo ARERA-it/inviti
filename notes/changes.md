@@ -1,4 +1,5 @@
 
+## 9 aprile 2019
 
 Per esigenze di adattabilità della app a schermi più piccoli (cellulari e tablet) ho sostituito il template. Ora è possibile ridurre e fare sparire la sidebar (la fascia sulla destra).
 

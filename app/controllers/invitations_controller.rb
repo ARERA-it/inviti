@@ -112,7 +112,7 @@ class InvitationsController < ApplicationController
   end
 
 
-  def update_invitation_expired_statuses
+  def update_expired_statuses
     case params['env']
     when 'dev'
       UpdateInvitationsJob.perform_later

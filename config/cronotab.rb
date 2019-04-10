@@ -19,3 +19,5 @@ Rails.app_class.load_tasks
 
 # Crono.perform(CheckNewEmailsJob).every 30.seconds
 Crono.perform(CheckNewEmailsJob).every 2.minutes
+
+Crono.perform(UpdateInvitationsJob).every 1.days, at: '00:01'
