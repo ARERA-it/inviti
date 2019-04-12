@@ -89,3 +89,4 @@ gem 'aasm'  # https://github.com/aasm/aasm
 gem 'rails-jquery-autocomplete' # https://github.com/risuiowa/rails-jquery-autocomplete
 
 gem 'exception_notification' # https://github.com/smartinez87/exception_notification
+gem 'icalendar' # https://github.com/icalendar/icalendar

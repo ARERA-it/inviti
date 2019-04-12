@@ -40,6 +40,14 @@ class InvitationPolicy < ApplicationPolicy
     end
   end
 
+  def download_ics?
+    if user.viewer?
+      record.appointee_id == user.id
+    else
+      true
+    end
+  end
+
 
   # Vedere i pareri
   def view_opinion?

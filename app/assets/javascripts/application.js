@@ -80,7 +80,11 @@ $(document).on("turbolinks:load", function() {
     };
   });
 
-  $('#dataTable').DataTable({
+  // Fix multiple initialization of the table
+  // http://code.datatables.net/forums/discussion/36875/duplicate-wrapper-with-browser-forward-back-button
+  var table;
+  if($('[id^=DataTables_Table]').length == 0) {
+    table = $('#dataTable').DataTable({
       "pageLength": 50,
       "language": datatableItalian,
       "order": [[ 1, "asc" ]],
@@ -99,11 +103,10 @@ $(document).on("turbolinks:load", function() {
           "visible": false,
           "searchable": true
         }
-
       ]
     });
-
-});
+  }
+})
 
 
 jQuery.railsAutocomplete.options.noMatchesLabel = "Nessun nominativo trovato";

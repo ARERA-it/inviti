@@ -1,5 +1,5 @@
 class InvitationsController < ApplicationController
-  before_action :set_invitation, only: [:show, :update, :update_appointee, :destroy]
+  before_action :set_invitation, only: [:show, :update, :update_appointee, :destroy, :download_ics]
   autocomplete :user, :display_name, full: true
 
 
@@ -150,6 +150,15 @@ class InvitationsController < ApplicationController
         # format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+
+  def download_ics
+    authorize @invitation
+    file, filename = InvitationCalendar.generate_ics(@invitation, invitation_url(@invitation))
+    send_data file,
+      filename: filename,
+      type: "text/calendar"
   end
 
   private

@@ -78,6 +78,10 @@
         <%= hidden_field_tag :submit_feedback, 'text-after-submit-info-panel' %>
         <%= form.submit "Salva", class: "btn btn-primary", disabled: read_only %>
         <span class="ajax-submit-feedback" id="text-after-submit-info-panel"></span>
+
+        <span id="download_cal">
+          <%= render 'download_calendar', inv: @invitation %>
+        </span>
       </div>
     <% end %>
   </div>
