@@ -8,9 +8,6 @@ class InvitationsController
         options = {}
         $('#modal-submit-btn').attr('href', "/invitations/#{id}")
         $('#confirm-archive-modal').modal(options)
-
-
-
       e.stopPropagation()
     )
 

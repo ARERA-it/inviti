@@ -19,6 +19,7 @@
 #  role                :integer          default("viewer")
 #  title               :string(30)
 #  appointeeable       :boolean          default(FALSE)
+#  advisor_group       :integer
 #
 
 class User < ApplicationRecord
@@ -28,6 +29,7 @@ class User < ApplicationRecord
   devise :cas_authenticatable, :trackable
 
   enum role: [:president, :advisor, :commissary, :secretary, :viewer, :admin]
+  enum advisor_group: [:not_advisor, :general_secretary, :external_relations]
   validates :email, uniqueness: true
   scope :appointeeable, -> { where(appointeeable: true) }
   has_and_belongs_to_many :invitations
@@ -35,9 +37,10 @@ class User < ApplicationRecord
 
   before_save do |r|
     r.username = r.username.downcase
-    r.email    = "#{r.username}@#{ENV['DOMAIN']}" if r.username && r.email.blank?
+    r.email    = "#{r.username}@#{ENV['DOMAIN']}" if r.username
     r.display_name = r.username if r.display_name.blank?
     r.initials = User.calc_initials(r.display_name) if r.initials.blank?
+    r.advisor_group = :not_advisor unless r.advisor?
   end
 
   has_settings do |s|

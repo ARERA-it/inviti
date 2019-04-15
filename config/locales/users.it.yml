@@ -1,8 +1,12 @@
 it:
-  roles:
+  role:
     president: Presidente
     advisor: Consigliere
     commissary: Commissario
     secretary: Segreterie
     viewer: Sola lettura
     admin: Amministratore
+  advisor_group:
+    not_advisor: '-'
+    general_secretary: Segreteria generale
+    external_relations: Segreteria comunicazioni

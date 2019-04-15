@@ -53,6 +53,13 @@ module ApplicationHelper
     end
   end
 
+  def link_to_new(path)
+    link_to path, class: 'btn btn-link' do
+      content_tag(:i, "", class: "fas fa-plus fa-fw") + " Nuovo"
+    end
+  end
+
+
   def livestamp(dt)
     content_tag(:span, nil, "data-livestamp" => dt.try(:iso8601))
   end

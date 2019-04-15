@@ -14,8 +14,9 @@
       <th>Nome</th>
       <th>Email</th>
       <th>Ruolo</th>
+      <th>Parere</th>
       <th>Incaricabile</th>
-      <th colspan="3"></th>
+      <th>&nbsp;</th>
     </tr>
   </thead>
 
@@ -26,11 +27,14 @@
         <td><%= user.job_title %></td>
         <td><%= user.display_name %></td>
         <td><%= user.email %></td>
-        <td><%= user.role %></td>
+        <td><%= t user.role, scope: 'role' %></td>
+        <td><%= t user.advisor_group, scope: 'advisor_group' %></td>
         <td><%= yes_icon user.appointeeable %></td>
-        <td><%= link_to 'Dettaglio', user, class: "btn btn-outline-dark btn-sm" %></td>
-        <td><%= link_to 'Modifica', edit_user_path(user), class: "btn btn-outline-dark btn-sm" %></td>
-        <td><%= link_to 'Elimina', user, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-outline-danger btn-sm" %></td>
+        <td class='float-right'>
+          <%= link_to 'Dettaglio', user, class: "btn btn-outline-dark btn-sm" %>
+          <%= link_to 'Modifica', edit_user_path(user), class: "btn btn-outline-dark btn-sm" %>
+          <%= link_to 'Elimina', user, method: :delete, data: { confirm: "Confermi l'eliminazione?" }, class: "btn btn-outline-danger btn-sm" %>
+        </td>
       </tr>
     <% end %>
   </tbody>

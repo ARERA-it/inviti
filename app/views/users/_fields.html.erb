@@ -12,25 +12,29 @@
 </div>
 
 <div class="row">
-  <div class="col-md-1">
+  <div class="col-md-2">
     <div class="form-group">
       <%= form.label :initials, "Iniziali" %>
       <%= form.text_field :initials, class: "form-control", readonly: ro %>
     </div>
   </div>
-  <div class="col-md-2">
+  <div class="col-md-4">
     <div class="form-group">
       <%= form.label :job_title, "Titolo" %>
       <%= form.text_field :job_title, class: "form-control", readonly: ro %>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-6">
     <div class="form-group">
       <%= form.label :display_name, "Nome e cognome" %>
       <%= form.text_field :display_name, class: "form-control", readonly: ro %>
     </div>
   </div>
-  <div class="col-md-3">
+
+</div>
+
+<div class="row">
+  <div class="col-md-4">
     <div class="form-group">
       <%= form.label :username, "Indirizzo email" %>
       <div class="input-group mb-3">
@@ -41,14 +45,25 @@
       </div>
     </div>
   </div>
-  <% if policy(@user).change_role? %>
-    <div class="col-md-3">
+
+  <div class="col-md-4">
+    <% if policy(@user).change_role? %>
       <div class="form-group">
         <%= form.label :role, "Ruolo" %>
-        <%= form.collection_select :role, User.roles, :first, ->(e){ t("roles.#{e.first}") }, { prompt: true }, class: "form-control", disabled: ro  %>
+        <%= form.collection_select :role, User.roles, :first, ->(e){ t("role.#{e.first}") }, { prompt: true }, class: "form-control", disabled: ro  %>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
+
+  <div class="col-md-4">
+    <% if policy(@user).change_role? %>
+      <div class="form-group">
+        <%= form.label :role, "Esprime parere per conto di" %>
+        <%= form.collection_select :advisor_group, User.advisor_groups, :first, ->(e){ t("advisor_group.#{e.first}") }, { prompt: true }, class: "form-control", disabled: ro  %>
+      </div>
+    <% end %>
+  </div>
+
 </div>
 
 <% if ro %>

@@ -19,6 +19,7 @@
 #  role                :integer          default("viewer")
 #  title               :string(30)
 #  appointeeable       :boolean          default(FALSE)
+#  advisor_group       :integer
 #
 
 FactoryBot.define do

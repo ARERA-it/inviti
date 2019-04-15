@@ -22,6 +22,7 @@
 //= require tempusdominus-bootstrap-4
 
 //= require init
+//= require users
 //= require invitations
 //= require accepts
 //= require pages
