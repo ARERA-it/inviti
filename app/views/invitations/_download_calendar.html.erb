@@ -1,3 +1,3 @@
 <% if !inv.no_info? && policy(:invitation).download_ics? %>
-  <%= link_to "Scarica evento calendario", download_ics_invitation_path(inv), class: "btn btn-link float-right", target: "_blank" %>
+  <%= link_to "Scarica iCalendar", download_ics_invitation_path(inv), class: "btn btn-link float-right", target: "_blank" %>
 <% end %>
