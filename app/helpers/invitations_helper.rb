@@ -188,10 +188,10 @@ module InvitationsHelper
       arr << "Occorre compilare le informazioni generali: titolo, luogo e data"
     end
     if @project.at_least_one_opinion? && !User.any_advisor_expressed_an_opinion_on(invitation)
-      arr << "È necessario che almeno sia espresso almeno un parere"
+      arr << "È necessario che sia espresso almeno un parere"
     end
     if @project.all_opinions? && !User.all_advisor_expressed_an_opinion_on(invitation)
-      arr << "È necessario che almeno sia espresso un parere da ciascun gruppo (#{User.active_advisor_groups.map{|g| t(g, scope: :advisor_group)}.join(', ')})"
+      arr << "È necessario che sia espresso almeno un parere da ciascun gruppo (#{User.active_advisor_groups.map{|g| t(g, scope: :advisor_group)}.join(', ')})"
     end
     if arr.any?
       content_tag(:div, class: "alert alert-warning", role: "alert") do
