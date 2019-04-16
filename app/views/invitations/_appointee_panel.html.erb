@@ -3,12 +3,7 @@
     Incarico
   </div>
   <div class="card-body">
-    <% if @invitation.no_info? %>
-      <div class="alert alert-warning" role="alert">
-        I campi sono temporaneamente disabilitati!
-        Occorre compilare le informazioni generali: titolo, luogo e data
-      </div>
-    <% end %>
+    <%= appointee_disabled_fields_message @invitation %>
 
     <%= form_with(model: @invitation, url: appointee_path, class: 'appointee-choice', html: { autocomplete: :off }) do |form| %>
       <%= hidden_field_tag :id, @invitation.id %>

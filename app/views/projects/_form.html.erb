@@ -1,0 +1,40 @@
+<%= form_with(model: @project, local: true) do |form| %>
+  <% if @project.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= t('errors.messages.not_saved', count: @project.errors.count) %></h2>
+      <ul>
+      <% @project.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <p>Il presidente può assegnare un invito...</p>
+  <div class="row">
+    <div class="col-md-11 offset-md-1">
+      <div class="form-check">
+        <%= form.radio_button :president_can_assign, :always, class: "form-check-input" %>
+        <%= form.label :president_can_assign_always, "sempre", class: "form-check-label" %>
+        <small id="emailHelp" class="form-text text-muted">Non è necessario la presenza di un parere</small>
+      </div>
+      <div class="form-check">
+        <%= form.radio_button :president_can_assign, :at_least_one_opinion, class: "form-check-input" %>
+        <%= form.label :president_can_assign_at_least_one_opinion, "deve essere presente ALMENO UN parere", class: "form-check-label" %>
+        <small id="emailHelp" class="form-text text-muted">È necessaria la presenza di almeno un parere</small>
+      </div>
+      <div class="form-check">
+        <%= form.radio_button :president_can_assign, :all_opinions, class: "form-check-input" %>
+        <%= form.label :president_can_assign_all_opinions, "devono essere presenti TUTTI i pareri", class: "form-check-label" %>
+        <small id="emailHelp" class="form-text text-muted">È necessaria la presenza di un parere di ciascuno dei seguenti uffici: <%= advisor_groups_and_users %></small>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="actions mt-5">
+    <%= form.submit "Salva", class: "btn btn-primary" %>
+    <%= link_to 'Annulla', dashboard_path, class: "btn btn-default" %>
+  </div>
+<% end %>

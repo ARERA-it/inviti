@@ -22,7 +22,17 @@ class InvitationPolicy < ApplicationPolicy
 
   # Le info sull'incarico
   def update_appointee?
-    user.president? || user.admin?
+    return true if user.admin?
+    return false if !user.president?
+
+    case Project.primo.president_can_assign
+    when "at_least_one_opinion"
+      User.any_advisor_expressed_an_opinion_on record
+    when "all_opinions"
+      User.all_advisor_expressed_an_opinion_on record
+    else
+      true
+    end
   end
 
 

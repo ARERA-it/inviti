@@ -33,7 +33,7 @@ class InvitationsController < ApplicationController
       i = i.archived
       @sel = "archiviati"
     end
-    @invitations = i.includes(:opinion, :comments, :contributions).with_attached_files
+    @invitations = i.includes(:opinions, :comments, :contributions).with_attached_files
     @vis_mode = current_user.settings(:invitation).visualization_mode
 
     # Used by calendar
@@ -57,7 +57,10 @@ class InvitationsController < ApplicationController
   # GET /invitations/1.json
   def show
     authorize @invitation
-    @opinion  = @invitation.opinion  || @invitation.create_opinion(user: current_user)
+    if policy(Opinion).update?
+      @opinion   = @invitation.opinions.where(user: current_user).first || @invitation.opinions.create(user: current_user)
+    end
+    @other_opinions  = @invitation.opinions.where.not(user: current_user).where("selection >0")
     @comments = @invitation.comments.order(created_at: :asc)
     @comment  = Comment.new(invitation_id: @invitation.id)
     @contributions = @invitation.contributions

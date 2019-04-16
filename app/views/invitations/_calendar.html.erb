@@ -32,11 +32,11 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-6 location">
+                    <div class="col location">
                       <span><%= inv.location %></span>
                     </div>
-                    <div class="col-6 user">
-                      <%= user_circle(inv.appointee || inv.alt_appointee_name) %>
+                    <div class="col-md-auto">
+                      <%= show_avatar(inv.appointee, size: 40) %>
                     </div>
                   </div>
 

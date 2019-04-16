@@ -122,16 +122,24 @@ module InvitationsHelper
 
 
   def icon_for_opinion(op)
+    approve_icon(op.try(:selection))
+  end
+
+  def icon_for_opinions(opinions)
+    # icon_for_opinion(opinions.first).html_safe if opinions.first
     content_tag(:span, class: "icon-wrapper") do
-      approve_icon(op.try(:selection))
+      opinions.each do |op|
+        concat icon_for_opinion(op)
+      end
     end
   end
+
 
   def icon_for_comments(comments)
     if (size = comments.size) > 0
       title = size==1 ? "1 commento" : "#{size} commenti"
       content_tag(:span, class: "icon-wrapper", title: title) do
-        content_tag(:i, '', class: "fas fa-comment fa-fw fa-lg") + " #{size}"
+        content_tag(:i, '', class: "fas fa-comment fa-fw fa-lg") + "#{size}"
       end
     end
   end
@@ -141,7 +149,7 @@ module InvitationsHelper
     if (size = contributions.size) > 0
       title = size==1 ? "1 contributo" : "#{size} contributi"
       content_tag(:span, class: "icon-wrapper", title: title) do
-        content_tag(:i, '', class: "fas fa-plane fa-fw fa-lg") + " #{size}"
+        content_tag(:i, '', class: "fas fa-plane fa-fw fa-lg") + "#{size}"
       end
     end
   end
@@ -170,6 +178,32 @@ module InvitationsHelper
         I18n.translate(:from_dt_to_dt, from_dt: from_dt, to_dt: to_dt)
       end
     end
+  end
 
+
+
+  def appointee_disabled_fields_message(invitation)
+    arr = []
+    if invitation.no_info?
+      arr << "Occorre compilare le informazioni generali: titolo, luogo e data"
+    end
+    if @project.at_least_one_opinion? && !User.any_advisor_expressed_an_opinion_on(invitation)
+      arr << "È necessario che almeno sia espresso almeno un parere"
+    end
+    if @project.all_opinions? && !User.all_advisor_expressed_an_opinion_on(invitation)
+      arr << "È necessario che almeno sia espresso un parere da ciascun gruppo (#{User.active_advisor_groups.map{|g| t(g, scope: :advisor_group)}.join(', ')})"
+    end
+    if arr.any?
+      content_tag(:div, class: "alert alert-warning", role: "alert") do
+        content_tag(:p, "I campi sono temporaneamente disabilitati!") +
+        content_tag(:ul) do
+          capture do
+            arr.each do |s|
+              concat content_tag(:li, s)
+            end
+          end
+        end
+      end
+    end
   end
 end

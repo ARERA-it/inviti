@@ -16,7 +16,7 @@
       <%= render 'opinions/panel' %>
     <% end %>
     <% if policy(:invitation).view_appointee? %>
-      <%= render 'appointee_panel', read_only: !policy(:invitation).update_appointee? || @invitation.no_info? %>
+      <%= render 'appointee_panel', read_only: !policy(@invitation).update_appointee? || @invitation.no_info? %>
     <% end %>
     <% if policy(:invitation).view_contributions? %>
       <%= render 'contributions/panel' %>

@@ -23,3 +23,8 @@ $brand-special: #274a8f;
 .avatar-circle-100  { @include avatar(100px); }
 .avatar-circle-50   { @include avatar(50px); }
 .avatar-circle-40   { @include avatar(40px); }
+
+
+.no-avatar {
+  background-color: #9cc0ff;
+}

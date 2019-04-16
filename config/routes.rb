@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'projects/edit'
+  get 'projects/update'
+  resources :projects, only: [:edit, :update]
   resources :accepts
   resources :contributions, only: [:create, :destroy]
 

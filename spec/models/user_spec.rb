@@ -19,7 +19,7 @@
 #  role                :integer          default("viewer")
 #  title               :string(30)
 #  appointeeable       :boolean          default(FALSE)
-#  advisor_group       :integer
+#  advisor_group       :integer          default("not_advisor")
 #
 
 require 'rails_helper'

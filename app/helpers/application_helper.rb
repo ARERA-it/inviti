@@ -78,10 +78,14 @@ module ApplicationHelper
   end
 
   def show_avatar(user, size: 100)
-    if user.image?
-      image_tag(user.image_url, class: "avatar-circle-#{size}")
+    if user.nil?
+      render partial: 'shared/no_avatar', locals: { size: size }
     else
-      render partial: 'shared/avatar', locals: { user: user, size: size }
+      if user.image?
+        image_tag(user.image_url, class: "avatar-circle-#{size}")
+      else
+        render partial: 'shared/avatar', locals: { user: user, size: size }
+      end
     end
   end
 

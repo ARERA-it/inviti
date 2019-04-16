@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   before_action :detect_user_switch
   before_action :set_current_user # GET CURRENT_USER IN MODEL
+  before_action :set_current_project
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   puts ENV.fetch('user_mode').inspect
@@ -37,12 +38,17 @@ class ApplicationController < ActionController::Base
       User.current = current_user
     end
 
+    def set_current_project
+      @project = Project.primo
+    end
+
   private
 
     def user_not_authorized(exception)
       policy_name = exception.policy.class.to_s.underscore
 
       flash[:alert] = t "#{policy_name}.#{exception.query}", scope: "pundit", default: :default
-      redirect_to(request.referrer || dashboard_path)
+      # redirect_to(request.referrer || dashboard_path)
+      redirect_to dashboard_path
     end
 end

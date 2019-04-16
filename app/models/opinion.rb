@@ -17,6 +17,8 @@ class Opinion < ApplicationRecord
   belongs_to :invitation
   enum selection: CHOICES
 
+  scope :expressed, -> { where("selection>0") }
+
   after_save do |o|
     o.invitation.update_column(:opinion_expressed, o.expressed?)
   end

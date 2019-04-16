@@ -10,7 +10,7 @@
 
   <div class="card-body">
     <div class="row">
-      <div class="col-9 inv-infos">
+      <div class="col inv-infos">
         <% if !inv.title.blank? %>
           <p class="title"><%= inv.title %></p>
         <% else %>
@@ -18,8 +18,8 @@
         <% end %>
         <p class="organizer"><%= inv.organizer %></p>
       </div>
-      <div class="col-3">
-        <%= user_circle(inv.appointee || inv.alt_appointee_name) %>
+      <div class="col-md-auto">
+        <%= show_avatar(inv.appointee, size: 50) %>
       </div>
     </div>
 
@@ -51,7 +51,7 @@
 
   <div class="card-footer status-icons">
     <% if policy(inv).view_opinion? %>
-      <%= icon_for_opinion(inv.opinion) %>
+      <%= icon_for_opinions(inv.opinions) %>
       <%= icon_for_comments(inv.comments) %>
     <% end %>
     <%= icon_for_contributions(inv.contributions) %>

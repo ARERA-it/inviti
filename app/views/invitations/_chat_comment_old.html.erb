@@ -1,0 +1,19 @@
+<% current_user = User.advisor.first %>
+
+<li class="<%= chat_position(current_user, comment.user) %> clearfix">
+  <span class="chat-img float-<%= chat_position(current_user, comment.user) %>">
+    <p class="img-circle" data-letters="<%= comment.user.initials %>"></p>
+  </span>
+  <div class="chat-body clearfix">
+    <div class="header">
+      <strong class="float-<%= chat_position(current_user, comment.user) %> primary-font">
+        <%= comment.user.display_name %>
+      </strong>
+      <small class="float-<%= rev_chat_position(current_user, comment.user) %> text-muted">
+        <span class="glyphicon glyphicon-time"></span>
+        <%= livestamp comment.updated_at %>
+      </small>
+    </div>
+    <p><%= comment.content %></p>
+  </div>
+</li>

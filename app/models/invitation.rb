@@ -177,7 +177,7 @@ class Invitation < ApplicationRecord
   attr_accessor :send_email
 
   has_many_attached :files
-  has_one :opinion, dependent: :destroy
+  has_many :opinions, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_and_belongs_to_many :users
   has_many :contributions, dependent: :destroy

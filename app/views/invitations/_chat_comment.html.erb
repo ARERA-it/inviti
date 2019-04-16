@@ -1,19 +1,42 @@
-<% current_user = User.advisor.first %>
+<li>
+  <div class="row">
+    <% if current_user==comment.user %>
 
-<li class="<%= chat_position(current_user, comment.user) %> clearfix">
-  <span class="chat-img float-<%= chat_position(current_user, comment.user) %>">
-    <p class="img-circle" data-letters="<%= comment.user.initials %>"></p>
-  </span>
-  <div class="chat-body clearfix">
-    <div class="header">
-      <strong class="float-<%= chat_position(current_user, comment.user) %> primary-font">
-        <%= comment.user.display_name %>
-      </strong>
-      <small class="float-<%= rev_chat_position(current_user, comment.user) %> text-muted">
-        <span class="glyphicon glyphicon-time"></span>
-        <%= livestamp comment.updated_at %>
-      </small>
-    </div>
-    <p><%= comment.content %></p>
+      <div class="col-md-auto">
+        <%= show_avatar(comment.user, size: 50) %>
+      </div>
+      <div class="col">
+        <div class="row mb-2">
+          <div class="col">
+            <strong><%= comment.user.display_name %></strong>
+          </div>
+          <div class="col">
+            <small class="float-right"><%= livestamp comment.updated_at %></small>
+          </div>
+        </div>
+        <div class="body">
+          <%= comment.content %>
+        </div>
+      </div>
+
+
+    <% else %>
+      <div class="col">
+        <div class="row mb-2">
+          <div class="col">
+            <small><%= livestamp comment.updated_at %></small>
+          </div>
+          <div class="col">
+            <strong class="float-right"><%= comment.user.display_name %></strong>
+          </div>
+        </div>
+        <div class="body text-right">
+          <%= comment.content %>
+        </div>
+      </div>
+      <div class="col-md-auto avatar">
+        <%= show_avatar(comment.user, size: 50) %>
+      </div>
+    <% end %>
   </div>
 </li>

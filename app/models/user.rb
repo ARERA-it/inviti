@@ -19,7 +19,7 @@
 #  role                :integer          default("viewer")
 #  title               :string(30)
 #  appointeeable       :boolean          default(FALSE)
-#  advisor_group       :integer
+#  advisor_group       :integer          default("not_advisor")
 #
 
 class User < ApplicationRecord
@@ -54,6 +54,27 @@ class User < ApplicationRecord
     ""
   end
 
+  # Get the list of all active advisor_groups
+  # example: ["general_secretary", "external_relations"]
+  def User.active_advisor_groups
+    User.advisor.map(&:advisor_group).compact.uniq
+  end
+
+
+  # Get the array of all active advisor_groups with users
+  # example: {"general_secretary"=>[#<User id: 20, username: "john",...>, ... ], "external_relations"=>[#<User id: 18, username: "sarah",...>]}
+  def User.active_advisor_groups_with_users
+    res = {}
+    User.advisor.each do |adv|
+      adv_grp = adv.advisor_group
+      if !res.has_key? adv_grp
+        res[adv_grp] = []
+      end
+      res[adv_grp] << adv
+    end
+    res
+  end
+
   def name
     display_name || username
   end
@@ -68,5 +89,27 @@ class User < ApplicationRecord
 
   def image?
     false
+  end
+
+
+  # Any advisor (for each advisor_group) expressed
+  # an opinion on invitation
+  def User.any_advisor_expressed_an_opinion_on(invitation)
+    User.active_advisor_groups_with_users.each_pair do |grp, users|
+      intersection = invitation.opinions.expressed.pluck(:user_id) & users.pluck(:id)
+      return true if intersection.any?
+    end
+    false
+  end
+
+  # All advisors (at least one for each advisor_group) expressed
+  # an opinion on invitation
+  def User.all_advisor_expressed_an_opinion_on(invitation)
+    res = true
+    User.active_advisor_groups_with_users.each_pair do |grp, users|
+      intersection = invitation.opinions.expressed.pluck(:user_id) & users.pluck(:id)
+      res = res && intersection.any?
+    end
+    res
   end
 end

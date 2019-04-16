@@ -3,13 +3,30 @@
     Parere
   </div>
   <div class="card-body">
-    <%= form_with(model: @opinion, class: 'form-inline opinion-choice') do |form| %>
-      <div class="form-group">
-        <%= form.collection_select :selection, Opinion.choices, :first, ->(e){ t("opinion.#{e.first}") }, {prompt: true}, class: "form-control", disabled: !policy(@opinion).update?  %>
-      </div>
-      <%= form.submit "Salva", class: "btn btn-primary ml-3", disabled: !policy(@opinion).update? %>
-      <span class="ajax-submit-feedback" id="text-after-submit-opinion-panel"></span>
+    <% if policy(Opinion).update? %>
+      <%= form_with(model: @opinion, class: 'form-inline opinion-choice') do |form| %>
+        <%= form.hidden_field :invitation_id %>
+        <div class="form-group">
+          <%= form.collection_select :selection, Opinion.choices, :first, ->(e){ t("opinion.#{e.first}") }, {prompt: true}, class: "form-control", disabled: !policy(@opinion).update?  %>
+        </div>
+        <%= form.submit "Salva", class: "btn btn-primary ml-3", disabled: !policy(@opinion).update? %>
+        <span class="ajax-submit-feedback" id="text-after-submit-opinion-panel"></span>
+      <% end %>
+    <% end %>
 
+    <% if @other_opinions.any? %>
+      <div class="other-opinions">
+        <p class="title">Pareri espressi</p>
+        <ul>
+          <% @other_opinions.each do |op| %>
+          <li>
+            <strong><%= op.user.display_name %></strong>
+            (<%= t op.user.advisor_group, scope: :advisor_group %>):
+            <em><%= t op.selection, scope: :opinion %></em>
+          </li>
+          <% end %>
+        </ul>
+      </div>
     <% end %>
 
     <div class="panel-chat">
@@ -22,7 +39,7 @@
       <%= form_with(model: @comment) do |form| %>
         <%= form.hidden_field :invitation_id %>
         <div class="form-group">
-          <%= form.label :content, "Commento" %>
+          <%= form.label :content, "Aggiungi un commento:" %>
           <%= form.text_area :content, class: "form-control"  %>
         </div>
 

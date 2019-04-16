@@ -4,4 +4,8 @@ class OpinionPolicy < ApplicationPolicy
   def update?
     user.advisor? || user.admin?
   end
+
+  def create?
+    user.advisor? || user.admin?
+  end
 end

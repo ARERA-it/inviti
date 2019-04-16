@@ -34,7 +34,10 @@
   height: 41px;
   span.icon-wrapper {
     color: #666;
-    margin-right: 12px;
+    margin-right: 16px;
+    i {
+      margin-right: 8px;
+    }
   }
 }
 
