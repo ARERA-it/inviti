@@ -27,6 +27,7 @@
 //= require accepts
 //= require pages
 //= require helper-functions
+//  require bs-custom-file-input
 
 datatableItalian = {
   "sEmptyTable":     "Nessun dato presente nella tabella",
@@ -70,7 +71,8 @@ $(document).on("turbolinks:load", function() {
     }
   }
 
-
+  // https://www.npmjs.com/package/bs-custom-file-input
+  bsCustomFileInput.init();
 
   // Toggle the side navigation
   $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {

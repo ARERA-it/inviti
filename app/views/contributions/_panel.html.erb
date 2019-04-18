@@ -23,11 +23,18 @@
 
         <div class="form-group">
           <%= form.label :contribution_files, "Allegati" %>
-          <div class="custom-file">
-            <input multiple="multiple" type="file" class="custom-file-input" name="contribution[contribution_files][]" id="contribution_contribution_files">
-            <label class="custom-file-label" for="customFile">Seleziona i documenti...</label>
-          </div>
+          <%= form.file_field :contribution_files, class: "form-control"  %>
         </div>
+
+        <% if false %>
+          <div class="form-group">
+            <%= form.label :contribution_files, "Allegati" %>
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" name="contribution[contribution_files][]" id="contribution_contribution_files">
+              <label class="custom-file-label" for="customFile">Seleziona i documenti...</label>
+            </div>
+          </div>
+        <% end %>
 
         <div class="form-group">
           <%= form.label :note, "Note" %>
