@@ -72,7 +72,7 @@ $(document).on("turbolinks:load", function() {
   }
 
   // https://www.npmjs.com/package/bs-custom-file-input
-  bsCustomFileInput.init();
+  // bsCustomFileInput.init();
 
   // Toggle the side navigation
   $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
