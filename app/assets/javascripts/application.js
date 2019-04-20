@@ -28,6 +28,7 @@
 //= require pages
 //= require helper-functions
 //  require bs-custom-file-input
+//= require hidding-sidebar
 
 datatableItalian = {
   "sEmptyTable":     "Nessun dato presente nella tabella",
@@ -74,13 +75,20 @@ $(document).on("turbolinks:load", function() {
   // https://www.npmjs.com/package/bs-custom-file-input
   // bsCustomFileInput.init();
 
-  // Toggle the side navigation
+
   $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
-    $("body").toggleClass("sidebar-toggled");
-    $(".sidebar").toggleClass("toggled");
-    if ($(".sidebar").hasClass("toggled")) {
-      $('.sidebar .collapse').collapse('hide');
-    };
+    toggleSidebar();
+  });
+  if (window.outerWidth<576) {
+    hideSidebar();
+  }
+  $(window).on('resize', function(){
+    var win = $(this); //this = window
+    if (win.width()<576) {
+      hideSidebar();
+    } else {
+      showSidebar();
+    }
   });
 
   // Fix multiple initialization of the table
