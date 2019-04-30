@@ -136,6 +136,7 @@ class Invitation < ApplicationRecord
         acc = accepts.create(user: appointee)
       else
         assignment_steps.create(assigned_user: appointee, step: :assigned_yet_accepted)
+        accept!
       end
     end
   end
@@ -265,12 +266,23 @@ class Invitation < ApplicationRecord
     exp
   end
 
+  # Save all Invitation the are 'alive' (are 'alive' all inv. whose state is not 'no_info', 'declined' or 'past')
+  # will return the number of invitations whose state has passed to 'past'
   def Invitation.update_expired_statuses
     Invitation.save_alive
   end
 
+  # Save all Invitation the are 'alive' (are 'alive' all inv. whose state is not 'no_info', 'declined' or 'past')
+  # will return the number of invitations whose state has passed to 'past'
   def Invitation.save_alive
     Invitation.alive.each(&:save)
+    count = 0
+    Invitation.alive.each do |i|
+      if i.saved_change_to_state && i.saved_change_to_state.last=="past" # nil or ["no_info", "info"]
+        count += 1
+      end
+    end
+    count
   end
 
   def location!
