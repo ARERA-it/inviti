@@ -1,25 +1,29 @@
-<div class="row crud-links-top">
-  <div class="col">
-    <%= link_to_list users_path %>
-    <%= link_to_edit edit_user_path(@user) %>
-    <%= link_to_new new_user_path  %>
-  </div>
-</div>
-
 <div class="row">
   <div class="col-sm">
-    <h2 class="display-5">Dettaglio utente</h2>
+    <h1 class="display-5">Dettaglio utente</h1>
   </div>
 </div>
 
-<%= form_with(model: @user, local: true) do |form| %>
-  <%= render 'fields', user: @user, form: form, ro: true %>
-<% end %>
+<div class="card shadow mb-4">
+  <div class="card-body">
+    <div class="row crud-links-top">
+      <div class="col">
+        <%= link_to_list users_path %>
+        <%= link_to_edit edit_user_path(@user) %>
+        <%= link_to_new new_user_path  %>
+      </div>
+    </div>
 
-<div class="row crud-links-bottom">
-  <div class="col">
-    <%= link_to_list users_path %>
-    <%= link_to_edit edit_user_path(@user) %>
-    <%= link_to_new new_user_path  %>
+    <%= form_with(model: @user, local: true) do |form| %>
+      <%= render 'fields', user: @user, form: form, ro: true %>
+    <% end %>
+
+    <div class="row crud-links-bottom">
+      <div class="col">
+        <%= link_to_list users_path %>
+        <%= link_to_edit edit_user_path(@user) %>
+        <%= link_to_new new_user_path  %>
+      </div>
+    </div>
   </div>
 </div>

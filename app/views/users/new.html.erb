@@ -1,18 +1,23 @@
-<div class="row crud-links-top">
-  <div class="col">
-    <%= link_to_list users_path %>
-  </div>
-</div>
-
 <div class="row">
   <div class="col-sm">
     <h1 class="display-5">Nuovo utente</h1>
-    <%= render 'form', user: @user %>
   </div>
 </div>
 
-<div class="row crud-links-bottom">
-  <div class="col">
-    <%= link_to_list users_path %>
+<div class="card shadow mb-4">
+  <div class="card-body">
+    <div class="row crud-links-top">
+      <div class="col">
+        <%= link_to_list users_path %>
+      </div>
+    </div>
+
+    <%= render 'form', user: @user %>
+
+    <div class="row crud-links-bottom">
+      <div class="col">
+        <%= link_to_list users_path %>
+      </div>
+    </div>
   </div>
 </div>

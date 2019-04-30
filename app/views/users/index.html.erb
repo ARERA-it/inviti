@@ -6,44 +6,53 @@
 
 <p id="notice"><%= notice %></p>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Iniziali</th>
-      <th>Titolo</th>
-      <th>Nome</th>
-      <th>Email</th>
-      <th>Ruolo</th>
-      <th>Parere</th>
-      <th>Incaricabile</th>
-      <th>&nbsp;</th>
-    </tr>
-  </thead>
+<div class="card shadow mb-4">
+  <div class="card-body">
 
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.initials %></td>
-        <td><%= user.job_title %></td>
-        <td><%= user.display_name %></td>
-        <td><%= user.email %></td>
-        <td><%= t user.role, scope: 'role' %></td>
-        <td><%= t user.advisor_group, scope: 'advisor_group' %></td>
-        <td><%= yes_icon user.appointeeable %></td>
-        <td class='float-right'>
-          <%= link_to 'Dettaglio', user, class: "btn btn-outline-dark btn-sm" %>
-          <%= link_to 'Modifica', edit_user_path(user), class: "btn btn-outline-dark btn-sm" %>
-          <%= link_to 'Elimina', user, method: :delete, data: { confirm: "Confermi l'eliminazione?" }, class: "btn btn-outline-danger btn-sm" %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+    <div class="table-responsive">
+      <table class="table table-bordered table-sm record-list invitation-table" id="usersDataTable" width="100%" cellspacing="0">
 
-<br>
+        <thead>
+          <tr>
+            <th>Iniziali</th>
+            <th>Titolo</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Ruolo</th>
+            <th>Parere</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
 
-<div class="row margin-bottom-20">
-  <div class="col">
-    <%= link_to 'Nuovo Utente', new_user_path, class: "btn btn-primary" %>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr>
+              <td><%= user.initials %></td>
+              <td><%= user.job_title %></td>
+              <td><%= user.display_name %></td>
+              <td><%= user.email %></td>
+              <td><%= t user.role, scope: 'role' %></td>
+              <td><%= t user.advisor_group, scope: 'advisor_group' %></td>
+              <td class='float-right'>
+                <%= link_to 'Dettaglio', user, class: "btn btn-outline-dark btn-sm" %>
+                <%= link_to edit_user_path(user), class: "btn btn-outline-dark btn-sm" do %>
+                  <%= fa_icon("edit") %>
+                <% end %>
+                <%= link_to user, method: :delete, data: { confirm: "Confermi l'eliminazione?" }, class: "btn btn-outline-danger btn-sm" do %>
+                  <%= fa_icon("trash-alt") %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <br>
+
+    <div class="row margin-bottom-20">
+      <div class="col">
+        <%= link_to 'Nuovo Utente', new_user_path, class: "btn btn-primary" %>
+      </div>
+    </div>
   </div>
 </div>
