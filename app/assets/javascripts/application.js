@@ -91,10 +91,11 @@ $(document).on("turbolinks:load", function() {
     }
   });
 
+
   // Fix multiple initialization of the table
-  // http://code.datatables.net/forums/discussion/36875/duplicate-wrapper-with-browser-forward-back-button
+  // http://datatables.net/forums/discussion/36875/duplicate-wrapper-with-browser-forward-back-button
   var table;
-  if($('[id^=DataTables_Table]').length == 0) {
+  if($('[id^=dataTable_wrapper]').length == 0) {
     table = $('#dataTable').DataTable({
       "pageLength": 50,
       "language": datatableItalian,
