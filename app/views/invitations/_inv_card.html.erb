@@ -18,17 +18,17 @@
         <% end %>
         <p class="organizer"><%= inv.organizer %></p>
       </div>
-      <div class="col-md-auto">
+      <div class="col-sx-auto">
         <%= show_avatar(inv.appointee, size: 50) %>
       </div>
     </div>
 
     <div class="email">
       <dl class="row">
-        <dt class="col-sm-3 text-right">data</dt><dd class="col-sm-9"><%= formatta_dataora inv.email_received_date_time %></dd>
-        <dt class="col-sm-3 text-right">mittente</dt><dd class="col-sm-9"><%= inv.email_from_name %></dd>
-        <dt class="col-sm-3 text-right">oggetto</dt><dd class="col-sm-9"><strong><%= inv.email_subject %></strong></dd>
-        <dt class="col-sm-3 text-right">allegati</dt>
+        <dt class="col-sm-3">data</dt><dd class="col-sm-9"><%= formatta_dataora inv.email_received_date_time %></dd>
+        <dt class="col-sm-3">mittente</dt><dd class="col-sm-9"><%= inv.email_from_name %></dd>
+        <dt class="col-sm-3">oggetto</dt><dd class="col-sm-9"><strong><%= inv.email_subject %></strong></dd>
+        <dt class="col-sm-3">allegati</dt>
         <dd class="col-sm-9">
           <% if inv.files.size==1 %>
             <%= inv.files[0].filename %>
