@@ -29,7 +29,7 @@ class User < ApplicationRecord
   devise :cas_authenticatable, :trackable
 
   enum role: [:president, :advisor, :commissary, :secretary, :viewer, :admin]
-  enum advisor_group: [:not_advisor, :general_secretary, :external_relations]
+  enum advisor_group: [:not_advisor, :general_secretary, :external_relations, :board]
   validates :email, uniqueness: true
   scope :appointeeable, -> { where(appointeeable: true) }
   has_and_belongs_to_many :invitations
