@@ -5,7 +5,7 @@ class InvitationCalendar
     description = []
     description << inv.notes << "\n" if !inv.notes.blank?
     description << "Organizzazione: #{inv.organizer}" if !inv.organizer.blank?
-    description << "URL invito: <a href=\"#{url}\">#{url}</a>"
+    description << "URL invito: #{url}"
 
     cal.event do |e|
       e.dtstart     = inv.from_date_and_time
