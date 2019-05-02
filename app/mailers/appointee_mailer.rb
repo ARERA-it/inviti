@@ -2,7 +2,7 @@ class AppointeeMailer < ApplicationMailer
 
   # incaricato
 
-  # AppointeeMailer.with(user: @user).appointed.deliver_later
+  # AppointeeMailer.with(inv: invitation.id, acc: id).appointed.deliver_later
   def appointed
     @inv = Invitation.find params[:inv]
     @acc = Accept.find params[:acc]

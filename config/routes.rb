@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :request_opinions, only: [:new, :create]
   get 'projects/edit'
   get 'projects/update'
   resources :projects, only: [:edit, :update]

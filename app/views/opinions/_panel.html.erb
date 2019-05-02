@@ -3,6 +3,9 @@
     Parere
   </div>
   <div class="card-body">
+
+    <%= render "request_opinions/req_op" %>
+
     <% if policy(Opinion).update? %>
       <%= form_with(model: @opinion, class: 'form-inline opinion-choice') do |form| %>
         <%= form.hidden_field :invitation_id %>

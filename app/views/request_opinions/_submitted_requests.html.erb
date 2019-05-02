@@ -1,0 +1,10 @@
+<ul class="submitted_requests">
+  <% request_opinions.each do |req_op| %>
+    <% if !req_op.destination.blank? %>
+      <li>
+        <%= req_opinion_message(req_op) %>
+        <%= livestamp(req_op.created_at) %>
+      </li>
+    <% end %>
+  <% end %>
+</ul>

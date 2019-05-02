@@ -1,0 +1,9 @@
+var $sel = $('#text-after-request-opinion-panel');
+$sel.text("<%= raw @feedback_hash[:msg] %>");
+
+$('.submitted_requests').replaceWith("<%= j render('request_opinions/submitted_requests', request_opinions: @invitation.request_opinions) %>");
+
+// hide message
+setTimeout(function() {
+  $sel.text("");
+}, 1200);

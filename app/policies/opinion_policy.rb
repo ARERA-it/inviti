@@ -8,4 +8,5 @@ class OpinionPolicy < ApplicationPolicy
   def create?
     user.advisor? || user.admin?
   end
+
 end

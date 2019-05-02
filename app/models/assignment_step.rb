@@ -39,7 +39,7 @@ class AssignmentStep < ApplicationRecord
     when :mailed
       "è stata inviata una email a #{assigned_user.name} per la conferma"
     when :assigned_yet_accepted
-      "#{assigned_user.name} si è preso l'incarico (già accettato)"
+      "#{assigned_user.name} è stato incaricato"
     when :declined
       "#{curr_user.name} ha declinato l'invito"
     else

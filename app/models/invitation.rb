@@ -184,6 +184,7 @@ class Invitation < ApplicationRecord
   has_many :contributions, dependent: :destroy
   has_many :accepts, dependent: :destroy
   has_many :assignment_steps, -> { order "timestamp ASC" }, dependent: :destroy
+  has_many :request_opinions, dependent: :destroy
 
   belongs_to :appointee, class_name: "User", foreign_key: "appointee_id", required: false
 

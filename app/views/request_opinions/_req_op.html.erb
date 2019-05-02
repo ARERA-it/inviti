@@ -1,0 +1,23 @@
+<% if policy(RequestOpinion).create? %>
+  <div class="row req-opinion-wrapper">
+    <div class="col-md-12">
+      <%= form_with(model: @request_opinion, class: 'mb-2') do |form| %>
+        <%= form.hidden_field :invitation_id %>
+        <div class="form-group row">
+          <div class="col-sm-3">Richiedi parere:</div>
+          <div class="col-sm-9">
+            <% User.active_advisor_groups.each do |advisor_group| %>
+              <div class="form-check">
+                <%= form.check_box("dest", { multiple: true, class: "form-check-input"}, advisor_group, nil) %>
+                <%= form.label "dest_#{advisor_group}", t(advisor_group, scope: 'advisor_group'), class: "form-check-label" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <%= form.submit "Invia richiesta", class: "btn btn-primary" %>
+        <span class="ajax-submit-feedback" id="text-after-request-opinion-panel"></span>
+      <% end %>
+      <%= render "request_opinions/submitted_requests", request_opinions: @invitation.request_opinions %>
+    </div>
+  </div>
+<% end %>

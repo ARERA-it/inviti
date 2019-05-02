@@ -2,6 +2,7 @@ class UpdateInvitationsJob < ApplicationJob
   queue_as :default
 
   def perform(*args)
-    Invitation.update_expired_statuses
+    count = Invitation.update_expired_statuses
+    SuperuserNotificationMailer.with(count: count).expired_statuses.deliver_later
   end
 end

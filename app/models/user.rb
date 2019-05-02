@@ -29,7 +29,8 @@ class User < ApplicationRecord
   devise :cas_authenticatable, :trackable
 
   enum role: [:president, :advisor, :commissary, :secretary, :viewer, :admin]
-  enum advisor_group: [:not_advisor, :general_secretary, :external_relations, :board]
+  enum advisor_group: [:not_advisor, :general_secretary, :external_relations, :board, :tester]
+
   validates :email, uniqueness: true
   scope :appointeeable, -> { where(appointeeable: true) }
   has_and_belongs_to_many :invitations
@@ -40,13 +41,17 @@ class User < ApplicationRecord
     r.email    = "#{r.username}@#{ENV['DOMAIN']}" if r.username
     r.display_name = r.username if r.display_name.blank?
     r.initials = User.calc_initials(r.display_name) if r.initials.blank?
-    r.advisor_group = :not_advisor unless r.advisor?
+    r.advisor_group = :not_advisor unless r.advisor? || r.admin?
+    r.advisor_group = :board if r.commissary?
   end
 
   has_settings do |s|
     s.key :invitation, :defaults => { :visualization_mode => 'cards' }
   end
 
+  # def self.active_advisor_groups
+  #   User.advisor_groups.keys[1..-1]
+  # end
 
   def User.calc_initials(name)
     name.split(" ").map(&:first).join.upcase[0..1]
@@ -57,7 +62,7 @@ class User < ApplicationRecord
   # Get the list of all active advisor_groups
   # example: ["general_secretary", "external_relations"]
   def User.active_advisor_groups
-    User.advisor.map(&:advisor_group).compact.uniq
+    User.where.not(advisor_group: "not_advisor").pluck(:advisor_group).uniq.sort
   end
 
 
@@ -89,6 +94,11 @@ class User < ApplicationRecord
 
   def image?
     false
+  end
+
+  # User.advisor_users(["general_secretary","board"])
+  def User.advisor_users(name_arr)
+    User.where(advisor_group: name_arr)
   end
 
 

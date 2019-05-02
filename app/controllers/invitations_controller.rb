@@ -62,9 +62,10 @@ class InvitationsController < ApplicationController
     end
     @other_opinions  = @invitation.opinions.where.not(user: current_user).where("selection >0")
     @comments = @invitation.comments.order(created_at: :asc)
-    @comment  = Comment.new(invitation_id: @invitation.id)
+    @comment  = Comment.new(invitation: @invitation)
     @contributions = @invitation.contributions
     @contribution = @invitation.contributions.build
+    @request_opinion = RequestOpinion.new(invitation: @invitation)
     # @invitation.user_display_name =
 
     @invitation.users << current_user # check invitation as 'read'
