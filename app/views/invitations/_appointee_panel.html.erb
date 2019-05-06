@@ -15,7 +15,7 @@
       <div class="who-participates">
         <p style="font-size: 0.90em;">
           <%= "Seleziona di seguito il partecipante oppure " %>
-          <%= link_to "invia una proposta di partecipazione a tutti i membri del Collegio", proposal_to_all_board_members_path(id: @invitation.id), method: :patch, remote: true %>
+          <%= link_to "invia una proposta di partecipazione a tutti i membri del Collegio", proposal_to_all_board_members_path(id: @invitation.id), method: :patch, remote: true, 'data-confirm': "Confermi di volere inviare una proposta di partecipazione a tutti i membri del collegio?" %>
         </p>
 
         <div class="form-group">
