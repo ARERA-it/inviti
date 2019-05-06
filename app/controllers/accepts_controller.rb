@@ -1,8 +1,6 @@
 class AcceptsController < ApplicationController
   layout 'no_sidebar'
 
-  # TODO: authorization
-
   # successfull decision
   def show
 

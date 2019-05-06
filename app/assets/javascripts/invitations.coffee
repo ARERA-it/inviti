@@ -62,6 +62,12 @@ class InvitationsController
     InvitationsController.manage_participation()
 
 
+    $('.assignment-step-modal').on('click', (e) ->
+      c = $(this).data('comment')
+      $('#assignment_step_msg p.comment-here').html(c)
+      $('#assignment_step_msg').modal('show')
+    )
+
 
   @manage_participation: ->
     val = $('#invitation_decision').val()

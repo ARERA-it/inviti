@@ -35,6 +35,7 @@
 #
 
 class Invitation < ApplicationRecord
+  attr_accessor :accept_model
   include FakeInvitations
   include AASM
 
@@ -75,6 +76,7 @@ class Invitation < ApplicationRecord
     event :reject, after: :actions_after_reject do
       transitions from: :assigned, to: :rejected
     end
+
 
     # when call reset_assigned, appointee_id must already be nil
     event :reset_assigned do
@@ -126,11 +128,29 @@ class Invitation < ApplicationRecord
     dec_change && dec_change[1]=="waiting"
   end
 
+  def call_reject(accpt)
+    @accept_model = accpt
+    reject!
+  end
+
+  def call_accept(accpt)
+    @accept_model = accpt
+    accept!
+  end
+
+  # No state change
+  def accept_proposal(accpt)
+    assignment_steps.create(assigned_user_id: accpt.user_id, accept: accpt, step: :accepted_proposal)
+  end
+
+  # No state change
+  def reject_proposal(accpt)
+    assignment_steps.create(assigned_user_id: accpt.user_id, accept: accpt, step: :rejected_proposal)
+  end
 
   def actions_after_assign
-    logger.debug("---> actions_after_assign")
+    # logger.debug("---> actions_after_assign")
     if appointee_id
-      @send_email='0' if (Rails.env=="development" and self.appointee.email!="ibuetti@arera.it")
       @send_email='0' if appointee.president?
       if @send_email=='1'
         acc = accepts.create(user: appointee)
@@ -141,20 +161,25 @@ class Invitation < ApplicationRecord
     end
   end
 
+  def proposal_to_all_board_members
+    User.commissary.each do |u|
+      acc = accepts.create(user: u, proposal: true)
+      break if Rails.env=="development" #
+    end
+    assignment_steps.create(step: :proposal_to_all_board_members)
+  end
+
   def actions_after_cancel_assignment
     assignment_steps.create(assigned_user: appointee, step: :assigned)
   end
 
   def actions_after_accept
-    # update_column(:appointee_message, "#{appointee.display_name} ha accettato l'incarico")
-    assignment_steps.create(assigned_user_id: appointee.id, step: :accepted)
+    assignment_steps.create(assigned_user_id: appointee.id, accept: accept_model, step: :accepted)
   end
-
 
   def actions_after_reject
     # TODO: send an email to president
-    # update_column(:appointee_message, "#{appointee.name} ha rifiutato l'incarico")
-    assignment_steps.create(assigned_user_id: appointee.id, step: :rejected)
+    assignment_steps.create(assigned_user_id: appointee.id, accept: @accept_model, step: :rejected)
     update_columns(appointee_id: nil)
     reset_assigned!
   end
@@ -200,23 +225,6 @@ class Invitation < ApplicationRecord
   scope :archived, -> { where("state>4") } # declined or past
   scope :not_expired, -> { where.not(state: 6) }
   scope :alive, -> { where("state>0 AND state<5")}
-
-  # # scope :expired, -> { where(expired: true) }
-  # scope :not_expired, -> { where.not(state: 6) }
-  # # scope :not_expired, -> { where(expired: false) }
-  # # scope :are_assigned, -> { where("decision=1 AND appointee_id IS NOT NULL") }
-  # scope :info_provided, -> { where("state>0") }
-  # # scope :info_provided, -> { where(need_infos: false) }
-  # scope :missing_info, -> { where("state=0") }
-  # # scope :missing_info, -> { where("title IS NULL AND location IS NULL AND from_date_and_time IS NULL") }
-  # scope :filled_info, -> { where("state>0") }
-  # # scope :filled_info, -> { where.not("title IS NULL AND location IS NULL AND from_date_and_time IS NULL") }
-  # scope :to_be_filled, -> { where("state=0") } # <<<<<------- lo butto ???? -----------
-  # # scope :to_be_filled, -> { missing_info.not_expired }
-  # # scope :to_be_assigned, -> { filled_info.where("decision=0 OR (decision=1 AND appointee_id IS NULL)").not_expired }
-  # # scope :running, -> { are_assigned.not_expired }
-  # # scope :running, -> { are_assigned.not_expired }
-  # # scope :archived, -> { where("expired=TRUE OR decision=2 OR state=5") }
 
 
 

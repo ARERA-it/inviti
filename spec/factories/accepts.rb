@@ -10,6 +10,7 @@
 #  comment       :text
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  proposal      :boolean          default(FALSE)
 #
 
 FactoryBot.define do

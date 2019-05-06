@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_02_094513) do
+ActiveRecord::Schema.define(version: 2019_05_03_221730) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2019_05_02_094513) do
     t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "proposal", default: false
     t.index ["invitation_id"], name: "index_accepts_on_invitation_id"
     t.index ["token"], name: "index_accepts_on_token"
     t.index ["user_id"], name: "index_accepts_on_user_id"
@@ -56,6 +57,7 @@ ActiveRecord::Schema.define(version: 2019_05_02_094513) do
     t.integer "assigned_user_id"
     t.integer "step"
     t.datetime "timestamp"
+    t.integer "accept_id"
     t.index ["assigned_user_id"], name: "index_assignment_steps_on_assigned_user_id"
     t.index ["curr_user_id"], name: "index_assignment_steps_on_curr_user_id"
     t.index ["invitation_id"], name: "index_assignment_steps_on_invitation_id"

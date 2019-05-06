@@ -10,6 +10,7 @@
 #  comment       :text
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  proposal      :boolean          default(FALSE)
 #
 
 # class used to manage accept or reject of invitation
@@ -23,15 +24,19 @@ class Accept < ApplicationRecord
   after_update do |a|
     inv = a.invitation
     if a.accepted?
-      inv.accept!
+      a.proposal ? inv.accept_proposal(a) : inv.call_accept(a)
     elsif a.rejected?
-      inv.reject!
+      a.proposal ? inv.reject_proposal(a) : inv.call_reject(a)
     end
   end
 
   after_create do
-    AppointeeMailer.with(inv: invitation.id, acc: id).appointed.deliver_later
-    invitation.assignment_steps.create(assigned_user: user, step: :mailed)
+    if proposal
+      AppointeeMailer.with(inv: invitation.id, acc: id).proposal_to_a_board_members.deliver_later
+    else
+      AppointeeMailer.with(inv: invitation.id, acc: id).appointed.deliver_later
+      invitation.assignment_steps.create(assigned_user: user, step: :mailed)
+    end
   end
 
   def add_token

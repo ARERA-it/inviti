@@ -1,0 +1,13 @@
+$sel = $('#text-after-submit-appointee-panel')
+// show message
+$sel.text("<%= raw @feedback_hash[:msg] %>");
+
+// render assignment_steps
+setTimeout(function() {
+  $('#assignment-steps').html("<%= j render('assignment_steps') %>");
+}, 400);
+
+// hide message
+setTimeout(function() {
+  $sel.text("");
+}, 1000);

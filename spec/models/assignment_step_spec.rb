@@ -9,6 +9,7 @@
 #  assigned_user_id :integer
 #  step             :integer
 #  timestamp        :datetime
+#  accept_id        :integer
 #
 
 require 'rails_helper'

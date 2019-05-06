@@ -64,6 +64,11 @@ class InvitationPolicy < ApplicationPolicy
     user.admin? || user.president? || user.advisor?
   end
 
+
+  def proposal_to_all_board_members?
+    user.admin? || user.president?
+  end
+
   # Esprimere un parere  ->  v. opinion_policy
   # Aggiungere un commento (dopo il parere)  ->  v. comment_policy
 

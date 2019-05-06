@@ -1,5 +1,5 @@
 class InvitationsController < ApplicationController
-  before_action :set_invitation, only: [:show, :update, :update_appointee, :destroy, :download_ics]
+  before_action :set_invitation, only: [:show, :update, :update_appointee, :destroy, :download_ics, :proposal_to_all_board_members]
   autocomplete :user, :display_name, full: true
 
 
@@ -12,10 +12,6 @@ class InvitationsController < ApplicationController
     i = policy_scope(Invitation).order(created_at: :desc)
     sel = params['sel'] || 'to_be_filled'
     case sel
-    # when 'new'
-    #   unread_ids = i.not_expired.pluck(:id) - @read_ids
-    #   i = Invitation.where(id: unread_ids)
-    #   @sel = "nuovi"
 
     when 'to_be_filled'
       i = i.no_info
@@ -79,12 +75,8 @@ class InvitationsController < ApplicationController
     authorize @invitation
     respond_to do |format|
       if @invitation.update(invitation_params)
-        # format.html { redirect_to @invitation, notice: 'Dati modificati con successo.' }
-        # format.json { render :show, status: :ok, location: @invitation }
         format.js {}
       else
-        # format.html { render :edit }
-        # format.json { render json: @invitation.errors, status: :unprocessable_entity }
         format.js { render :js => "alert('Qualcosa è andato storto...')" }
       end
     end
@@ -107,13 +99,19 @@ class InvitationsController < ApplicationController
       end
       format.js {}
     end
-
   end
 
-  def find_appointee
-    appointee = User.find_by(display_name: params[:invitation].delete(:user_display_name))
-    params[:invitation][:appointee_id] = appointee ? appointee.id : nil
+  # Proposta di incarico a tutti i commissari
+  def proposal_to_all_board_members
+    authorize @invitation
+    respond_to do |format|
+      @invitation.proposal_to_all_board_members
+      @feedback_hash = { msg: "Proposte inoltrate con successo" }
+      format.js {}
+    end
   end
+
+
 
 
   def update_expired_statuses
@@ -137,7 +135,6 @@ class InvitationsController < ApplicationController
     @invitation.destroy
     respond_to do |format|
       format.html { redirect_to invitations_path, notice: "L'invito è stato eliminato con successo." }
-      # format.json { head :no_content }
     end
   end
 
@@ -148,10 +145,8 @@ class InvitationsController < ApplicationController
     respond_to do |format|
       if @invitation.remove!
         format.html { redirect_to invitations_path, notice: "L'invito è stato rimosso e spostato in archivio con successo." }
-        # format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
-        # format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -165,7 +160,16 @@ class InvitationsController < ApplicationController
       type: "text/calendar"
   end
 
+
+
   private
+
+
+    def find_appointee
+      appointee = User.find_by(display_name: params[:invitation].delete(:user_display_name))
+      params[:invitation][:appointee_id] = appointee ? appointee.id : nil
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_invitation
       @invitation = Invitation.find(params[:id])

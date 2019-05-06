@@ -13,6 +13,11 @@
       </div>
 
       <div class="who-participates">
+        <p style="font-size: 0.90em;">
+          <%= "Seleziona di seguito il partecipante oppure " %>
+          <%= link_to "invia una proposta di partecipazione a tutti i membri del Collegio", proposal_to_all_board_members_path(id: @invitation.id), method: :patch, remote: true %>
+        </p>
+
         <div class="form-group">
           <%= form.label :alt_appointee_name, "Partecipante" %>
           <%= form.autocomplete_field :user_display_name, autocomplete_user_display_name_invitations_path, class: "form-control", readonly: read_only %>
