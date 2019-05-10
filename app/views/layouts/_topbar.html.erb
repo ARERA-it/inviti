@@ -40,7 +40,7 @@
         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
           <a class="dropdown-item" href="#">Cambia utente corrente (funzionalità demo):</a>
           <div class="dropdown-divider"></div>
-          <% User.all.each do |user| %>
+          <% User.order('display_name ASC').each do |user| %>
             <%= link_to user.display_name, url_for(switch_to_user: user.id), class: 'dropdown-item' %>
           <% end %>
         </div>
