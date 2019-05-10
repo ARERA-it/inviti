@@ -45,9 +45,10 @@ class InvitationPolicy < ApplicationPolicy
   end
 
   def destroy?
-    if user.admin? || (record.no_info? && !user.viewer?)
-      true
-    end
+    return true  if user.admin?
+    return false if user.viewer?
+    return true  if user.secretary? && (record.no_info? || record.info?)
+    false
   end
 
   def download_ics?
@@ -90,6 +91,10 @@ class InvitationPolicy < ApplicationPolicy
   # Vedere il pannello della email
   def view_email_info?
     true
+  end
+
+  def show_audit?
+    user.admin? # || user.president?
   end
 
   class Scope < Scope
