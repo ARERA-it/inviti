@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_07_143001) do
+ActiveRecord::Schema.define(version: 2019_05_13_141420) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,16 +61,6 @@ ActiveRecord::Schema.define(version: 2019_05_07_143001) do
     t.index ["assigned_user_id"], name: "index_assignment_steps_on_assigned_user_id"
     t.index ["curr_user_id"], name: "index_assignment_steps_on_curr_user_id"
     t.index ["invitation_id"], name: "index_assignment_steps_on_invitation_id"
-  end
-
-  create_table "attendee_steps", force: :cascade do |t|
-    t.bigint "invitation_id"
-    t.string "description"
-    t.bigint "user_id"
-    t.integer "step"
-    t.datetime "timestamp"
-    t.index ["invitation_id"], name: "index_attendee_steps_on_invitation_id"
-    t.index ["user_id"], name: "index_attendee_steps_on_user_id"
   end
 
   create_table "audits", force: :cascade do |t|
@@ -228,8 +218,6 @@ ActiveRecord::Schema.define(version: 2019_05_07_143001) do
   add_foreign_key "accepts", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "assignment_steps", "invitations"
-  add_foreign_key "attendee_steps", "invitations"
-  add_foreign_key "attendee_steps", "users"
   add_foreign_key "comments", "invitations"
   add_foreign_key "comments", "users"
   add_foreign_key "opinions", "invitations"
