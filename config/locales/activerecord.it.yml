@@ -1,0 +1,18 @@
+it:
+  activerecord:
+    models:
+      invitation: Invito
+      comment: Commento
+    attributes:
+      invitation:
+        title: Titolo
+        location: Luogo
+        from_date_and_time: Data e ora inizio
+        to_date_and_time_view: Data e ora fine
+        organizer: Organizzazione
+        notes: Note
+        state: Stato
+      comment:
+        user_id: Utente
+        invitation_id: Invito
+        content: testo

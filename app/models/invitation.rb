@@ -24,9 +24,6 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  decision                 :integer          default("waiting")
-#  need_info                :boolean          default(TRUE)
-#  opinion_expressed        :boolean          default(FALSE)
-#  expired                  :boolean          default(FALSE)
 #  state                    :integer          default("no_info")
 #  appointee_message        :string
 #  email_decoded            :text
@@ -37,11 +34,15 @@
 class Invitation < ApplicationRecord
   attr_accessor :accept_model
   include FakeInvitations
+  include EmailDecoder
+  audited
+  has_associated_audits
+
   include AASM
 
   enum state: {
     no_info: 0,
-    info: 1,
+    info: 1, # da assegnare
     assigned: 2,
     accepted: 3,
     rejected: 4,
@@ -214,8 +215,8 @@ class Invitation < ApplicationRecord
   belongs_to :appointee, class_name: "User", foreign_key: "appointee_id", required: false
 
   after_initialize :set_date_views
-  before_save :set_dates, :need_infos, :unset_appointee  # :clear_alt_appointee_name, :nullify_appointee_id
-
+  before_save :set_dates, :unset_appointee
+  before_create :decode_mail_body
 
 
   scope :expired, -> { past }
@@ -242,9 +243,6 @@ class Invitation < ApplicationRecord
     # self.alt_appointee_name = nil if alt_appointee_name==''
   end
 
-  # Note:
-  # - attributo 'need_info' si sovrappone a state='no_info'
-
   def rejected?
     do_not_participate?
   end
@@ -258,10 +256,6 @@ class Invitation < ApplicationRecord
   enum decision: DECISIONS # zero based
   def Invitation.decisions
     DECISIONS.map{ |c| [c]}
-  end
-
-  def need_infos
-    self.need_info = !has_basic_info?
   end
 
   def has_basic_info?
@@ -306,6 +300,26 @@ class Invitation < ApplicationRecord
   def set_dates
     self.from_date_and_time = Time.parse(from_date_and_time_view).strftime("%Y-%m-%d %H:%M") if !from_date_and_time_view.blank?
     self.to_date_and_time = Time.parse(to_date_and_time_view).strftime("%Y-%m-%d %H:%M") if !to_date_and_time_view.blank?
+  end
+
+  # -------
+
+  def start_with_dash_dash?
+    email_body[0..1]=="--"
+  end
+
+  def convert_dash_dash
+    txt = email_body
+    dd_block = detect_dd_block(txt)
+  end
+
+  def detect_dd_block(txt)
+    match_data = txt.match(/--\w+/)
+    match_data && match_data[0]
+  end
+
+  def decode_mail_body
+    self.email_decoded = convert_dash_dash(email_body) # -> a module EmailDecoder method
   end
 
 end

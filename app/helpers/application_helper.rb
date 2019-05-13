@@ -89,4 +89,30 @@ module ApplicationHelper
     end
   end
 
+  def audit_changes(auditable_type, audited_changes)
+    audited_changes.map do |k,v|
+      if v.is_a? Array # update
+        if v[0]
+          content_tag(:span, tt("#{auditable_type.underscore}.#{k}"), "data-toggle": "tooltip", title: "da \"#{v[0]}\" a \"#{v[1]}\"")
+        else
+          content_tag(:span, tt("#{auditable_type.underscore}.#{k}"), "data-toggle": "tooltip", title: "impostato a \"#{v[1]}\"")
+        end
+      else
+        content_tag(:span, tt("#{auditable_type.underscore}.#{k}"), "data-toggle": "tooltip", title: "impostato a \"#{v}\"")
+      end
+    end.join(', ').html_safe
+  end
+
+  # Translate the attribute, and ev. add a '*' if the attribute is mandatory
+  # Example: tt('material.price'), or tt('material.description', mandatory: true)
+  def tt(attribute, mandatory: false)
+    translated = t("activerecord.attributes.#{attribute}")
+    translated+=" *" if mandatory
+    translated
+  end
+
+  def audit_model_action(audit)
+    # a.auditable_type, a.action t(a.action, scope: :audit)
+    "#{t(audit.action, scope: :audit)} #{t(audit.auditable_type.underscore, scope: 'activerecord.models')}"
+  end
 end

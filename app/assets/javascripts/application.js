@@ -124,8 +124,10 @@ $(document).on("turbolinks:load", function() {
       "language": datatableItalian,
       "order": [[ 2, "asc" ]]
     });
-
   }
+
+  // enable tooltips
+  $('[data-toggle="tooltip"]').tooltip();
 })
 
 

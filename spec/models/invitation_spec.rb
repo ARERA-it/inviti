@@ -24,9 +24,6 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  decision                 :integer          default("waiting")
-#  need_info                :boolean          default(TRUE)
-#  opinion_expressed        :boolean          default(FALSE)
-#  expired                  :boolean          default(FALSE)
 #  state                    :integer          default("no_info")
 #  appointee_message        :string
 #  email_decoded            :text

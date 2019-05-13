@@ -13,4 +13,5 @@
 class Comment < ApplicationRecord
   belongs_to :user
   belongs_to :invitation
+  audited associated_with: :invitation
 end

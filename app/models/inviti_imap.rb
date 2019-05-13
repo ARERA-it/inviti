@@ -1,3 +1,6 @@
+require 'base64'
+include EmailDecoder
+
 class InvitiIMAP
   READ_MSG_FOLDER = "LETTE"
 

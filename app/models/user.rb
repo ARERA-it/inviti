@@ -23,6 +23,7 @@
 #
 
 class User < ApplicationRecord
+  include DecodeEmailBody
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   # :registerable, :recoverable, :rememberable, :validatable
@@ -37,10 +38,10 @@ class User < ApplicationRecord
   has_many :contributions, dependent: :nullify
 
   before_save do |r|
-    r.username = r.username.downcase
-    r.email    = "#{r.username}@#{ENV['DOMAIN']}" if r.username
-    r.display_name = r.username if r.display_name.blank?
-    r.initials = User.calc_initials(r.display_name) if r.initials.blank?
+    r.username      = r.username.downcase
+    r.email         = "#{r.username}@#{ENV['DOMAIN']}" if r.username
+    r.display_name  = r.username if r.display_name.blank?
+    r.initials      = User.calc_initials(r.display_name) if r.initials.blank?
     r.advisor_group = :not_advisor unless r.advisor? || r.admin?
     r.advisor_group = :board if r.commissary?
   end

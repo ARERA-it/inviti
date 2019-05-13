@@ -17,9 +17,6 @@ class CheckNewEmailsJob < ApplicationJob
       datetime = DateTime.parse(e.date)
 
       inv = Invitation.find_by(email_id: mail.message_id)
-      # email_body = (mail.html_part && mail.html_part.body.raw_source) || mail.body.to_s
-      # email_body_preview = (mail.text_part && mail.text_part.body.to_s) || Nokogiri::HTML(email_body).text
-
 
       if inv.nil?
         inv = Invitation.new
@@ -28,20 +25,16 @@ class CheckNewEmailsJob < ApplicationJob
         inv.email_subject            = Mail::Encodings.value_decode(e.subject).gsub(/^Fwd: /, "").gsub(/^I: /, "").gsub(/^FWD: /, "")
         inv.email_received_date_time = datetime
 
-        # keep the original attributes
-        inv.email_decoded   = mail.html_part.try(:decoded) || mail.body.to_s
-        # inv.email_text_part = mail.text_part && mail.text_part.body.to_s
-        # inv.email_html_part = mail.html_part && mail.html_part.decoded # mail.html_part.body.raw_source
 
+        email_body = mail.html_part.try(:decoded) || mail.body.to_s
+        decoded    = email_body
 
-        inv.email_body         = mail.html_part.try(:decoded) || mail.body.to_s
-        s = Nokogiri::HTML(inv.email_decoded).text
+        inv.email_body         = email_body
+        # email_decoded will be set by Invitation before_create callback
+
+        s = Nokogiri::HTML(email_body).text
         s = s.gsub("\r\n", "\n").gsub(/[\n]+/, "\n").gsub(/<!--.+-->/m, "")
         inv.email_body_preview = s
-
-
-        # inv.email_body = email_body.gsub("\r\n", "\n").gsub("\n\n", "\n").gsub(/<!-- (.)+(\n)?(.)+ -->/, "") if email_body
-        # inv.email_body_preview = email_body_preview.gsub("\r\n", "\n").gsub("\n\n", "\n").gsub(/<!-- (.)+(\n)?(.)+ -->/, "") if email_body_preview
 
         inv.save
 
