@@ -19,9 +19,9 @@ class Opinion < ApplicationRecord
 
   scope :expressed, -> { where("selection>0") }
 
-  after_save do |o|
-    o.invitation.update_column(:opinion_expressed, o.expressed?)
-  end
+  # after_save do |o|
+  #   o.invitation.update_column(:opinion_expressed, o.expressed?)
+  # end
 
   def Opinion.choices
     CHOICES.map{ |c| [c]}
