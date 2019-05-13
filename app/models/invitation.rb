@@ -302,22 +302,6 @@ class Invitation < ApplicationRecord
     self.to_date_and_time = Time.parse(to_date_and_time_view).strftime("%Y-%m-%d %H:%M") if !to_date_and_time_view.blank?
   end
 
-  # -------
-
-  def start_with_dash_dash?
-    email_body[0..1]=="--"
-  end
-
-  def convert_dash_dash
-    txt = email_body
-    dd_block = detect_dd_block(txt)
-  end
-
-  def detect_dd_block(txt)
-    match_data = txt.match(/--\w+/)
-    match_data && match_data[0]
-  end
-
   def decode_mail_body
     self.email_decoded = convert_dash_dash(email_body) # -> a module EmailDecoder method
   end
