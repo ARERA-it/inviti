@@ -28,10 +28,9 @@ module EmailDecoder
             decoded = Base64.decode64(encoded_part)
             decoded = decoded.force_encoding(charset)
             result << decoded
-          when "quoted-printable"
+          when "quoted-printable", "quoted"
             result << encoded_part.gsub("= ", "").unpack('M').first.force_encoding(charset).encode('utf-8')
           end
-
         end
       end
       return txt if result.empty?
