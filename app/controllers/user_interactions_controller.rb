@@ -4,6 +4,7 @@ class UserInteractionsController < ApplicationController
   # GET /user_interactions
   # GET /user_interactions.json
   def index
+    authorize :user_interaction
     @user_interactions = UserInteraction.limit(200)
 
     first_date_available = UserInteraction.last.created_at.to_date # last because of default_scope

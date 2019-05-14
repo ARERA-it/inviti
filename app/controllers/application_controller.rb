@@ -47,7 +47,9 @@ class ApplicationController < ActionController::Base
   private
 
     def record_user_interaction
-      UserInteraction.create(user: current_user, controller_name: controller_name, action_name: action_name)
+      unless current_user.admin? && Rails.env=='production'
+        UserInteraction.create(user: current_user, controller_name: controller_name, action_name: action_name)
+      end
     end
 
     def user_not_authorized(exception)
