@@ -1,0 +1,78 @@
+// https://superdevresources.com/tools/color-shades#92dc84
+.shades {
+  .shade-green {
+    &.shade-0 {
+      background-color: #fff;
+      color: #081406;
+    }
+    &.shade-1 {
+      background-color: #edf9eb;
+      color: #081406;
+    }
+    &.shade-2 {
+      background-color: #caeec3;
+      color: #081406;
+    }
+    &.shade-3 {
+      background-color: #a7e39c;
+      color: #081406;
+    }
+    &.shade-4 {
+      background-color: #84d774;
+      color: #081406;
+    }
+    &.shade-5 {
+      background-color: #61cc4c;
+      color: #081406;
+    }
+    &.shade-6 {
+      background-color: #47b333;
+      color: #081406;
+    }
+    &.shade-7 {
+      background-color: #378b28;
+      color: #edf9eb;
+    }
+    &.shade-8 {
+      background-color: #28631c;
+      color: #edf9eb;
+    }
+    &.shade-9 {
+      background-color: #183c11;
+      color: #edf9eb;
+    }
+    &.shade-10 {
+      background-color: #081406;
+      color: #edf9eb;
+    }
+  }
+}
+
+table.calendario.shades {
+  // font-family: "Roboto", light;
+  font-weight: 300;
+
+
+  span.number {
+    font-size: 1.4em;
+    vertical-align: top;
+  }
+  span.month-name {
+    vertical-align: top;
+  }
+  span.count {
+    font-size: 2.4em;
+  }
+}
+
+
+table.twentyfour.shades {
+  th {
+    text-align: center;
+    padding: 2px 12px;
+  }
+  td {
+    padding: 32px 12px;
+    text-align: center;
+  }
+}

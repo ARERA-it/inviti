@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   before_action :detect_user_switch
   before_action :set_current_user # GET CURRENT_USER IN MODEL
   before_action :set_current_project
+  before_action :record_user_interaction
+
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   puts ENV.fetch('user_mode').inspect
@@ -43,6 +45,10 @@ class ApplicationController < ActionController::Base
     end
 
   private
+
+    def record_user_interaction
+      UserInteraction.create(user: current_user, controller_name: controller_name, action_name: action_name)
+    end
 
     def user_not_authorized(exception)
       policy_name = exception.policy.class.to_s.underscore

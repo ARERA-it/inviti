@@ -71,6 +71,11 @@
             Gestione utenti
           <% end %>
 
+          <%= link_to user_interactions_path, class: "dropdown-item" do %>
+            <i class="fas fa-eye fa-sm fa-fw mr-2 text-gray-400"></i>
+            Utilizzo Web app
+          <% end %>
+
           <%= link_to edit_project_path(Project.primo), class: "dropdown-item" do %>
             <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
             Impostazioni

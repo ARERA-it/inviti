@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_13_141420) do
+ActiveRecord::Schema.define(version: 2019_05_13_142327) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -192,6 +192,15 @@ ActiveRecord::Schema.define(version: 2019_05_13_141420) do
     t.index ["target_type", "target_id"], name: "index_settings_on_target_type_and_target_id"
   end
 
+  create_table "user_interactions", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "controller_name", limit: 31
+    t.string "action_name", limit: 31
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_interactions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "remember_created_at"
     t.integer "sign_in_count", default: 0, null: false
@@ -223,4 +232,5 @@ ActiveRecord::Schema.define(version: 2019_05_13_141420) do
   add_foreign_key "opinions", "invitations"
   add_foreign_key "opinions", "users"
   add_foreign_key "request_opinions", "invitations"
+  add_foreign_key "user_interactions", "users"
 end

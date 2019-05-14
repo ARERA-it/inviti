@@ -1,0 +1,24 @@
+<div class="card shadow mb-4">
+  <div class="card-body">
+    <p>Interazione relativa alla data <%= l(day, format: :long) %></p>
+    <table class="table table-bordered twentyfour shades">
+      <tbody>
+        <tr>
+          <% (0..23).to_a.each do |h| %>
+            <td class="<%= twentyfour_hours_shaded_cell_classes(h, ui.fetch(h, 0), max_val) %>">
+              <div class="count"><%= ui.fetch(h, 0) %></div>
+            </td>
+          <% end %>
+        </tr>
+      </tbody>
+      <tfooter>
+        <tr>
+          <% (0..23).to_a.each do |h| %>
+            <th><%= h %></th>
+          <% end %>
+        </tr>
+      </tfooter>
+    </table>
+
+  </div>
+</div>

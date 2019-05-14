@@ -1,0 +1,3 @@
+class UserInteractionPolicy < ApplicationPolicy
+
+end

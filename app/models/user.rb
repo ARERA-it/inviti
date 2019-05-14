@@ -35,6 +35,7 @@ class User < ApplicationRecord
   scope :appointeeable, -> { where(appointeeable: true) }
   has_and_belongs_to_many :invitations
   has_many :contributions, dependent: :nullify
+  has_many :interactions, class_name: "UserInteraction", foreign_key: "user_id"
 
   before_save do |r|
     r.username      = r.username.downcase

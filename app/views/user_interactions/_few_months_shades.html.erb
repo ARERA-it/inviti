@@ -1,0 +1,40 @@
+<div class="card shadow mb-4">
+  <div class="card-body">
+    <table class="table table-bordered calendario shades">
+      <thead>
+        <tr>
+          <th>Lunedì</th>
+          <th>Martedì</th>
+          <th>Mercoledì</th>
+          <th>Giovedì</th>
+          <th>Venerdì</th>
+          <th>Sabato</th>
+          <th>Domenica</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @calendario.weeks.each do |week| %>
+          <tr>
+            <% week.each do |cal_date| %>
+              <td class="<%= shaded_cell_classes(cal_date, @ui[cal_date.date], @ui_max) %>" data-date="<%= cal_date.date.to_s %>">
+                <div class="row">
+                  <div class="col">
+                    <div class="float-right">
+                      <span class="number"><%= cal_date.day %></span>
+                      <span class="month-name"><%= I18n.t('date.abbr_month_names')[cal_date.month] %></span>
+                    </div>
+                  </div>
+                </div>
+                <% if count = @ui[cal_date.date] || 0 %>
+                  <span class="count"><%= count %></span>
+                <% end %>
+              </td>
+            <% end %>
+          </tr>
+
+        <% end %>
+      </tbody>
+    </table>
+
+  </div>
+</div>

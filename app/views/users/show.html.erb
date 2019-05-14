@@ -27,3 +27,5 @@
     </div>
   </div>
 </div>
+
+<%= render 'user_interactions/table', user_interactions: @user.interactions.limit(50) %>
