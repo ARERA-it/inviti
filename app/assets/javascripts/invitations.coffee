@@ -49,6 +49,12 @@ class InvitationsController
     $('#invitation-to-date-time').datetimepicker({format: 'DD-MM-YYYY HH:mm', locale: 'it'})
     $('#button-copy-email-subject').on('click', -> $('#invitation_title').val($('#email-subject').text()) )
 
+    $('#invitation-from-date-time').on('focusout', ->
+      if $('#invitation_from_date_and_time_view').val()!="" && ($('#invitation_to_date_and_time_view').val()=="" || $('#invitation_to_date_and_time_view').val()=="Invalid date")
+        m = moment($('#invitation_from_date_and_time_view').val(), 'DD-MM-YYYY HH:mm')
+        m.add(2, 'h') # add 2 hours
+        $('#invitation_to_date_and_time_view').val(m.format('DD-MM-YYYY HH:mm'))
+    )
 
     wtf = $('.panel-chat')
     if wtf[0]
