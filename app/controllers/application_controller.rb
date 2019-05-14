@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
   private
 
     def record_user_interaction
-      unless current_user.admin? && Rails.env=='production'
+      if current_user.nil? || !current_user.admin? || Rails.env=='development'
         UserInteraction.create(user: current_user, controller_name: controller_name, action_name: action_name)
       end
     end
