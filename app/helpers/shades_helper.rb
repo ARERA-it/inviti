@@ -16,7 +16,7 @@ module ShadesHelper
 
   def twentyfour_hours_shaded_cell_classes(hour, value, max_value, color: 'green')
     value = 0.0 if value.nil?
-    max_value = 1.0 if value.nil?
+    max_value = 1.0 if max_value.nil?
     v = (value*10.0/max_value).ceil
     arr = []
     arr << "shade-#{color}"
