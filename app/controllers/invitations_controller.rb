@@ -9,24 +9,24 @@ class InvitationsController < ApplicationController
     @read_ids = current_user.invitations.pluck(:id) # invitation already read
 
     # i = Invitation
-    i = policy_scope(Invitation).order(created_at: :desc)
+    i = policy_scope(Invitation)
     sel = params['sel'] || 'to_be_filled'
     case sel
 
     when 'to_be_filled'
-      i = i.no_info
+      i = i.order(created_at: :desc).no_info
       @sel = "da compilare"
 
     when 'to_be_assigned'
-      i = i.to_be_assigned
+      i = i.order(from_date_and_time: :asc).to_be_assigned
       @sel = "da assegnare"
 
     when 'running'
-      i = i.are_assigned
+      i = i.order(from_date_and_time: :asc).are_assigned
       @sel = "running"
 
     when 'archived'
-      i = i.archived
+      i = i.order("from_date_and_time DESC, created_at DESC").archived
       @sel = "archiviati"
     end
     @invitations = i.includes(:opinions, :comments, :contributions).with_attached_files
