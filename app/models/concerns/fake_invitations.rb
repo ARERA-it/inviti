@@ -37,7 +37,7 @@ module FakeInvitations
           #   appointee_id = appointeeables.sample
           # end
         end
-
+        email_body = Faker::Lorem.paragraph
 
         i = Invitation.create(
           email_id: (Invitation.last.try(:email_id) || 1000).to_i + 1,
@@ -45,7 +45,8 @@ module FakeInvitations
           email_from_address: Faker::Internet.email,
           email_subject: subj,
           email_body_preview: Faker::Lorem.sentence,
-          email_body: Faker::Lorem.paragraph,
+          email_body: email_body,
+          email_decoded: email_body,
           email_received_date_time: Faker::Time.between(6.weeks.ago, 2.weeks.ago, :all),
           location: stato>0 ? Faker::Address.city : nil,
           from_date_and_time: stato>0 ? from_dt : nil,
