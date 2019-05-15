@@ -1,0 +1,27 @@
+.dashboard-cards {
+
+  .card {
+    cursor: pointer;
+    &:hover {
+      box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.60) !important;
+    }
+  }
+
+
+  h4 {
+    color: #4e73df;
+  }
+
+
+  p.number {
+    text-align: center;
+    font-size: 6em;
+    font-family: "Roboto";
+    font-weight: 100;
+    color: #4f63ab;
+  }
+  p.description {
+    font-size: 0.9em;
+    margin-bottom: 0px;
+  }
+}
