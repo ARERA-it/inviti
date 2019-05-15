@@ -7,10 +7,12 @@
           <div class="col-sm-3">Richiedi parere:</div>
           <div class="col-sm-9">
             <% User.active_advisor_groups.each do |advisor_group| %>
-              <div class="form-check">
-                <%= form.check_box("dest", { multiple: true, class: "form-check-input"}, advisor_group, nil) %>
-                <%= form.label "dest_#{advisor_group}", t(advisor_group, scope: 'advisor_group'), class: "form-check-label" %>
-              </div>
+              <% if advisor_group!='tester' || current_user.admin? %>
+                <div class="form-check">
+                  <%= form.check_box("dest", { multiple: true, class: "form-check-input"}, advisor_group, nil) %>
+                  <%= form.label "dest_#{advisor_group}", t(advisor_group, scope: 'advisor_group'), class: "form-check-label" %>
+                </div>
+              <% end %>
             <% end %>
           </div>
         </div>
