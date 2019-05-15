@@ -29,6 +29,7 @@
 //= require helper-functions
 //  require bs-custom-file-input
 //= require hidding-sidebar
+//= require user_interactions
 
 datatableItalian = {
   "sEmptyTable":     "Nessun dato presente nella tabella",

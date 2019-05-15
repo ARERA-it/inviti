@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :user_interactions, only: [:index]
+  resources :user_interactions, only: [:index] do
+    get :daytail, on: :collection
+  end
   resources :request_opinions, only: [:new, :create]
   get 'projects/edit'
   get 'projects/update'

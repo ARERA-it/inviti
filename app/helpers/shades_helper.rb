@@ -1,10 +1,9 @@
 module ShadesHelper
 
-  def shaded_cell_classes(cal_date, value, max_value, color: 'green')
+  def ui_cell_classes(cal_date, value, max_value, color: 'green')
     value = 0.0 if value.nil?
     v = (value*10.0/max_value).ceil
-    arr = []
-    arr << 'inner'
+    arr = ["inner", "ui-cell"]
     arr << "shade-#{color}"
     arr << "shade-#{v}"
     [:top, :bottom, :left, :right].each do |direction|

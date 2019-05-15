@@ -20,11 +20,27 @@ class UserInteractionsController < ApplicationController
     @ui_max     = @ui.values.max
 
     # 24 hours
-    t1 = Time.zone.parse(@today.to_s)
-    t2 = Time.zone.parse((@today+1.day).to_s)
-    offset = t1.utc_offset
-    hash     = UserInteraction.unscoped.where("created_at BETWEEN ? AND ?", t1, t2).group("EXTRACT(HOUR FROM created_at)").count
-    @ui_day  = Hash[hash.map{|k, v| [((k+offset/3600)%24).to_i, v]}]
-    @ui_day_max = @ui_day.values.max
+    query_one_day(@today)
   end
+
+
+  def daytail
+    @today = Date.parse params[:date]
+    query_one_day(@today)
+
+    respond_to do |format|
+      format.js {}
+    end
+  end
+
+
+  private
+    def query_one_day(date)
+      t1 = Time.zone.parse(date.to_s)
+      t2 = Time.zone.parse((date+1.day).to_s)
+      offset = t1.utc_offset
+      hash     = UserInteraction.unscoped.where("created_at BETWEEN ? AND ?", t1, t2).group("EXTRACT(HOUR FROM created_at)").count
+      @ui_day  = Hash[hash.map{|k, v| [((k+offset/3600)%24).to_i, v]}]
+      @ui_day_max = @ui_day.values.max
+    end
 end

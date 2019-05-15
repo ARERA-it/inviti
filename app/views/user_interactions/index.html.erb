@@ -4,9 +4,10 @@
   </div>
 </div>
 
-<p id="notice"><%= notice %></p>
-
 <%= render 'few_months_shades' %>
-<%= render 'one_day_shades', ui: @ui_day, day: @today, max_val: @ui_day_max %>
-
-<%= render 'table', user_interactions: @user_interactions %>
+<div id="ui-day">
+  <%= render 'one_day_shades', ui: @ui_day, day: @today, max_val: @ui_day_max %>
+</div>
+<div id="ui-table">
+  <%= render 'table', user_interactions: @user_interactions %>
+</div>

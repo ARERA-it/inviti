@@ -1,6 +1,6 @@
 <div class="card shadow mb-4">
   <div class="card-body">
-    <table class="table table-bordered calendario shades">
+    <table class="table table-bordered calendario shades ui-cal">
       <thead>
         <tr>
           <th>Lunedì</th>
@@ -16,7 +16,7 @@
         <% @calendario.weeks.each do |week| %>
           <tr>
             <% week.each do |cal_date| %>
-              <td class="<%= shaded_cell_classes(cal_date, @ui[cal_date.date], @ui_max) %>" data-date="<%= cal_date.date.to_s %>">
+              <td class="<%= ui_cell_classes(cal_date, @ui[cal_date.date], @ui_max) %>" data-url="<%= @ui.fetch(cal_date.date, 0)>0 ? daytail_user_interactions_path(date: cal_date.date) : '' %>">
                 <div class="row">
                   <div class="col">
                     <div class="float-right">
@@ -25,7 +25,7 @@
                     </div>
                   </div>
                 </div>
-                <% if count = @ui[cal_date.date] || 0 %>
+                <% if count = @ui.fetch(cal_date.date, 0) %>
                   <span class="count"><%= count %></span>
                 <% end %>
               </td>

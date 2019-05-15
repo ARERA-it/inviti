@@ -12,13 +12,13 @@
         </tr>
       </tbody>
       <tfooter>
-        <tr>
+        <tr style="font-size: 0.60em;">
           <% (0..23).to_a.each do |h| %>
-            <th><%= h %></th>
+            <th><%= "#{h}:00" %></th>
           <% end %>
         </tr>
       </tfooter>
     </table>
-
+    <p>Vai a <%= link_to 'oggi', daytail_user_interactions_path(date: Date.today.to_s), remote: true %></p>
   </div>
 </div>
