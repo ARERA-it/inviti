@@ -1,14 +1,5 @@
 <%= form_with(model: user, local: true) do |form| %>
-  <% if user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= t('errors.messages.not_saved', count: user.errors.count) %></h2>
-      <ul>
-      <% user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render 'layouts/error_message', model: user %>
 
   <%= render 'fields', user: user, form: form, ro: false %>
 
