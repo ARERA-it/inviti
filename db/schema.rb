@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_13_142327) do
+ActiveRecord::Schema.define(version: 2019_05_15_154407) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -133,7 +133,6 @@ ActiveRecord::Schema.define(version: 2019_05_13_142327) do
     t.boolean "has_attachments"
     t.string "attachments"
     t.integer "appointee_id"
-    t.string "alt_appointee_name"
     t.text "delegation_notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -141,8 +140,6 @@ ActiveRecord::Schema.define(version: 2019_05_13_142327) do
     t.integer "state", default: 0
     t.string "appointee_message"
     t.text "email_decoded"
-    t.text "email_text_part"
-    t.text "email_html_part"
     t.index ["appointee_id"], name: "index_invitations_on_appointee_id"
     t.index ["email_received_date_time"], name: "index_invitations_on_email_received_date_time"
     t.index ["from_date_and_time"], name: "index_invitations_on_from_date_and_time"
