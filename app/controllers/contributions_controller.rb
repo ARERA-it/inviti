@@ -11,7 +11,9 @@ class ContributionsController < ApplicationController
       if @contribution.save
         format.js
       else
-        format.js { render js: "alert('Qualcosa è andato storto...');" }
+        # format.js { render js: "alert('Qualcosa è andato storto...');" }
+        @model = 'contribution'
+        format.js { render template: 'layouts/error_message.js.erb' }
       end
     end
   end

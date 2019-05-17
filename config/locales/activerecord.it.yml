@@ -3,6 +3,7 @@ it:
     models:
       invitation: Invito
       comment: Commento
+      contribution: Contributo
     attributes:
       invitation:
         title: Titolo
@@ -16,3 +17,11 @@ it:
         user_id: Utente
         invitation_id: Invito
         content: testo
+      contribution:
+        invitation_id: Invito
+        user_id: Utente
+        title: Descrizione
+        note: Note
+        contribution_files: Allegati
+      user:
+        username: Username

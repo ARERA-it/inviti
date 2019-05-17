@@ -1,0 +1,10 @@
+<% if @contribution.errors.any? %>
+  <% @contribution.errors.messages.each do |attr, msg| %> // {:invitation=>["deve esistere"], :user=>["deve esistere"], :title=>["non può essere lasciato in bianco"]}
+    $('#<%= @model %>_<%= attr %>').addClass('is-invalid');
+    if ($('#<%= @model %>_<%= attr %> + div.invalid-feedback').length>0) {
+      $('#<%= @model %>_<%= attr %> + div.invalid-feedback').text("<%= msg.join(', ') %>");
+    } else {
+      $('#<%= @model %>_<%= attr %>').after("<div class='invalid-feedback'><%= msg.join(', ') %></div>");
+    }
+  <% end %>
+<% end %>
