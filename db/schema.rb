@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_15_154407) do
+ActiveRecord::Schema.define(version: 2019_05_18_081224) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2019_05_15_154407) do
     t.bigint "invitation_id"
     t.bigint "user_id"
     t.integer "decision", default: 0
-    t.text "comment"
+    t.text "comment", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "proposal", default: false
@@ -88,7 +88,7 @@ ActiveRecord::Schema.define(version: 2019_05_15_154407) do
   create_table "comments", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "invitation_id"
-    t.text "content"
+    t.text "content", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invitation_id"], name: "index_comments_on_invitation_id"
@@ -98,8 +98,8 @@ ActiveRecord::Schema.define(version: 2019_05_15_154407) do
   create_table "contributions", force: :cascade do |t|
     t.bigint "invitation_id"
     t.bigint "user_id"
-    t.string "title"
-    t.text "note"
+    t.string "title", default: ""
+    t.text "note", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invitation_id"], name: "index_contributions_on_invitation_id"
@@ -117,12 +117,12 @@ ActiveRecord::Schema.define(version: 2019_05_15_154407) do
   end
 
   create_table "invitations", force: :cascade do |t|
-    t.string "title"
-    t.string "location"
+    t.string "title", default: ""
+    t.string "location", default: ""
     t.datetime "from_date_and_time"
     t.datetime "to_date_and_time"
-    t.string "organizer"
-    t.text "notes"
+    t.string "organizer", default: ""
+    t.text "notes", default: ""
     t.string "email_id"
     t.string "email_from_name"
     t.string "email_from_address"
@@ -133,12 +133,12 @@ ActiveRecord::Schema.define(version: 2019_05_15_154407) do
     t.boolean "has_attachments"
     t.string "attachments"
     t.integer "appointee_id"
-    t.text "delegation_notes"
+    t.text "delegation_notes", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "decision", default: 0
     t.integer "state", default: 0
-    t.string "appointee_message"
+    t.string "appointee_message", default: ""
     t.text "email_decoded"
     t.index ["appointee_id"], name: "index_invitations_on_appointee_id"
     t.index ["email_received_date_time"], name: "index_invitations_on_email_received_date_time"
