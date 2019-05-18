@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     get :update_invitation_expired_statuses, on: :collection
     get :autocomplete_user_display_name, on: :collection
     get :download_ics, on: :member
+    get :audits, on: :member
   end
   devise_for :users
   resources :users

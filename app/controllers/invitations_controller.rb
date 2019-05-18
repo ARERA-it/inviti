@@ -1,5 +1,5 @@
 class InvitationsController < ApplicationController
-  before_action :set_invitation, only: [:show, :update, :update_appointee, :destroy, :download_ics, :proposal_to_all_board_members]
+  before_action :set_invitation, only: [:show, :update, :update_appointee, :destroy, :download_ics, :proposal_to_all_board_members, :audits]
   autocomplete :user, :display_name, full: true
 
 
@@ -65,6 +65,12 @@ class InvitationsController < ApplicationController
     # @invitation.user_display_name =
 
     @invitation.users << current_user # check invitation as 'read'
+  end
+
+
+
+  def audits
+    respond_to{|format| format.js}
   end
 
 
