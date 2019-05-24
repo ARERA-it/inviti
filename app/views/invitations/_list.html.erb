@@ -46,7 +46,7 @@
                 <% end %>
               </td>
               <td><%= inv.organizer %></td>
-              <td><%= inv.appointee.try(:display_name) || inv.alt_appointee_name %></td>
+              <td><%= inv.appointee.try(:display_name) %></td>
               <td class="status-icons float-right">
                 <% if policy(inv).view_opinion? %>
                   <%= icon_for_opinions(inv.opinions) %>
