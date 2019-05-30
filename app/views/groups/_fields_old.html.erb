@@ -1,0 +1,70 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="form-group form-check">
+      <%= form.check_box :in_use, disabled: ro, class: "form-check-input" %>
+      <%= form.label :name, "In uso", class: "form-check-label" %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="form-group">
+      <%= form.label :name, "Nome del gruppo" %>
+      <%= form.text_field :name, class: "form-control", readonly: ro, autocomplete: 'off' %>
+    </div>
+  </div>
+</div>
+
+<h4>Lista utenti</h4>
+
+<ul id="group-users">
+  <% @group.users.each do |u| %>
+    <li data-user-id="<%= u.id %>"><%= u.display_name %></li>
+  <% end %>
+</ul>
+
+<%= form.hidden_field :users_ids %>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="form-group">
+      <%= form.label 'users[]', "Utenti" %>
+      <%= form.collection_select 'users[]', group_users, :first, :last, {}, class: "form-control js-example-basic-multiple", multiple: 'multiple'  %>
+    </div>
+  </div>
+</div>
+
+
+<button type="button" class="btn btn-outline-primary btn-sm mb-3" data-toggle="modal" data-target="#addUserModal">
+  Aggiungi un utente al gruppo
+</button>
+
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addUserModalLabel">Aggiungi utente</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <%= form_with(model: group, local: true) do |f| %>
+              <div class="form-group">
+                <%= f.label :user_display_name, "Digita nome dell'utente" %>
+                <%= f.autocomplete_field :user_display_name, autocomplete_user_display_name_groups_path, class: "form-control" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+        <button type="button" class="btn btn-primary addButton">Aggiungi</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-sm mb-3">
+    <h1 class="display-5">Dettaglio gruppo</h1>
+  </div>
+</div>
+
+<div class="card shadow mb-4">
+  <div class="card-body">
+    <div class="row crud-links-top">
+      <div class="col">
+        <%= link_to_list groups_path %>
+        <%= link_to_edit edit_group_path(@group) %>
+        <%= link_to_new new_group_path  %>
+      </div>
+    </div>
+
+    <%= form_with(model: @group, local: true) do |form| %>
+      <%= render 'fields', group: @group, form: form, ro: true %>
+    <% end %>
+
+    <div class="row crud-links-bottom">
+      <div class="col">
+        <%= link_to_list groups_path %>
+        <%= link_to_edit edit_group_path(@group) %>
+        <%= link_to_new new_group_path  %>
+      </div>
+    </div>
+  </div>
+</div>

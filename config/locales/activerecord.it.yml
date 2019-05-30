@@ -4,6 +4,8 @@ it:
       invitation: Invito
       comment: Commento
       contribution: Contributo
+      group: Gruppo
+      user: Utente
     attributes:
       invitation:
         title: Titolo
@@ -25,3 +27,6 @@ it:
         contribution_files: Allegati
       user:
         username: Username
+      group:
+        name: Nome
+        in_use: In uso
