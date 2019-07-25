@@ -1,0 +1,99 @@
+<div class="row mb-3">
+  <div class="col-md">
+    <h1 class="display-5"><%= appointment_reply_title(@user_reply.appointment_action.kind, @invitation.title) %></h1>
+  </div>
+</div>
+
+<div class="card panel-email mb-3">
+  <div class="card-header">
+    Email
+  </div>
+  <div class="card-body">
+    <dl class="row">
+      <dt class="col-sm-3">ricevuta</dt><dd class="col-sm-9"><%= formatta_dataora @invitation.email_received_date_time %></dd>
+      <dt class="col-sm-3">mittente</dt><dd class="col-sm-9"><%= @invitation.email_from_name %> (<%= @invitation.email_from_address %>)</dd>
+      <dt class="col-sm-3">oggetto</dt><dd class="col-sm-9"><strong id="email-subject"><%= @invitation.email_subject %></strong></dd>
+      <dt class="col-sm-3">allegati</dt>
+      <dd class="col-sm-9">
+        <% if @invitation.files.any? %>
+          <ul class="attachments">
+            <% @invitation.files.each do |f| %>
+              <li>
+                <%= link_to url_for(f),  target: "_blank" do %>
+                  <i class="fas fa-file-pdf fa-fw"></i>
+                  <%= f.filename %>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <span class="no-attachments">Nessuno</span>
+        <% end %>
+      </dd>
+      <dt class="col-sm-3">corpo</dt>
+      <dd class="col-sm-9">
+        <iframe src="<%= email_decoded_invitation_path(@invitation) %>" width="100%" height="600px"></iframe>
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<div class="card panel-email mb-3">
+  <div class="card-header">
+    Informazioni sull'evento
+  </div>
+  <div class="card-body">
+    <dl class="row">
+      <dt class="col-sm-3">titolo</dt><dd class="col-sm-9"><%= @invitation.title %></dd>
+      <dt class="col-sm-3">luogo</dt><dd class="col-sm-9"><%= @invitation.location %></dd>
+      <dt class="col-sm-3">organizzazione</dt><dd class="col-sm-9"><%= @invitation.organizer %></dd>
+      <dt class="col-sm-3">data e ora</dt><dd class="col-sm-9"><%= invitation_timestamp(@invitation) %></dd>
+      <dt class="col-sm-3">note</dt><dd class="col-sm-9"><%= @invitation.notes %></dd>
+    </dl>
+  </div>
+</div>
+
+<% unless @invitation.delegation_notes.blank? %>
+  <div class="card panel-email mb-3">
+    <div class="card-header">
+      Osservazioni relative all'incarico
+    </div>
+    <div class="card-body">
+      <%= @invitation.delegation_notes %>
+    </div>
+  </div>
+<% end %>
+
+<% unless @user_reply.appointment_action.comment.blank? %>
+  <div class="card panel-email mb-3">
+    <div class="card-header">
+      Note destinate al candidato
+    </div>
+    <div class="card-body">
+      <%= @user_reply.appointment_action.comment %>
+    </div>
+  </div>
+<% end %>
+
+<div class="row mt-2 mb-2">
+  <div class="col-sm">
+    <%= link_to "Scheda dell'invito", invitation_url(@invitation), target: '_blank' %>
+  </div>
+</div>
+
+
+<div class="row mt-5 mb-5">
+  <div class="col-sm" style="font-size: 4em;">
+    <h4><%= appointment_reply_question(@user_reply.appointment_action.kind) %></h4>
+    <%= form_with(model: @user_reply, html: { autocomplete: :off }) do |form| %>
+      <%= hidden_field_tag :token, params[:token] %>
+      <div class="form-group">
+        <%= form.select :status, appointment_reply_selection(@user_reply.appointment_action.kind), { include_blank: "Seleziona..." }, class: "form-control"  %>
+      </div>
+      <div class="form-group">
+        <%= form.text_area :comment, rows: 4, class: "form-control", placeholder: "Commenti e osservazioni" %>
+      </div>
+      <%= form.submit "Invia", class: "btn btn-success btn-lg", id: 'submit-btn' %>
+    <% end %>
+  </div>
+</div>

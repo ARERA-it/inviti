@@ -1,0 +1,64 @@
+<div class="card mb-3 shadow" id="appointee_panel">
+  <div class="card-header">
+    Incarico
+  </div>
+  <div class="card-body">
+    <%= appointee_disabled_fields_message @invitation %>
+    <div class="row mb-3" id="participation-buttons" data-update-url="<%= update_participation_invitation_path(@invitation) %>" data-has-app-url="<%= has_appointees_invitation_path(@invitation) %>">
+      <div class="col-6">
+        <button type="button" class="btn btn-outline-success btn-block participation-btn" id="participate-yes" <%= policy(Appointee).change? ? '' : 'disabled' %>>ARERA partecipa</button>
+      </div>
+      <div class="col-6">
+        <button type="button" class="btn btn-outline-danger btn-block participation-btn" id="participate-no" <%= policy(Appointee).change? ? '' : 'disabled' %>>ARERA non partecipa</button>
+      </div>
+      <%= hidden_field_tag :invitation_decision, @invitation.decision %>
+    </div>
+
+
+
+    <div class="who-participates">
+      <div class="row appointees-wrapper">
+        <div class="col mb-3">
+          <span class="float-left title">
+            Partecipanti
+          </span>
+          <% if policy(Appointee).change? %>
+            <span class="float-right">
+              <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#add-appointee-modal">
+                <i class="fas fa-plus"></i> Aggiungi
+              </button>
+            </span>
+          <% end %>
+        </div>
+      </div>
+
+      <div id="added-appointees">
+        <%= render 'appointees/appointee_list', appointees: @invitation.appointees.includes(:user) %>
+      </div>
+    </div>
+
+    <%= form_with(model: @invitation, url: update_delegation_notes_invitation_path, class: 'appointee-choice', html: { autocomplete: :off }) do |form| %>
+
+      <div class="form-group">
+        <%= form.label :delegation_notes, "Osservazioni e note" %>
+        <%= form.text_area :delegation_notes, rows: 4, class: "form-control", readonly: read_only %>
+      </div>
+
+      <% if false # TODO: remove this %>
+        <div id="assignment-steps">
+          <%= render 'appointees/assignment_steps' %>
+        </div>
+      <% end %>
+
+      <%= hidden_field_tag :submit_feedback, 'text-after-submit-appointee-panel' %>
+      <%= form.submit "Salva", class: "btn btn-primary pull-right", disabled: read_only %>
+      <span class="ajax-submit-feedback" id="text-after-submit-appointee-panel"></span>
+
+    <% end %>
+  </div>
+</div>
+
+
+<%= render 'appointees/add_appointee_modal' %>
+<%= render 'appointees/edit_appointee_modal' %>
+<%= render 'appointees/confirm_non_participation_modal' %>

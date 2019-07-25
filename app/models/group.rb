@@ -2,11 +2,13 @@
 #
 # Table name: groups
 #
-#  id         :bigint(8)        not null, primary key
-#  name       :string(40)
-#  in_use     :boolean          default(TRUE)
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :bigint(8)        not null, primary key
+#  name        :string(40)
+#  in_use      :boolean          default(TRUE)
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  ask_opinion :boolean          default(FALSE)
+#  appointable :boolean
 #
 
 class Group < ApplicationRecord
@@ -14,6 +16,7 @@ class Group < ApplicationRecord
   accepts_nested_attributes_for :users, allow_destroy: true
   validates :name, presence: true
   validates :name, uniqueness: true
+  audited
 
   after_validation :user_with_same_name
 

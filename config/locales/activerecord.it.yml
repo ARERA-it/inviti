@@ -6,15 +6,26 @@ it:
       contribution: Contributo
       group: Gruppo
       user: Utente
+      appointee: Incaricato
+      opinion: Opinione
     attributes:
       invitation:
         title: Titolo
         location: Luogo
         from_date_and_time: Data e ora inizio
-        to_date_and_time_view: Data e ora fine
+        to_date_and_time: Data e ora fine
         organizer: Organizzazione
         notes: Note
         state: Stato
+        email_from_name: Mittente e-mail (nome)
+        email_from_address: Mittente e-mail (indirizzo)
+        email_subject: Oggetto e-mail
+        appointee_status: Stato incarico
+        email_body: Corpo della e-mail
+        email_body_preview: Anteprima e-mail
+        email_decoded: Contenuto della e-mail
+        email_received_date_time: Data e ora ricezione e-mail
+        decision: Presa in carico invito
       comment:
         user_id: Utente
         invitation_id: Invito
@@ -30,3 +41,8 @@ it:
       group:
         name: Nome
         in_use: In uso
+      appointee:
+        user_id: Utente
+        status: Stato
+      opinion:
+        selection: Scelta

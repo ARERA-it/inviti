@@ -3,7 +3,7 @@
 # Table name: request_opinions
 #
 #  id            :bigint(8)        not null, primary key
-#  destination   :string
+#  destination   :string           default("")
 #  invitation_id :bigint(8)
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null

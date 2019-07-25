@@ -15,3 +15,14 @@ it:
 
   date_from_tm_to_tm: "%{date} da %{from_tm} a %{to_tm}"
   from_dt_to_dt: "da %{from_dt} a %{to_dt}"
+
+  appointee_ui_choices:
+    send_proposal: Invia una <strong>proposta</strong> di incarico
+    charge_w_email: Incarica e chiedi conferma
+    charge_w_consent: Incarico diretto
+    cancel: Annulla proposta o incarico
+  appointee_ui_choices_help:
+    send_proposal: Il destinatario riceverà una e-mail nella quale gli viene proposta la partecipazione
+    charge_w_email: Il destinatario riceverà una e-mail nella quale potrà accettare o rifiutare l'incarico
+    charge_w_consent: Il destinatario ha già accettato l'incarico, riceverà una e-mail di notifica
+    cancel: Il destinatario riceverà una e-mail per informarlo dell'annullamento

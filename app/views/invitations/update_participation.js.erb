@@ -1,0 +1,7 @@
+var $sel = $('#text-after-submit-appointee-panel');
+// show message
+$sel.text("<%= raw @feedback_hash[:msg] %>");
+// hide message
+setTimeout(function() {
+  $sel.text("");
+}, 1000);

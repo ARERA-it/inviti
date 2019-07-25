@@ -11,6 +11,8 @@
 #
 
 class Opinion < ApplicationRecord
+  audited associated_with: :invitation
+
   CHOICES = [ :undefined, :do_not_participate, :president_must_participate, :someone_else_must_participate ]
 
   belongs_to :user
@@ -19,9 +21,14 @@ class Opinion < ApplicationRecord
 
   scope :expressed, -> { where("selection>0") }
 
-  # after_save do |o|
-  #   o.invitation.update_column(:opinion_expressed, o.expressed?)
-  # end
+  before_save :append_audit_comment
+  def append_audit_comment
+    if new_record? # because before_update doesn't work
+      # do nothing
+    else
+      self.audit_comment = "#{user.name} ha espresso un'opinione riguardo alla partecipazione"
+    end
+  end
 
   def Opinion.choices
     CHOICES.map{ |c| [c]}

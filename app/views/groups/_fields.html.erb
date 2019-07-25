@@ -1,8 +1,22 @@
 <div class="row">
-  <div class="col-md-12">
+  <% if false %>
+    <div class="col-md-4">
+      <div class="form-group form-check">
+        <%= form.check_box :in_use, disabled: ro, class: "form-check-input" %>
+        <%= form.label :in_use, "In uso", class: "form-check-label" %>
+      </div>
+    </div>
+  <% end %>
+  <div class="col-md-6">
     <div class="form-group form-check">
-      <%= form.check_box :in_use, disabled: ro, class: "form-check-input" %>
-      <%= form.label :name, "In uso", class: "form-check-label" %>
+      <%= form.check_box :ask_opinion, disabled: ro, class: "form-check-input" %>
+      <%= form.label :ask_opinion, "Gruppo a cui chiedere un parere", class: "form-check-label" %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group form-check">
+      <%= form.check_box :appointable, disabled: ro, class: "form-check-input" %>
+      <%= form.label :appointable, "Incaricabili in gruppo", class: "form-check-label" %>
     </div>
   </div>
 </div>

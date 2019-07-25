@@ -1,0 +1,13 @@
+var $sel = $('#<%= params[:submit_feedback] %>');
+// show message
+$sel.text("<%= raw @feedback_hash[:msg] %>");
+
+setTimeout(function() {
+  $('#assignment-steps').html("<%= j render('appointees/assignment_steps') %>");
+}, 400);
+
+
+// hide message
+setTimeout(function() {
+  $sel.text("");
+}, 1000);

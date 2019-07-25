@@ -14,7 +14,8 @@
         <thead>
           <tr>
             <th>Nome</th>
-            <th>In uso</th>
+            <th>Parere</th>
+            <th>Incaricab.</th>
             <th>Utenti</th>
             <th>&nbsp;</th>
           </tr>
@@ -24,7 +25,8 @@
           <% @groups.each do |group| %>
             <tr>
               <td><%= group.name %></td>
-              <td><%= yes_icon group.in_use %></td>
+              <td><%= yes_icon group.ask_opinion %></td>
+              <td><%= yes_icon group.appointable %></td>
               <td><%= group.users.map(&:display_name).join(', ').truncate(80) %></td>
               <td>
                 <div class="float-right">

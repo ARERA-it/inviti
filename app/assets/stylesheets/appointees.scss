@@ -1,0 +1,23 @@
+// Place all the styles related to the appointees controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.appointees-wrapper .title {
+  font-weight: 400;
+  font-size: 1.4em;
+}
+
+.appointee-colored-icon {
+  &.red {
+    color: red;
+  }
+  &.green {
+    color: green;
+  }
+  &.grey {
+    color: grey;
+  }
+  &.light-grey {
+    color: #bbb;
+  }
+}

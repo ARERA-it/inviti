@@ -92,3 +92,4 @@ gem 'exception_notification' # https://github.com/smartinez87/exception_notifica
 gem 'icalendar' # https://github.com/icalendar/icalendar
 
 gem "audited", "~> 4.7" # https://github.com/collectiveidea/audited
+gem "redcarpet" # https://github.com/vmg/redcarpet

@@ -4,8 +4,10 @@
   </div>
   <div class="card-body">
     <div class="contributions">
-      <% @contributions.each do |c| %>
-        <% if c.id %>
+      <% if @contributions.empty? %>
+        <p>Al momento non ci sono contributi.</p>
+      <% else %>
+        <% @contributions.each do |c| %>
           <%= render 'contributions/contribution', c: c %>
         <% end %>
       <% end %>

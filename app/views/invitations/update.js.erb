@@ -1,7 +1,7 @@
 var $sel = $('#<%= params[:submit_feedback] %>');
 $sel.text("Dati salvati");
 
-$('#appointee_panel').replaceWith("<%= j render('appointee_panel', read_only: !policy(@invitation).update_appointee? || @invitation.no_info?) %>");
+$('#appointee_panel').replaceWith("<%= j render('appointees/panel', read_only: !policy(@invitation).want_participate? || @invitation.no_info?) %>");
 $('#download_cal').html("<%= j render 'download_calendar', inv: @invitation %>");
 
 function manageParticipation() {

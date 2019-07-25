@@ -3,12 +3,12 @@
 # Table name: invitations
 #
 #  id                       :bigint(8)        not null, primary key
-#  title                    :string
-#  location                 :string
+#  title                    :string           default("")
+#  location                 :string           default("")
 #  from_date_and_time       :datetime
 #  to_date_and_time         :datetime
-#  organizer                :string
-#  notes                    :text
+#  organizer                :string           default("")
+#  notes                    :text             default("")
 #  email_id                 :string
 #  email_from_name          :string
 #  email_from_address       :string
@@ -19,16 +19,15 @@
 #  has_attachments          :boolean
 #  attachments              :string
 #  appointee_id             :integer
-#  alt_appointee_name       :string
-#  delegation_notes         :text
+#  delegation_notes         :text             default("")
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  decision                 :integer          default("waiting")
 #  state                    :integer          default("no_info")
-#  appointee_message        :string
+#  appointee_message        :string           default("")
 #  email_decoded            :text
-#  email_text_part          :text
-#  email_html_part          :text
+#  appointee_status         :integer          default("nobody")
+#  appointee_steps_count    :integer          default(0)
 #
 
 require 'rails_helper'

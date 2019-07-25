@@ -3,12 +3,12 @@
 # Table name: invitations
 #
 #  id                       :bigint(8)        not null, primary key
-#  title                    :string
-#  location                 :string
+#  title                    :string           default("")
+#  location                 :string           default("")
 #  from_date_and_time       :datetime
 #  to_date_and_time         :datetime
-#  organizer                :string
-#  notes                    :text
+#  organizer                :string           default("")
+#  notes                    :text             default("")
 #  email_id                 :string
 #  email_from_name          :string
 #  email_from_address       :string
@@ -19,44 +19,58 @@
 #  has_attachments          :boolean
 #  attachments              :string
 #  appointee_id             :integer
-#  alt_appointee_name       :string
-#  delegation_notes         :text
+#  delegation_notes         :text             default("")
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  decision                 :integer          default("waiting")
 #  state                    :integer          default("no_info")
-#  appointee_message        :string
+#  appointee_message        :string           default("")
 #  email_decoded            :text
-#  email_text_part          :text
-#  email_html_part          :text
+#  appointee_status         :integer          default("nobody")
+#  appointee_steps_count    :integer          default(0)
 #
 
 class Invitation < ApplicationRecord
-  attr_accessor :accept_model
+  attr_accessor :alt_appointee_name
+  attr_accessor :accept_model, :curr_user
   include FakeInvitations
   include EmailDecoder
-  audited
-  has_associated_audits
+  audited except: [:email_id, :email_body_preview, :email_body, :email_decoded]
+  has_associated_audits # :appointees, :contributions, :comments
 
   include AASM
 
   enum state: {
     no_info: 0,
     info: 1, # da assegnare
-    assigned: 2,
-    accepted: 3,
-    rejected: 4,
     declined: 5,
     past: 6
-
   }
+
+  enum appointee_status: [:nobody, :at_work, :ibrid, :one_or_more]
+
+  def update_appointee_status
+    c = appointees.accepted.count # appointed
+    w = appointees.waiting.count # waiting for a confirmation or proposed
+
+    step_count = appointees.map{|a| a.steps.count}.sum
+    update_column(:appointee_steps_count, step_count)
+
+    case
+    when c==0 && w==0
+      self.nobody!
+    when c>0 && w>0
+      self.ibrid!
+    when c==0 && w>0
+      self.at_work!
+    when c>0 && w==0
+      self.one_or_more!
+    end
+  end
 
   aasm column: :state, enum: true, whiny_transitions: false do
     state :no_info, initial: true
     state :info
-    state :assigned
-    state :accepted
-    state :rejected # l'incaricato rifiuta
     state :declined # nessuno partecipa
     state :past
 
@@ -64,36 +78,16 @@ class Invitation < ApplicationRecord
       transitions from: :no_info, to: :info
     end
 
-    # Assegna l'incarico a qualcuno
-    event :instructs, after: :actions_after_assign do
-      transitions from: :info, to: :assigned
-      transitions from: :assigned, to: :assigned # incarica qualcun altro, OOOOCHIOOO!
+    event :decline do
+      transitions from: [:no_info, :info], to: :declined
     end
 
-    event :accept, after: :actions_after_accept do
-      transitions from: :assigned, to: :accepted
-    end
-
-    event :reject, after: :actions_after_reject do
-      transitions from: :assigned, to: :rejected
-    end
-
-
-    # when call reset_assigned, appointee_id must already be nil
-    event :reset_assigned do
-      transitions from: :rejected, to: :info
-    end
-
-    event :cancel_assignment, after: :actions_after_cancel_assignment do
-      transitions from: [:assigned, :accepted, :rejected], to: :info
-    end
-
-    event :decline, after: :actions_after_decline do
-      transitions from: [:no_info, :info, :assigned, :accepted, :rejected], to: :declined
+    event :accept do
+      transitions from: :declined, to: :info
     end
 
     event :pass do
-      transitions from: [:info, :assigned, :accepted, :rejected], to: :past
+      transitions from: :info, to: :past
     end
   end
 
@@ -101,102 +95,44 @@ class Invitation < ApplicationRecord
     if i.no_info? and i.has_basic_info?
       i.info_added!
     end
-    if i.info? and i.appointee_id
-      i.instructs!
+    i.pass! if i.is_expired?
+  end
+
+  # prop_waiting, :prop_accepted, :prop_refused, :app_waiting, :app_accepted, :app_refused, :direct_app, :direct_app_accepted, :direct_app_refused, :canceled
+  def actions_after_decline(comment: "", user: )
+    appointees.where(status: [:prop_waiting, :prop_accepted, :app_waiting, :app_accepted, :direct_app, :direct_app_accepted]).each do |appointee|
+      appointee.actions.create(kind: :canceled, comment: comment, user: user)
     end
-    if i.decision_changed_to_not_participate?
-      i.decline!
-    end
-    if i.decision_changed_to_wait?
-      i.cancel_assignment!
-    end
-    i.pass! if i.is_expired
   end
 
-  def actions_after_decline
-    # TODO: maybe email to someone
-    update_attribute(:appointee_id, nil)
-    assignment_steps.create(step: :declined)
-  end
-
-  def decision_changed_to_not_participate?
-    dec_change = saved_change_to_attribute(:decision) # nil or ["waiting", "do_not_participate"]
-    dec_change && dec_change[1]=="do_not_participate"
-  end
-
-  def decision_changed_to_wait?
-    dec_change = saved_change_to_attribute(:decision) # nil or ["waiting", "do_not_participate"]
-    dec_change && dec_change[1]=="waiting"
-  end
-
+  # TODO: remove (is used with Accept model)
   def call_reject(accpt)
     @accept_model = accpt
     reject!
   end
 
+  # TODO: remove (is used with Accept model)
   def call_accept(accpt)
     @accept_model = accpt
     accept!
   end
 
-  # No state change
-  def accept_proposal(accpt)
-    assignment_steps.create(assigned_user_id: accpt.user_id, accept: accpt, step: :accepted_proposal)
-  end
 
-  # No state change
-  def reject_proposal(accpt)
-    assignment_steps.create(assigned_user_id: accpt.user_id, accept: accpt, step: :rejected_proposal)
-  end
-
-  def actions_after_assign
-    # logger.debug("---> actions_after_assign")
-    if appointee_id
-      @send_email='0' if appointee.president?
-      if @send_email=='1'
-        acc = accepts.create(user: appointee)
-      else
-        assignment_steps.create(assigned_user: appointee, step: :assigned_yet_accepted)
-        accept!
+  def update_participation(decision, comment="", current_user)
+    if is_expired?
+      pass! if !past?
+    else
+      if decision=="participate"
+        accept!  # -> enum: :state
+        participate! # -> enum: :decision
+      elsif decision=="do_not_participate"
+        decline! # -> enum: :state
+        do_not_participate! # -> enum: :decision
+        actions_after_decline(comment: comment, user: current_user)
       end
+
     end
   end
-
-  def proposal_to_all_board_members
-    User.commissary.each do |u|
-      acc = accepts.create(user: u, proposal: true)
-      break if Rails.env=="development" #
-    end
-    assignment_steps.create(step: :proposal_to_all_board_members)
-  end
-
-  def actions_after_cancel_assignment
-    assignment_steps.create(assigned_user: appointee, step: :assigned)
-  end
-
-  def actions_after_accept
-    assignment_steps.create(assigned_user_id: appointee.id, accept: accept_model, step: :accepted)
-  end
-
-  def actions_after_reject
-    # TODO: send an email to president
-    assignment_steps.create(assigned_user_id: appointee.id, accept: @accept_model, step: :rejected)
-    update_columns(appointee_id: nil)
-    reset_assigned!
-  end
-
-  def resetting_assigned
-    # update_columns(appointee_id: nil, alt_appointee_name: nil)
-    # update_columns(appointee_id: nil)
-    # byebug
-  end
-
-
-
-  def user_display_name
-    appointee.try(:display_name)
-  end
-
 
 
 
@@ -206,27 +142,51 @@ class Invitation < ApplicationRecord
   has_many_attached :files
   has_many :opinions, dependent: :destroy
   has_many :comments, dependent: :destroy
-  has_and_belongs_to_many :users
+  has_and_belongs_to_many :users # # TODO: obsolete
+  # has_many :invitation_seens, class_name: "UserInvitation", foreign_key: "invitation_id"
+
   has_many :contributions, dependent: :destroy
   has_many :accepts, dependent: :destroy
   has_many :assignment_steps, -> { order "timestamp ASC" }, dependent: :destroy
   has_many :request_opinions, dependent: :destroy
+  has_many :appointees, dependent: :destroy
+  # accepts_nested_attributes_for :appointees, allow_destroy: true
 
+  # TODO: remove the following
   belongs_to :appointee, class_name: "User", foreign_key: "appointee_id", required: false
 
   after_initialize :set_date_views
-  before_save :set_dates, :unset_appointee
+  before_save :set_dates, :unset_appointee, :append_audit_comment
   before_create :decode_mail_body
+  def append_audit_comment
+    if new_record? # because before_update doesn't work
+      # do nothing
+    else
+      list = changes.keys.map{|attr| I18n.t(attr, scope: [:activerecord, :attributes, :invitation])}
+      user_name = curr_user.nil? ? "Qualcuno" : curr_user.name
+        if list.size==1
+        self.audit_comment = "#{user_name} ha apportato una modifica all'attributo #{list.to_sentence}"
+      elsif list.size>1
+        self.audit_comment = "#{user_name} ha apportato modifiche ai seguenti attributi: #{list.to_sentence}"
+      end
+    end
+  end
 
 
-  scope :expired, -> { past }
-  # TODO: sostituisci tutte le occorrenze di expired con past
-  scope :to_be_assigned, -> { where("state=1 or state=4") }
-  scope :are_assigned, -> { where("state=2 OR state=3")}
-  scope :archived, -> { where("state>4") } # declined or past
-  scope :not_expired, -> { where.not(state: 6) }
-  scope :alive, -> { where("state>0 AND state<5")}
+  scope :expired,        -> { where(state: :past) }
+  scope :not_expired,    -> { where.not(state: :past) }
+  # scope :to_be_assigned, -> { where(state: [:info, :rejected]) }
 
+  #
+  # scope :to_be_assigned, -> { where(appointee_status: [:info, :rejected]) }
+  # scope :are_assigned,   -> { where(state: [:assigned, :accepted])}
+  # scope :alive,          -> { where(state: [:info, :assigned, :accepted, :rejected])}
+
+  # scope :no_info -> is a state
+  scope :to_be_assigned, -> { where(state: :info, appointee_status: :nobody) }
+  scope :waitin,         -> { where(state: :info, appointee_status: [:ibrid, :at_work]) } # almeno uno in attesa
+  scope :are_assigned,   -> { where(state: :info, appointee_status: [:one_or_more]) }
+  scope :archived,       -> { where(state: [:declined, :past]) }
 
 
   # Check if there are invitation records that are not catch by UI selectors
@@ -247,6 +207,38 @@ class Invitation < ApplicationRecord
     do_not_participate?
   end
 
+  def appointee
+    appointees.first
+  end
+
+  def users_who_was_asked_for_an_opinion
+    request_opinions.map{|ro| ro.groups_users}.flatten.uniq
+  end
+
+  def appointed_users
+    appointees.map(&:user)
+  end
+
+  # Let you know if the record (for current_user) in new or has been changed after last :show action
+  def new_or_changed?(curr_user, hash: nil)
+    if hash # {invitation_id => seen_at} hash # passed for batch processing, in order to bypass UserInvitation.find_by() query
+      last_seen = hash[id]
+      return :new if last_seen.nil?
+    else
+      ui = UserInvitation.find_by(user: curr_user, invitation: self)
+      return :new if ui.nil?
+      last_seen = ui.seen_at
+    end
+    # PostPolicy.new(current_user, @post).update?
+
+    # if own_and_associated_audits.where("created_at>? AND user_id!=?", last_seen, curr_user).any?{|a| policy(a.auditable_type.underscore.to_sym).show? }
+    if own_and_associated_audits.where("created_at>? AND user_id!=?", last_seen, curr_user).select{|a| a.comment }.any? # .any?{|a| "#{a.auditable_type}Policy".constantize.send(:new, curr_user, a.auditable_type.constantize.send(:find, a.auditable_id)).show? }
+      :changed
+    else
+      :no_changes
+    end
+  end
+
   # valutarne la necessità... ----------------------------------
 
   # sotto sono OK ------------------------------------------------
@@ -262,7 +254,7 @@ class Invitation < ApplicationRecord
     !title.blank? && !location.blank? && !from_date_and_time.nil?
   end
 
-  def is_expired
+  def is_expired?
     event_date = to_date_and_time.try(:to_date) || from_date_and_time.try(:to_date)
     exp = event_date && event_date<Date.today
     exp = false if exp.nil?
@@ -278,14 +270,10 @@ class Invitation < ApplicationRecord
   # Save all Invitation the are 'alive' (are 'alive' all inv. whose state is not 'no_info', 'declined' or 'past')
   # will return the number of invitations whose state has passed to 'past'
   def Invitation.save_alive
-    Invitation.alive.each(&:save)
-    count = 0
-    Invitation.alive.each do |i|
-      if i.saved_change_to_state && i.saved_change_to_state.last=="past" # nil or ["no_info", "info"]
-        count += 1
-      end
-    end
-    count
+    c1 = Invitation.where(state: :past).count
+    Invitation.where.not(state: :past).each(&:save)
+    c2 = Invitation.where(state: :past).count
+    c2-c1
   end
 
   def location!

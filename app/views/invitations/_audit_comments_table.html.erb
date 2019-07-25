@@ -1,0 +1,24 @@
+<% audits = @invitation.own_and_associated_audits.includes(:user).select{|a| a.comment } %>
+
+<p>Righe trovate: <%= audits.size %></p>
+
+<table class="table table-sm table-striped" style="font-size: 0.85em;">
+  <thead class="thead-light">
+    <tr>
+      <th>Modifica</th>
+      <th>
+        <span class="float-right">Data e ora</span>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% audits.each do |a| %>
+      <tr class="<%= a.created_at>seen_at ? 'font-weight-bold' : '' %>">
+        <td><%= a.comment %></td>
+        <td>
+          <span class="float-right"><%= l(a.created_at, format: :short) %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

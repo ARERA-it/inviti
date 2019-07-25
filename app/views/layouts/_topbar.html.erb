@@ -40,7 +40,7 @@
         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
           <a class="dropdown-item" href="#">Cambia utente corrente (funzionalità demo):</a>
           <div class="dropdown-divider"></div>
-          <% User.order('display_name ASC').each do |user| %>
+          <% User.where(id: [10,30,11,4,6,67]).order('display_name ASC').each do |user| %>
             <%= link_to user.display_name, url_for(switch_to_user: user.id), class: 'dropdown-item' %>
           <% end %>
         </div>
@@ -55,7 +55,7 @@
     <li class="nav-item dropdown no-arrow">
       <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="mr-2 d-none d-lg-inline text-gray-600 small current-user"><%= current_user.display_name %></span>
-        <%= show_avatar(current_user, size: 40) %>
+        <%= avatars current_user %>
       </a>
       <!-- Dropdown - User Information -->
       <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -69,6 +69,11 @@
           <%= link_to users_path, class: "dropdown-item" do %>
             <i class="fas fa-users fa-sm fa-fw mr-2 text-gray-400"></i>
             Gestione utenti
+          <% end %>
+
+          <%= link_to groups_path, class: "dropdown-item" do %>
+            <i class="fas fa-users fa-sm fa-fw mr-2 text-gray-400"></i>
+            Gestione gruppi
           <% end %>
 
           <%= link_to user_interactions_path, class: "dropdown-item" do %>

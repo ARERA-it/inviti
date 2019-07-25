@@ -1,0 +1,13 @@
+<!-- obsoleto -->
+<div class="form-group">
+  <%= f.label :alt_appointee_name, "Nominativo" %>
+  <span class="float-right">
+    <%= f.check_box :_destroy %>
+    <%= f.label :delete %>
+  </span>
+  <%= f.autocomplete_field :user_display_name, autocomplete_user_display_name_invitations_path, class: "form-control" %>
+</div>
+
+<div class="form-group">
+  <%= f.collection_select :user_selection, appointee_ui_choices, :first, :last, { }, class: "form-control" %>
+</div>

@@ -1,57 +1,76 @@
-<div class="card mb-3 shadow">
+<div class="card mb-3 shadow opinion-panel">
   <div class="card-header">
     Parere
   </div>
   <div class="card-body">
 
-    <%= render "request_opinions/req_op" %>
-
-    <% if policy(Opinion).update? %>
-      <%= form_with(model: @opinion, class: 'form-inline opinion-choice') do |form| %>
-        <%= form.hidden_field :invitation_id %>
-        <div class="form-group">
-          <%= form.collection_select :selection, Opinion.choices, :first, ->(e){ t("opinion.#{e.first}") }, {prompt: true}, class: "form-control", disabled: !policy(@opinion).update?  %>
-        </div>
-        <%= form.submit "Salva", class: "btn btn-primary ml-3", disabled: !policy(@opinion).update? %>
-        <span class="ajax-submit-feedback" id="text-after-submit-opinion-panel"></span>
-      <% end %>
+    <% if policy(RequestOpinion).create? %>
+      <%= render "request_opinions/req_op" %>
     <% end %>
 
-    <% if @other_opinions.any? %>
-      <div class="other-opinions">
-        <p class="title">Pareri espressi</p>
-        <ul>
-          <% @other_opinions.each do |op| %>
-          <li>
-            <strong><%= op.user.display_name %></strong>
-            (<%= t op.user.advisor_group, scope: :advisor_group %>):
-            <em><%= t op.selection, scope: :opinion %></em>
-          </li>
+    <% if policy(@invitation).express_opinion? %>
+      <div class="row border-bottom mb-3 pb-3">
+        <div class="col-md-12">
+          <p class="title">Il tuo parere</p>
+          <%= form_with(model: @opinion , class: 'form-inline') do |form| %>
+            <%= form.hidden_field :invitation_id %>
+            <div class="form-group">
+              <%= form.collection_select :selection, Opinion.choices, :first, ->(e){ t("opinion.#{e.first}") }, {prompt: true}, class: "form-control"  %>
+            </div>
+            <%= form.submit "Salva", class: "btn btn-primary ml-3" %>
+            <span class="ajax-submit-feedback" id="text-after-submit-opinion-panel"></span>
           <% end %>
-        </ul>
+        </div>
       </div>
     <% end %>
 
-    <div class="panel-chat">
-      <ul class="chat">
-        <% @comments.each do |comment| %>
-          <%= render 'chat_comment', comment: comment %>
-        <% end %>
-      </ul>
 
-      <%= form_with(model: @comment) do |form| %>
-        <%= form.hidden_field :invitation_id %>
-        <div class="form-group">
-          <%= form.label :content, "Aggiungi un commento:" %>
-          <%= form.text_area :content, class: "form-control"  %>
+    <% if policy(Opinion).show? && @other_opinions.any? %>
+      <div class="row border-bottom mb-3 pb-3">
+        <div class="col-md-12">
+          <p class="title">Pareri di altri</p>
+          <ul class="other-opinions">
+            <% @other_opinions.each do |op| %>
+            <li>
+              <strong><%= op.user.display_name %></strong>
+              (<%= @invitation.request_opinions.map(&:groups).flatten.uniq.keep_if{|gr| gr.users.include?(op.user)}.map(&:name).join(',') %>):
+              <em><%= t op.selection, scope: :opinion %></em>
+            </li>
+            <% end %>
+          </ul>
         </div>
+      </div>
+    <% end %>
 
-        <div class="actions">
-          <%= form.submit "Invia", class: "btn btn-primary" %>
-          <span class="ajax-submit-feedback" id="text-after-submit-comment-panel"></span>
+    <% if policy(Comment).show? %>
+      <div class="row">
+        <div class="col-md-12">
+          <p class="title">Commenti</p>
+          <div class="panel-chat">
+            <ul class="chat">
+              <% @comments.each do |comment| %>
+                <%= render 'chat_comment', comment: comment %>
+              <% end %>
+            </ul>
+
+            <% if policy(Comment).create? %>
+              <%= form_with(model: @comment) do |form| %>
+                <%= form.hidden_field :invitation_id %>
+                <div class="form-group">
+                  <%= form.label :content, "Aggiungi un commento:" %>
+                  <%= form.text_area :content, class: "form-control"  %>
+                </div>
+
+                <div class="actions">
+                  <%= form.submit "Invia", class: "btn btn-primary" %>
+                  <span class="ajax-submit-feedback" id="text-after-submit-comment-panel"></span>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
         </div>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
 
   </div>
 </div>

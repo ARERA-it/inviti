@@ -7,7 +7,7 @@
 #  invitation_id :bigint(8)
 #  user_id       :bigint(8)
 #  decision      :integer          default("not_yet")
-#  comment       :text
+#  comment       :text             default("")
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  proposal      :boolean          default(FALSE)

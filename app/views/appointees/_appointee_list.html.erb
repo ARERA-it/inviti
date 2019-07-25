@@ -1,0 +1,26 @@
+<ul class="lp-30">
+  <% appointees.each do |a| %>
+    <li>
+      <%= appointee_colored_icon a %>
+      <span class="text-uppercase font-weight-bold text-dark"><%= a.display_name %></span>
+      <span class="text-uppercase" style="font-size: 0.85em;"><%= redcarpet_render(a.description || a.steps.last.description) %></span>
+    </li>
+
+    <ul class="timeline">
+      <% a.steps.each do |step| %>
+        <li>
+          <span class="title"><%= redcarpet_render step.description %></span>
+          <span class="float-right"><%= livestamp(step.timestamp) %></span>
+          <% if c = step.comment || step.action.comment %>
+            <p class="comment"><%= c %></p>
+          <% end %>
+        </li>
+      <% end %>
+      <% if policy(Appointee).change? %>
+        <li>
+          <a href="javascript:void(0);" class="open-edit-appointee-modal-btn" data-name="<%= a.user.name %>" data-user-id="<%= a.user.id %>" data-url="<%= edit_form_appointee_path(a) %>">altro...</a>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</ul>

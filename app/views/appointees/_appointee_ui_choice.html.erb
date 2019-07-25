@@ -1,0 +1,7 @@
+<% appointee_ui_choices(curr_status).each do |val, lab, help| %>
+  <div class="form-check mb-2">
+    <%= f.radio_button :ui_choice, val, class: "form-check-input" %>
+    <%= f.label "ui_choice_#{val}", lab, class: "form-check-label" %>
+    <small class="form-text text-muted"><%= help %></small>
+  </div>
+<% end %>

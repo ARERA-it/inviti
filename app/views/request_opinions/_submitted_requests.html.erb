@@ -1,9 +1,9 @@
 <ul class="submitted_requests">
   <% request_opinions.each do |req_op| %>
-    <% if !req_op.destination.blank? %>
+    <% if req_op.groups.any? %>
       <li>
-        <%= req_opinion_message(req_op) %>
-        <%= livestamp(req_op.created_at) %>
+        <span class="float-left"><%= redcarpet_render req_opinion_message(req_op) %></span>
+        <span class="float-right"><%= livestamp(req_op.created_at) %></span>
       </li>
     <% end %>
   <% end %>

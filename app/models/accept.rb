@@ -7,7 +7,7 @@
 #  invitation_id :bigint(8)
 #  user_id       :bigint(8)
 #  decision      :integer          default("not_yet")
-#  comment       :text
+#  comment       :text             default("")
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  proposal      :boolean          default(FALSE)
@@ -40,9 +40,15 @@ class Accept < ApplicationRecord
   end
 
   def add_token
-    while Accept.find_by(token: (token = SecureRandom.hex))
-      token = SecureRandom.hex
+    self.token = generate_unique_token
+  end
+
+  def generate_unique_token
+    token = SecureRandom.hex
+    if Accept.find_by(token: token)
+      generate_unique_token
+    else
+      token
     end
-    self.token = token
   end
 end

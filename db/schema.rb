@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_18_081224) do
+ActiveRecord::Schema.define(version: 2019_07_25_122630) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,41 @@ ActiveRecord::Schema.define(version: 2019_05_18_081224) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "appointees", force: :cascade do |t|
+    t.bigint "invitation_id"
+    t.bigint "user_id"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "description"
+    t.index ["invitation_id"], name: "index_appointees_on_invitation_id"
+    t.index ["user_id"], name: "index_appointees_on_user_id"
+  end
+
+  create_table "appointment_actions", force: :cascade do |t|
+    t.bigint "appointee_id"
+    t.bigint "group_id"
+    t.bigint "user_id"
+    t.integer "kind"
+    t.text "comment"
+    t.datetime "timestamp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["appointee_id"], name: "index_appointment_actions_on_appointee_id"
+    t.index ["group_id"], name: "index_appointment_actions_on_group_id"
+    t.index ["user_id"], name: "index_appointment_actions_on_user_id"
+  end
+
+  create_table "appointment_steps", force: :cascade do |t|
+    t.bigint "appointment_action_id"
+    t.integer "step", default: 0
+    t.datetime "timestamp"
+    t.bigint "user_reply_id"
+    t.text "comment"
+    t.index ["appointment_action_id"], name: "index_appointment_steps_on_appointment_action_id"
+    t.index ["user_reply_id"], name: "index_appointment_steps_on_user_reply_id"
   end
 
   create_table "assignment_steps", force: :cascade do |t|
@@ -116,6 +151,23 @@ ActiveRecord::Schema.define(version: 2019_05_18_081224) do
     t.index ["job_id"], name: "index_crono_jobs_on_job_id", unique: true
   end
 
+  create_table "groups", force: :cascade do |t|
+    t.string "name", limit: 40
+    t.boolean "in_use", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "ask_opinion", default: false
+    t.boolean "appointable"
+    t.index ["name"], name: "index_groups_on_name"
+  end
+
+  create_table "groups_users", id: false, force: :cascade do |t|
+    t.integer "group_id"
+    t.integer "user_id"
+    t.index ["group_id"], name: "index_groups_users_on_group_id"
+    t.index ["user_id"], name: "index_groups_users_on_user_id"
+  end
+
   create_table "invitations", force: :cascade do |t|
     t.string "title", default: ""
     t.string "location", default: ""
@@ -140,6 +192,8 @@ ActiveRecord::Schema.define(version: 2019_05_18_081224) do
     t.integer "state", default: 0
     t.string "appointee_message", default: ""
     t.text "email_decoded"
+    t.integer "appointee_status", default: 0
+    t.integer "appointee_steps_count", default: 0
     t.index ["appointee_id"], name: "index_invitations_on_appointee_id"
     t.index ["email_received_date_time"], name: "index_invitations_on_email_received_date_time"
     t.index ["from_date_and_time"], name: "index_invitations_on_from_date_and_time"
@@ -170,8 +224,15 @@ ActiveRecord::Schema.define(version: 2019_05_18_081224) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "request_opinion_groups", force: :cascade do |t|
+    t.bigint "request_opinion_id"
+    t.bigint "group_id"
+    t.index ["group_id"], name: "index_request_opinion_groups_on_group_id"
+    t.index ["request_opinion_id"], name: "index_request_opinion_groups_on_request_opinion_id"
+  end
+
   create_table "request_opinions", force: :cascade do |t|
-    t.string "destination"
+    t.string "destination", default: ""
     t.bigint "invitation_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -198,6 +259,25 @@ ActiveRecord::Schema.define(version: 2019_05_18_081224) do
     t.index ["user_id"], name: "index_user_interactions_on_user_id"
   end
 
+  create_table "user_invitations", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "invitation_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invitation_id"], name: "index_user_invitations_on_invitation_id"
+    t.index ["user_id"], name: "index_user_invitations_on_user_id"
+  end
+
+  create_table "user_replies", force: :cascade do |t|
+    t.bigint "appointment_action_id"
+    t.string "token"
+    t.integer "status", default: 0
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["appointment_action_id"], name: "index_user_replies_on_appointment_action_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "remember_created_at"
     t.integer "sign_in_count", default: 0, null: false
@@ -216,6 +296,8 @@ ActiveRecord::Schema.define(version: 2019_05_18_081224) do
     t.string "title", limit: 30
     t.boolean "appointeeable", default: false
     t.integer "advisor_group", default: 0
+    t.integer "gender", default: 0
+    t.index ["display_name"], name: "index_users_on_display_name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
@@ -223,11 +305,23 @@ ActiveRecord::Schema.define(version: 2019_05_18_081224) do
   add_foreign_key "accepts", "invitations"
   add_foreign_key "accepts", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "appointees", "invitations"
+  add_foreign_key "appointees", "users"
+  add_foreign_key "appointment_actions", "appointees"
+  add_foreign_key "appointment_actions", "groups"
+  add_foreign_key "appointment_actions", "users"
+  add_foreign_key "appointment_steps", "appointment_actions"
+  add_foreign_key "appointment_steps", "user_replies"
   add_foreign_key "assignment_steps", "invitations"
   add_foreign_key "comments", "invitations"
   add_foreign_key "comments", "users"
   add_foreign_key "opinions", "invitations"
   add_foreign_key "opinions", "users"
+  add_foreign_key "request_opinion_groups", "groups"
+  add_foreign_key "request_opinion_groups", "request_opinions"
   add_foreign_key "request_opinions", "invitations"
   add_foreign_key "user_interactions", "users"
+  add_foreign_key "user_invitations", "invitations"
+  add_foreign_key "user_invitations", "users"
+  add_foreign_key "user_replies", "appointment_actions"
 end

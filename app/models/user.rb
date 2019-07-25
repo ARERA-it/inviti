@@ -20,6 +20,7 @@
 #  title               :string(30)
 #  appointeeable       :boolean          default(FALSE)
 #  advisor_group       :integer          default("not_advisor")
+#  gender              :integer          default("male")
 #
 
 class User < ApplicationRecord
@@ -30,12 +31,17 @@ class User < ApplicationRecord
 
   enum role: [:president, :advisor, :commissary, :secretary, :viewer, :admin]
   enum advisor_group: [:not_advisor, :general_secretary, :external_relations, :board, :tester]
+  enum gender: [:male, :female]
 
+  validates :username, presence: true
   validates :email, uniqueness: true
   scope :appointeeable, -> { where(appointeeable: true) }
-  has_and_belongs_to_many :invitations
+  has_many :user_invitations, class_name: "UserInvitation", foreign_key: "user_id"
   has_many :contributions, dependent: :nullify
   has_many :interactions, class_name: "UserInteraction", foreign_key: "user_id"
+  has_many :appointees, dependent: :nullify
+  has_and_belongs_to_many :group
+
 
   before_save do |r|
     r.username      = r.username.downcase
@@ -44,6 +50,10 @@ class User < ApplicationRecord
     r.initials      = User.calc_initials(r.display_name) if r.initials.blank?
     r.advisor_group = :not_advisor unless r.advisor? || r.admin?
     r.advisor_group = :board if r.commissary?
+  end
+
+  def seen_invitations
+    Hash[user_invitations.map{|ui| [ui.invitation_id, ui.seen_at]}]
   end
 
   has_settings do |s|
@@ -62,6 +72,7 @@ class User < ApplicationRecord
 
   # Get the list of all active advisor_groups
   # example: ["general_secretary", "external_relations"]
+  # TODO: OBSOLETE, remove
   def User.active_advisor_groups
     User.where.not(advisor_group: "not_advisor").pluck(:advisor_group).uniq.sort
   end

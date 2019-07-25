@@ -1,10 +1,12 @@
-<% if @contribution.errors.any? %>
-  <% @contribution.errors.messages.each do |attr, msg| %> // {:invitation=>["deve esistere"], :user=>["deve esistere"], :title=>["non può essere lasciato in bianco"]}
-    $('#<%= @model %>_<%= attr %>').addClass('is-invalid');
-    if ($('#<%= @model %>_<%= attr %> + div.invalid-feedback').length>0) {
-      $('#<%= @model %>_<%= attr %> + div.invalid-feedback').text("<%= msg.join(', ') %>");
-    } else {
-      $('#<%= @model %>_<%= attr %>').after("<div class='invalid-feedback'><%= msg.join(', ') %></div>");
-    }
+// reset validation errors
+$('.is-invalid').removeClass('is-invalid');
+$('.invalid-feedback').remove();
+
+<% if object.errors.any? %>
+  console.log("<%= object.errors.count %>");
+  <% object.errors.messages.each do |attr, msg| %> // {:invitation=>["deve esistere"], :user=>["deve esistere"], :title=>["non può essere lasciato in bianco"]}
+    $('#<%= model %>_<%= attr %>').addClass('is-invalid');
+    console.log('<%= "#{model}_#{attr}" %>');
+    $('#<%= model %>_<%= attr %>').after("<div class='invalid-feedback'><%= msg.join(', ') %></div>");
   <% end %>
 <% end %>

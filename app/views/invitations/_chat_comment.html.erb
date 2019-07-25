@@ -1,9 +1,9 @@
-<li>
+<li class="chat-comment">
   <div class="row">
     <% if current_user==comment.user %>
 
       <div class="col-md-auto">
-        <%= show_avatar(comment.user, size: 50) %>
+        <%= avatars comment.user %>
       </div>
       <div class="col">
         <div class="row mb-2">
@@ -35,7 +35,7 @@
         </div>
       </div>
       <div class="col-md-auto avatar">
-        <%= show_avatar(comment.user, size: 50) %>
+        <%= avatars comment.user %>
       </div>
     <% end %>
   </div>

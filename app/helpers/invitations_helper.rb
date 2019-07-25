@@ -1,18 +1,23 @@
 module InvitationsHelper
 
-  def new_invitation_badge(old)
-    if !old
+  def new_invitation_badge(invitation, current_user, hash)
+    case invitation.new_or_changed?(current_user, hash: nil)
+    when :new
       content_tag(:span, "nuovo", class: "badge badge-primary")
+    when :changed
+      content_tag(:span, "modificato", class: "badge badge-primary")
+    when :no_changes
+
     end
   end
 
   def status_badge(inv)
-    if inv.assigned?
+    if inv.at_work? || inv.ibrid?
       content_tag(:span, "in attesa", class: "badge badge-assigned")
-    elsif inv.accepted?
+    elsif inv.one_or_more?
       content_tag(:span, "accettato", class: "badge badge-accepted")
-    elsif inv.declined?
-      content_tag(:span, "declinato", class: "badge badge-declined")
+    # elsif inv.declined?
+    #   content_tag(:span, "declinato", class: "badge badge-declined")
     elsif inv.past?
       content_tag(:span, "scaduto", class: "badge badge-past")
     end
@@ -79,11 +84,7 @@ module InvitationsHelper
 
   def ribbon(inv)
     # basic_ribbon
-    if inv.assigned?
-      ribbon_assigned
-    elsif inv.accepted?
-      ribbon_accepted
-    elsif inv.declined?
+    if inv.declined?
       ribbon_declined
     elsif inv.past?
       ribbon_past
@@ -205,5 +206,15 @@ module InvitationsHelper
         end
       end
     end
+  end
+
+
+  def appointee_ui_choices(current_status=nil)
+    Appointee.ui_choices(current_status).map{|e| [e, I18n.t(e, scope: 'appointee_ui_choices').html_safe, I18n.t(e, scope: 'appointee_ui_choices_help')]}
+  end
+
+
+  def appointee_ui_choices2
+    Appointee.ui_choices2.map{|e| [e, I18n.t(e, scope: 'appointee_ui_choices').html_safe, I18n.t(e, scope: 'appointee_ui_choices_help')]}
   end
 end

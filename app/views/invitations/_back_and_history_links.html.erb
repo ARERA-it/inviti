@@ -1,0 +1,12 @@
+<div class="row mb-3">
+  <div class="col-sm-6">
+    <%= link_to :back, class: "btn btn-link" do %>
+      <%= content_tag(:i, "", class: "fas fa-arrow-left fa-fw") + " Indietro" %>
+    <% end %>
+  </div>
+  <div class="col-sm-6">
+    <%= link_to audits_invitation_path(@invitation, seen_at: @seen_at), class: "btn btn-link float-right", remote: true do %>
+      <%= content_tag(:i, "", class: "fas fa-history fa-fw") + " Storico modifiche" %>
+    <% end %>
+  </div>
+</div>

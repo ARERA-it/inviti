@@ -1,0 +1,42 @@
+<!-- Modal -->
+<div class="modal fade" id="add-appointee-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Aggiungi partecipante</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <%= form_with(model: @invitation.appointees.build, html: { autocomplete: :off }, data: { remote: true }, format: :js) do |f| %>
+              <%= f.hidden_field :invitation_id %>
+              <div class="form-group">
+                <%= f.label :display_name, "Nome dell'utente o del gruppo" %>
+                <%= f.autocomplete_field :display_name, autocomplete_display_name_invitations_path, update_elements: { id: '#appointee_selected_id', type: '#appointee_user_or_group' },  class: "form-control" %>
+              </div>
+
+              <%= f.hidden_field :selected_id %>
+              <%= f.hidden_field :user_or_group %>
+
+              <div id="appointee_ui_choice" class="validation-radio-group">
+                <%= render partial: 'appointees/appointee_ui_choice', locals: { f: f, curr_status: nil } %>
+              </div>
+
+              <div class="form-group mt-3">
+                <%= f.label :comment, "Osservazioni e note" %>
+                <%= f.text_area :comment, rows: 4, class: "form-control" %>
+                <small class="form-text text-muted">Saranno visibili solamente al partecipante selezionato (o agli utenti del gruppo)</small>
+              </div>
+
+              <%= f.submit "Salva", class: "btn btn-primary" %>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+            <% end %>
+          </div>
+        </div>
+       </div>
+    </div>
+  </div>
+</div>
