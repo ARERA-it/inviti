@@ -83,7 +83,7 @@ gem 'ledermann-rails-settings' # https://github.com/ledermann/rails-settings
 gem 'holidays'
 
 gem 'mail'
-gem 'crono'
+gem 'crono' # https://github.com/plashchynski/crono
 gem 'daemons'
 gem 'aasm'  # https://github.com/aasm/aasm
 gem 'rails-jquery-autocomplete' # https://github.com/risuiowa/rails-jquery-autocomplete
@@ -92,3 +92,4 @@ gem 'exception_notification' # https://github.com/smartinez87/exception_notifica
 gem 'icalendar' # https://github.com/icalendar/icalendar
 
 gem "audited", "~> 4.7" # https://github.com/collectiveidea/audited
+gem "redcarpet" # https://github.com/vmg/redcarpet

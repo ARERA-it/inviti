@@ -1,19 +1,28 @@
+<% audits2 = @invitation.own_and_associated_audits.includes(:user).select{|a| policy(a.auditable_type.constantize.find(a.auditable_id)).show? } %>
+<% audits = @invitation.own_and_associated_audits.includes(:user).select{|a| a.comment } %>
+
+<p>Righe trovate: <%= audits.size %></p>
+
 <table class="table table-sm table-striped" style="font-size: 0.85em;">
   <thead class="thead-light">
     <tr>
       <th>Utente</th>
       <th>Azione</th>
-      <th>Attributi</th>
-      <th>Data e ora</th>
+      <th style="max-width: 250px;">Attributi</th>
+      <th>
+        <span class="float-right">Data e ora</span>
+      </th>
     </tr>
   </thead>
   <tbody>
-    <% @invitation.own_and_associated_audits.includes(:user).each do |a| %>
-      <tr>
-        <td><span data-toggle="tooltip" title="<%= a.user.try(:display_name) %>"><%= a.user.try(:username) %></span></td>
+    <% audits.each do |a| %>
+      <tr class="<%= a.created_at>seen_at ? 'font-weight-bold' : '' %>">
+        <td><span data-toggle="tooltip" title="<%= a.user.try(:name) %>"><%= a.user.try(:initials) %></span></td>
         <td><%= audit_model_action a %></td>
-        <td><%= audit_changes a.auditable_type, a.audited_changes %></td>
-        <td><%= l(a.created_at, format: :short) %></td>
+        <td style="max-width: 250px;"><%= audit_changes a.auditable_type, a.audited_changes %></td>
+        <td>
+          <span class="float-right"><%= l(a.created_at, format: :short) %></span>
+        </td>
       </tr>
     <% end %>
   </tbody>

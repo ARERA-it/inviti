@@ -1,0 +1,9 @@
+// reset validation errors
+$('.is-invalid').removeClass('is-invalid');
+$('.invalid-feedback').remove();
+
+$('#add-appointee-modal').modal('hide');
+$('#edit-appointee-modal').modal('hide');
+
+$('#added-appointees').html("<%= j render('appointees/appointee_list', appointees: @invitation.appointees) %>");
+App.invitations.register_open_app_modal_btn();

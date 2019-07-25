@@ -1,0 +1,7 @@
+.validation-radio-group.is-invalid label {
+  color: #e74a3b;
+}
+
+.validation-radio-group ~ .invalid-feedback {
+  display: block;
+}

@@ -13,7 +13,7 @@
             <th>Dove</th>
             <th>Titolo</th>
             <th>Organizzazione</th>
-            <th>Incaricato</th>
+            <th>Incaricati</th>
             <th>&nbsp;</th>
           </tr>
         </thead>
@@ -26,14 +26,14 @@
             <th>Dove</th>
             <th>Titolo</th>
             <th>Organizzazione</th>
-            <th>Incaricato</th>
+            <th>Incaricati</th>
             <th>&nbsp;</th>
           </tr>
         </tfoot>
         <tbody>
           <% invitations.each do |inv| %>
-            <tr class="clickable <%= @read_ids.include?(inv.id) ? '' : 'font-weight-bold' %>" data-url="<%= invitation_path(inv) %>">
-              <td><%= status_badge(inv) %> <%= new_invitation_badge @read_ids.include?(inv.id) %></td>
+            <tr class="clickable <%= !@seen_invitations[inv.id].nil? ? '' : 'font-weight-bold' %>" data-url="<%= invitation_path(inv) %>">
+              <td><%= status_badge(inv) %> <%= new_invitation_badge(inv, current_user, @seen_invitations) %></td>
               <td><span class="datetime"><%= formatta_dataora inv.from_date_and_time, "" %></span></td>
               <td> <%= inv.from_date_and_time.to_i %> </td>
               <td> <%= inv.email_body.html_safe %> </td>
@@ -46,13 +46,15 @@
                 <% end %>
               </td>
               <td><%= inv.organizer %></td>
-              <td><%= inv.appointee.try(:display_name) %></td>
-              <td class="status-icons float-right">
-                <% if policy(inv).view_opinion? %>
-                  <%= icon_for_opinions(inv.opinions) %>
-                  <%= icon_for_comments(inv.comments) %>
-                <% end %>
-                <%= icon_for_contributions(inv.contributions) %>
+              <td><%= inv.appointees.waiting_n_accepted.map(&:name).join(', ') %></td>
+              <td class="">
+                <div class="status-icons float-right">
+                  <% if policy(inv).view_opinion? %>
+                    <%= icon_for_opinions(inv.opinions) %>
+                    <%= icon_for_comments(inv.comments) %>
+                  <% end %>
+                  <%= icon_for_contributions(inv.contributions) %>
+                </div>
               </td>
             </tr>
           <% end %>

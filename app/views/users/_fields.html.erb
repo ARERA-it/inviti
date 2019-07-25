@@ -50,11 +50,24 @@
       </div>
     <% end %>
   </div>
-
 </div>
 
+<div class="row">
+  <div class="col-md-12">
+    <div class="form-check form-check-inline">
+      <%= form.radio_button "gender", "male", class: "form-check-input", disabled: ro %>
+      <%= form.label "gender_male", "Maschio", class: "form-check-label" %>
+    </div>
+    <div class="form-check form-check-inline">
+      <%= form.radio_button "gender", "female", class: "form-check-input", disabled: ro %>
+      <%= form.label "gender_female", "Femmina", class: "form-check-label" %>
+    </div>
+  </div>
+</div>
+
+
 <% if ro %>
-  <div class="row">
+  <div class="row mt-3">
     <div class="col-md-6">
       <label for="created_at">Creazione</label>
       <span class="form-control">

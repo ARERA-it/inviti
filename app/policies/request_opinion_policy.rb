@@ -1,7 +1,8 @@
 class RequestOpinionPolicy < ApplicationPolicy
 
-  # Richiedere un parere
+  # Can ask for an opinion (via e-mail)
   def create?
-    user.president? || user.admin?
+    user.president? ||
+    user.admin?
   end
 end

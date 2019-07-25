@@ -1,0 +1,57 @@
+// https://www.bennadel.com/blog/3369-css-flexbox-creating-the-invision-avatar-row-widget.htm
+
+
+ul.avatars {
+    display: flex ; /* Causes LI items to display in row. */
+    list-style-type: none ;
+    margin: auto ; /* Centers vertically / horizontally in flex container. */
+    padding: 0px 7px 0px 0px ;
+    /*
+        By using the row-reverse layout, the visual ordering will be opposite of
+        the DOM ordering. This will allows us to stack the items in the opposite
+        direction of the natural stacking order without having to mess with the
+        zIndex value. The MAJOR DOWNSIDE is that the HTML itself now reads
+        backwards, which super janky.
+    */
+    flex-direction: row-reverse ;
+}
+li.avatars__item {
+    height: 49px ;
+    margin: 0px 0px 0px 0px ;
+    padding: 0px 0px 0px 0px ;
+    position: relative ;
+    width: 36px ; /* Forces flex items to be smaller than their contents. */
+}
+/*
+    These items are all 49px wide while the flex-item (in which they live) is
+    only 42px wide. As such, there will be several pixels of overflow content,
+    which will be stacked using the natural DOM-based stacking order.
+*/
+img.avatars__img,
+span.avatars__initials,
+span.avatars__others {
+    // background-color: #596376 ;
+    background-color: #274a8f ;
+    border: 2px solid #fff ;
+    border-radius: 100px 100px 100px 100px ;
+    color: #FFFFFF ;
+    display: block ;
+    // font-family: sans-serif ;
+    // font-size: 12px ;
+    font-size: 20px ;
+    // font-weight: 100 ;
+    font-weight: bold;
+    height: 45px ;
+    line-height: 40px ;
+    // line-height: 45px ;
+    text-align: center ;
+    width: 45px ;
+}
+span.avatars__others {
+    // background-color: #1E8FE1 ;
+    background-color: #5275bb ;
+}
+
+.avatars__initials.avatar__waiting {
+  background-color: #5e83dd;
+}

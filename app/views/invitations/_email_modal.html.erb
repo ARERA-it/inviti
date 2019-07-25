@@ -8,7 +8,8 @@
         </button>
       </div>
       <div class="modal-body">
-        <%= @invitation.email_decoded.try(:html_safe) %>
+        <iframe src="<%= email_decoded_invitation_path(@invitation) %>" width="100%" height="600px"></iframe>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>

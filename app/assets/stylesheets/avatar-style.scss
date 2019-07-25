@@ -8,6 +8,9 @@ $brand-special: #274a8f;
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
+  position: absolute;
+
+  box-shadow: -2px 0px 5px white;
 
   .initials {
     position: relative;
@@ -27,4 +30,16 @@ $brand-special: #274a8f;
 
 .no-avatar {
   background-color: #9cc0ff;
+}
+
+.avatar-group-container {
+  display: flex;
+  width: 50px;
+}
+.avatar-container {
+  flex: 1 0 0;
+  overflow-x: hidden;
+}
+.avatar-container:last-child {
+  flex: 1 0 auto;
 }

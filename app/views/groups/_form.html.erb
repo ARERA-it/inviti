@@ -1,0 +1,13 @@
+<%= form_with(model: group, local: true) do |form| %>
+  <%= render 'layouts/error_message', model: group %>
+
+  <%= render 'fields', group: group, form: form, ro: false %>
+
+  <div class="actions space-top">
+    <%= form.submit "Salva", class: "btn btn-primary" %>
+    <%= link_to 'Annulla', groups_path, class: "btn btn-default" %>
+    <% if @group.id %>
+      <%= link_to 'Dettaglio', @group, class: "btn btn-default" %>
+    <% end %>
+  </div>
+<% end %>

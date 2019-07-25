@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-sm mb-3">
+    <h1 class="display-5">Lista gruppi</h1>
+  </div>
+</div>
+
+<p id="notice"><%= notice %></p>
+
+<div class="card shadow mb-4">
+  <div class="card-body">
+
+    <div class="table-responsive">
+      <table class="table table-bordered table-sm record-list invitation-table" id="groupsDataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Parere</th>
+            <th>Incaricab.</th>
+            <th>Utenti</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @groups.each do |group| %>
+            <tr>
+              <td><%= group.name %></td>
+              <td><%= yes_icon group.ask_opinion %></td>
+              <td><%= yes_icon group.appointable %></td>
+              <td><%= group.users.map(&:display_name).join(', ').truncate(80) %></td>
+              <td>
+                <div class="float-right">
+                  <%= link_to 'Dettaglio', group, class: "btn btn-outline-dark btn-sm" %>
+                  <%= link_to edit_group_path(group), class: "btn btn-outline-dark btn-sm" do %>
+                    <%= fa_icon("edit") %>
+                  <% end %>
+                  <%= link_to group, method: :delete, data: { confirm: "Confermi l'eliminazione?" }, class: "btn btn-outline-danger btn-sm" do %>
+                    <%= fa_icon("trash-alt") %>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <br>
+
+    <div class="row margin-bottom-20">
+      <div class="col">
+        <%= link_to 'Nuovo gruppo', new_group_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+</div>

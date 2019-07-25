@@ -14,6 +14,16 @@ class UsersController < ApplicationController
     authorize @user
   end
 
+  def search_by_name
+    u = User.find_by(display_name: params[:name].strip)
+    respond_to do |format|
+      if u
+        format.json { render json: {id: u.id, name: u.display_name} }
+      end
+    end
+  end
+
+
   # GET /users/new
   def new
     authorize :user

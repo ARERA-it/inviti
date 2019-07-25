@@ -1,12 +1,13 @@
 class RequestOpinionsController < ApplicationController
+  before_action :set_invitation
+
   # POST /request_opinion
   def create
     authorize :request_opinion
-    p = request_opinion_params
-    @invitation = Invitation.find(p[:invitation_id])
+    p = request_opinion_params # "request_opinion"=>{"invitation_id"=>"52", "group_ids"=>["4", "1"]}
     @req_opinion = RequestOpinion.new(p)
     respond_to do |format|
-      if p[:dest] && p[:dest].any?
+      if p[:group_ids] && p[:group_ids].any?
         if @req_opinion.save
           @feedback_hash = { msg: "Richiesta inviata con successo" }
         else
@@ -22,6 +23,11 @@ class RequestOpinionsController < ApplicationController
 
   private
     def request_opinion_params
-      params.require(:request_opinion).permit(:invitation_id, dest: [])
+      params.require(:request_opinion).permit(:invitation_id, group_ids: [])
     end
+
+    def set_invitation
+      @invitation = Invitation.find(params[:request_opinion][:invitation_id])
+    end
+
 end

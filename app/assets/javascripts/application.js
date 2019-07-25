@@ -2,6 +2,7 @@
 //= require activestorage
 //= require turbolinks
 
+// require jquery
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
@@ -9,8 +10,15 @@
 //= require jquery.easing
 
 // Autocomplete feature:
+// require jquery-ui
+// require autocomplete-rails
+
+//  require jquery
+//= require jquery_ujs
 //= require jquery-ui
 //= require autocomplete-rails
+//= require select2
+
 
 //= require jquery.dataTables
 //= require dataTables.bootstrap4
@@ -23,6 +31,7 @@
 
 //= require init
 //= require users
+//= require groups
 //= require invitations
 //= require accepts
 //= require pages
@@ -129,6 +138,21 @@ $(document).on("turbolinks:load", function() {
 
   // enable tooltips
   $('[data-toggle="tooltip"]').tooltip();
+
+
+
+  $("[data-form-prepend]").click(function(e) {
+    var obj = $($(this).attr("data-form-prepend"));
+    obj.find("input, select, textarea").each(function() {
+      $(this).attr("name", function() {
+        return $(this)
+          .attr("name")
+          .replace("new_record", new Date().getTime());
+      });
+    });
+    obj.insertBefore(this);
+    return false;
+  });
 })
 
 

@@ -5,22 +5,24 @@ class OpinionsController < ApplicationController
   # POST /users
   # POST /users.json
   # Qualcuno esprime un parere
-  def create
-    authorize :opinion
-    @opinion = Opinion.new opinion_params.merge(user_id: current_user.id)
-    puts "opinion: #{@opinion.inspect}"
-    respond_to do |format|
-      if !@opinion.undefined?
-        if @opinion.save
-          format.js {}
-        else
-          format.js { render :js => "alert('Qualcosa è andato storto...')" }
-        end
-      else
-        format.js { head :ok }
-      end
-    end
-  end
+
+  # --- non so se viene mai chiamato
+  # def create
+  #   authorize :opinion
+  #   @opinion = Opinion.new opinion_params.merge(user_id: current_user.id)
+  #   puts "opinion: #{@opinion.inspect}"
+  #   respond_to do |format|
+  #     if !@opinion.undefined?
+  #       if @opinion.save
+  #         format.js {}
+  #       else
+  #         format.js { render :js => "alert('Qualcosa è andato storto...')" }
+  #       end
+  #     else
+  #       format.js { head :ok }
+  #     end
+  #   end
+  # end
 
 
 

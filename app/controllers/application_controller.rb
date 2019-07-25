@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user! if Rails.env!="development"
+  before_action :authenticate_user! if !(Rails.env=="development" || Rails.env=="test")
   helper_method :current_user
   include Pundit
   protect_from_forgery
@@ -48,7 +48,9 @@ class ApplicationController < ActionController::Base
 
     def record_user_interaction
       if current_user.nil? || !current_user.admin? || Rails.env=='development'
-        UserInteraction.create(user: current_user, controller_name: controller_name, action_name: action_name)
+        if !action_name.match?(/^autocomplete/)
+          UserInteraction.create(user: current_user, controller_name: controller_name, action_name: action_name)
+        end
       end
     end
 

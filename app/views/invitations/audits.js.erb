@@ -1,2 +1,4 @@
-$('#audit-table-wrapper').html("<%= j render('audit_table') %>");
-$('#invitation-audit-modal').modal('show')
+$('#audit-table-wrapper').html("<%= j render('audit_comments_table', seen_at: @seen_at) %>");
+$('#invitation-audit-modal').modal('show');
+
+$('[data-toggle="tooltip"]').tooltip();

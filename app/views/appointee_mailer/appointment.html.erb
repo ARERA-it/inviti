@@ -1,0 +1,22 @@
+<p>Buongiorno <%= @user.name %>,</p>
+<p>ARERA ha ricevuto un invito a partecipare ad un evento e il Presidente ha pensato di proporre il tuo nome in rappresentanza dell'Istituzione.</p>
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
+  <tbody>
+    <tr>
+      <td align="left">
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+          <tbody>
+            <tr>
+              <td>
+                <%= link_to "Accetti l'invito?", edit_user_reply_url(@ur, token: @ur.token), target: "_blank" %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p><%= @summary %></p>
+
+<p>Ti preghiamo di rispondere.</p>

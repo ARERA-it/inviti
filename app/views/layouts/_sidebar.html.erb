@@ -52,11 +52,22 @@
     <% end %>
   </li>
 
-  <!-- Nav Item - In corso -->
-  <li class="nav-item running">
-    <%= link_to invitations_path(sel: :running), class: "nav-link" do %>
+  <!-- Nav Item - in corso di assegnazione -->
+  <li class="nav-item waitin">
+    <%= link_to invitations_path(sel: :waitin), class: "nav-link" do %>
+      <i class="fas fa-fw fa-user-plus"></i>
+      <span>In assegnazione</span>
+      <span class="badge badge-light inv-count">
+        <%= policy_scope(Invitation).waitin.count %>
+      </span>
+    <% end %>
+  </li>
+
+  <!-- Nav Item - Pronti -->
+  <li class="nav-item ready">
+    <%= link_to invitations_path(sel: :ready), class: "nav-link" do %>
       <i class="fas fa-fw fa-running"></i>
-      <span>In corso</span>
+      <span>Pronti</span>
       <span class="badge badge-light inv-count">
         <%= policy_scope(Invitation).are_assigned.count %>
       </span>
@@ -73,6 +84,21 @@
       </span>
     <% end %>
   </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider d-none d-md-block">
+
+  <!-- Nav Item - Archiviati -->
+  <li class="nav-item all-invitations">
+    <%= link_to invitations_path(sel: :all), class: "nav-link" do %>
+      <i class="fas fa-fw fa-globe"></i>
+      <span>Tutti gli inviti</span>
+      <span class="badge badge-light inv-count">
+        <%= policy_scope(Invitation).count %>
+      </span>
+    <% end %>
+  </li>
+
 
   <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block">

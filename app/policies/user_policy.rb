@@ -22,9 +22,9 @@ class UserPolicy < ApplicationPolicy
 
   def permitted_attributes
     if user.admin?
-      [:username, :display_name, :initials, :job_title, :role, :title, :appointeeable, :advisor_group]
+      [:username, :display_name, :initials, :job_title, :role, :title, :appointeeable, :advisor_group, :gender]
     else
-      [:display_name, :initials, :job_title, :title]
+      [:display_name, :initials, :job_title, :title, :gender]
     end
   end
 

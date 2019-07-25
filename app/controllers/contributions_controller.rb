@@ -3,17 +3,16 @@ class ContributionsController < ApplicationController
 
   # Add a contribution
   def create
-    authorize :contribution
-    params = contribution_params
     @contribution = Contribution.new(contribution_params)
+    authorize @contribution
     @contribution.user = current_user
     respond_to do |format|
       if @contribution.save
         format.js
       else
-        # format.js { render js: "alert('Qualcosa è andato storto...');" }
-        @model = 'contribution'
-        format.js { render template: 'layouts/error_message.js.erb' }
+        # @model = 'contribution'
+        # @object = @contribution
+        format.js { render template: 'layouts/error_message.js.erb', locals: { object: @contribution, model: 'contribution' } }
       end
     end
   end

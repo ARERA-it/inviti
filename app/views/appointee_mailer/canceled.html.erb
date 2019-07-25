@@ -1,0 +1,9 @@
+<p>Buongiorno <%= @user.name %>,</p>
+<p>Hai ricevuo in precedenza una proposta o invito a partecipare ad un evento. L'evento o la tua partecipazione sono state annullate.</p>
+<p><%= @summary %></p>
+
+<% unless @ur.appointment_action.comment.blank? %>
+  <p style="font-style: italic"><%= @ur.appointment_action.comment %></p>
+<% end %>
+
+<p>Grazie per l'attenzione.</p>

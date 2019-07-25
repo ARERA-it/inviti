@@ -27,7 +27,7 @@ services:
       context: .
       dockerfile: ./docker/production/app/Dockerfile
     environment:
-      SILENCE_AR_LOGGER: yes
+      SILENCE_AR_LOGGER: "yes"
     env_file:
       .production.env
     command: bin/check_emails

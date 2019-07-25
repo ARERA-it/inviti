@@ -3,25 +3,102 @@ class InvitationPolicy < ApplicationPolicy
     true
   end
 
+
+  # user roles: :president, :advisor, :commissary, :secretary, :viewer, :admin
   def show?
-    if user.viewer?
-      record.appointee_id == user.id
-    else
-      true
-    end
+    user.admin? ||
+    user.president? ||
+    user.advisor? ||
+    user.secretary? ||
+    record.appointed_users.include?(user) ||
+    record.users_who_was_asked_for_an_opinion.include?(user)
   end
+
+  # Vedere i pareri
+  def view_opinion?
+    user.admin? ||
+    user.president? ||
+    user.advisor? ||
+    record.users_who_was_asked_for_an_opinion.include?(user)
+  end
+
+  # Vedere il pannello del designato
+  def view_appointee?
+    user.admin? ||
+    user.president? ||
+    user.advisor? ||
+    user.secretary? ||
+    record.appointed_users.include?(user)
+  end
+
+  # Vedere il pannello dei contributi
+  def view_contributions?
+    user.admin? ||
+    user.president? ||
+    user.advisor? ||
+    user.secretary? ||
+    record.appointed_users.include?(user)
+  end
+
+  # Vedere il pannello delle info generali
+  def view_general_info?
+    show?
+  end
+
+  # Vedere il pannello della email
+  def view_email_info?
+    show?
+  end
+
+  def show_audit?
+    show? # TODO: davvero?
+  end
+
+  def express_opinion?
+    user.admin? ||
+    user.advisor? ||
+    record.users_who_was_asked_for_an_opinion.include?(user)
+  end
+
+  def update_participation?
+    user.admin? || user.president?
+  end
+
+  def cancel_participation?
+    update_participation?
+  end
+
+  def update_general_info?
+    user.admin? ||
+    user.president? ||
+    user.secretary?
+  end
+
+
+
+
 
   # Le info generali
   def update?
-    if user.viewer?
-      record.appointee_id == user.id
-    else
-      true
-    end
+    show?
   end
 
+  def usual_and_particular
+    user.admin? ||
+    user.president? ||
+    user.advisor? ||
+    user.secretary? ||
+    record.users_who_was_asked_for_an_opinion.include?(user)
+  end
+
+  def update_delegation_notes?
+    user.admin? || user.president?
+  end
+
+
   # Le info sull'incarico
-  def update_appointee?
+  # TODO: obsoleto
+  def want_participate?
     return true if user.admin?
     return false if !user.president?
 
@@ -36,13 +113,6 @@ class InvitationPolicy < ApplicationPolicy
   end
 
 
-  def update_general_info?
-    if user.viewer?
-      record.appointee_id == user.id
-    else
-      true
-    end
-  end
 
   def destroy?
     return true  if user.admin?
@@ -52,18 +122,10 @@ class InvitationPolicy < ApplicationPolicy
   end
 
   def download_ics?
-    if user.viewer?
-      record.appointee_id == user.id
-    else
-      true
-    end
+    show?
   end
 
 
-  # Vedere i pareri
-  def view_opinion?
-    user.admin? || user.president? || user.advisor?
-  end
 
 
   def proposal_to_all_board_members?
@@ -73,37 +135,16 @@ class InvitationPolicy < ApplicationPolicy
   # Esprimere un parere  ->  v. opinion_policy
   # Aggiungere un commento (dopo il parere)  ->  v. comment_policy
 
-  # Vedere il pannello del designato
-  def view_appointee?
-    true
-  end
 
-  # Vedere il pannello dei contributi
-  def view_contributions?
-    true
-  end
 
-  # Vedere il pannello delle info generali
-  def view_general_info?
-    true
-  end
 
-  # Vedere il pannello della email
-  def view_email_info?
-    true
-  end
-
-  def show_audit?
-    user.admin? # || user.president?
-  end
 
   class Scope < Scope
     def resolve
-      if user.viewer?
-        puts "------>>>>><<<<<<------"
-        scope.where(appointee_id: user.id)
-      else
+      if user.admin? || user.president? || user.advisor? || user.secretary?
         scope.all
+      else
+        scope.joins(:appointees).where("appointees.user_id=?", user.id)
       end
     end
   end

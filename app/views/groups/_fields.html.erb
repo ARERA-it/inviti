@@ -1,0 +1,40 @@
+<div class="row">
+  <% if false %>
+    <div class="col-md-4">
+      <div class="form-group form-check">
+        <%= form.check_box :in_use, disabled: ro, class: "form-check-input" %>
+        <%= form.label :in_use, "In uso", class: "form-check-label" %>
+      </div>
+    </div>
+  <% end %>
+  <div class="col-md-6">
+    <div class="form-group form-check">
+      <%= form.check_box :ask_opinion, disabled: ro, class: "form-check-input" %>
+      <%= form.label :ask_opinion, "Gruppo a cui chiedere un parere", class: "form-check-label" %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group form-check">
+      <%= form.check_box :appointable, disabled: ro, class: "form-check-input" %>
+      <%= form.label :appointable, "Incaricabili in gruppo", class: "form-check-label" %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="form-group">
+      <%= form.label :name, "Nome del gruppo" %>
+      <%= form.text_field :name, class: "form-control", readonly: ro, autocomplete: 'off' %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="form-group">
+      <%= form.label 'user_ids', "Utenti" %>
+      <%= form.collection_select 'user_ids', group_users, :first, :last, {}, class: "form-control js-example-basic-multiple", multiple: 'multiple'  %>
+    </div>
+  </div>
+</div>
