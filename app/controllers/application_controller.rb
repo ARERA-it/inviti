@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
 
     def record_user_interaction
       if current_user.nil? || !current_user.admin? || Rails.env=='development'
-        if !action_name.match?(/^autocomplete/)
+        if !action_name.match?(/^autocomplete/) && action_name!="email_decoded"
           UserInteraction.create(user: current_user, controller_name: controller_name, action_name: action_name)
         end
       end
