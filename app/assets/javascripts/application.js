@@ -2,7 +2,6 @@
 //= require activestorage
 //= require turbolinks
 
-// require jquery
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
@@ -10,10 +9,6 @@
 //= require jquery.easing
 
 // Autocomplete feature:
-// require jquery-ui
-// require autocomplete-rails
-
-//  require jquery
 //= require jquery_ujs
 //= require jquery-ui
 //= require autocomplete-rails
