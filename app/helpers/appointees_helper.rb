@@ -49,11 +49,11 @@ module AppointeesHelper
   def appointee_colored_icon(a)
     fa_icon, title = case
                     when a.status.include?("prop_")
-                      ["fa-hand-holding", "Proposta"]
+                      ["fa-question-circle", "Proposta"]
                     when a.status=="canceled"
                       ["fa-times-circle", "Proposta/incarico annullato"]
                     else
-                      ["fa-crown", "Incarico"]
+                      ["fa-suitcase-rolling", "Incarico"]
                     end
 
     fa_color = case
