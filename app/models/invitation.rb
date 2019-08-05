@@ -143,6 +143,8 @@ class Invitation < ApplicationRecord
   has_many :opinions, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_and_belongs_to_many :users # # TODO: obsolete
+  has_many :user_invitations, dependent: :destroy
+
   # has_many :invitation_seens, class_name: "UserInvitation", foreign_key: "invitation_id"
 
   has_many :contributions, dependent: :destroy
