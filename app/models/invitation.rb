@@ -258,9 +258,11 @@ class Invitation < ApplicationRecord
 
   def is_expired?
     event_date = to_date_and_time.try(:to_date) || from_date_and_time.try(:to_date)
-    exp = event_date && event_date<Date.today
-    exp = false if exp.nil?
-    exp
+    if event_date
+      event_date<Date.today
+    else
+      false
+    end
   end
 
   # Save all Invitation the are 'alive' (are 'alive' all inv. whose state is not 'no_info', 'declined' or 'past')
