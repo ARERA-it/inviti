@@ -16,8 +16,8 @@ module InvitationsHelper
       content_tag(:span, "in attesa", class: "badge badge-assigned")
     elsif inv.one_or_more?
       content_tag(:span, "accettato", class: "badge badge-accepted")
-    # elsif inv.declined?
-    #   content_tag(:span, "declinato", class: "badge badge-declined")
+    elsif inv.declined?
+      content_tag(:span, "declinato", class: "badge badge-declined")
     elsif inv.past?
       content_tag(:span, "scaduto", class: "badge badge-past")
     end
