@@ -19,4 +19,4 @@
 </table>
 <p><%= @summary %></p>
 
-<p>Ti preghiamo di rispondere.</p>
+<p>Ti preghiamo di rispondere utilizzando il <%= link_to "link", edit_user_reply_url(@ur, token: @ur.token), target: "_blank" %> sopra, non mediante la funzione 'Rispondi' di Outlook.</p>
