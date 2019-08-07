@@ -28,4 +28,4 @@
   <p style="font-style: italic"><%= @ur.appointment_action.comment %></p>
 <% end %>
 
-<p>Ti preghiamo di rispondere se non puoi partecipare.</p>
+<p>Se non puoi partecipare ti preghiamo di rispondere utilizzando il <%= link_to "link", edit_user_reply_url(@ur, token: @ur.token), target: "_blank" %> sopra, non mediante la funzione 'Rispondi' di Outlook.</p>
