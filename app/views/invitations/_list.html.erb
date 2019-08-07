@@ -36,7 +36,7 @@
               <td><%= status_badge(inv) %> <%= new_invitation_badge(inv, current_user, @seen_invitations) %></td>
               <td><span class="datetime"><%= formatta_dataora inv.from_date_and_time, "" %></span></td>
               <td> <%= inv.from_date_and_time.to_i %> </td>
-              <td> <%= inv.email_body.html_safe %> </td>
+              <td> <%= inv.email_body_preview.html_safe %> </td>
               <td><%= inv.location %></td>
               <td>
                 <% if !inv.title.blank? %>
