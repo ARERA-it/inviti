@@ -281,6 +281,6 @@ class InvitationsController < ApplicationController
     #   params.require(:invitation).permit(:decision, :appointee_id, :delegation_notes, :send_email) #, :user_display_name)
     # end
     def invitation_params
-      params.require(:invitation).permit(:title, :location, :from_date_and_time_view, :to_date_and_time_view, :organizer, :notes, :appointee_id, :alt_appointee_name, :delegation_notes, :decision, :public_event) #, :user_display_name)
+      params.require(:invitation).permit(:title, :location, :from_date_and_time_view, :to_date_and_time_view, :organizer, :notes, :appointee_id, :alt_appointee_name, :delegation_notes, :decision, :public_event, :org_category) #, :user_display_name)
     end
 end

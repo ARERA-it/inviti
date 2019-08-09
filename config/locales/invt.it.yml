@@ -26,3 +26,9 @@ it:
     charge_w_email: Il destinatario riceverà una e-mail nella quale potrà accettare o rifiutare l'incarico
     charge_w_consent: Il destinatario ha già accettato l'incarico, riceverà una e-mail di notifica
     cancel: Il destinatario riceverà una e-mail per informarlo dell'annullamento
+
+  org_categories:
+    undefined: Catalogazione evento non definita
+    by_company: Evento a cura di ARERA
+    partecipated: Evento partecipato da ARERA
+    general: Evento generale

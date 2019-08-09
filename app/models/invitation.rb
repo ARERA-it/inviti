@@ -49,6 +49,7 @@ class Invitation < ApplicationRecord
   }
 
   enum appointee_status: [:nobody, :at_work, :ibrid, :one_or_more]
+  enum org_category: [:undefined, :by_company, :partecipated, :general]
 
   def update_appointee_status
     c = appointees.accepted.count # appointed

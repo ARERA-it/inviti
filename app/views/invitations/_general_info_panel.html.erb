@@ -76,6 +76,9 @@
           </div>
         </div>
         <div class="col-md-6">
+          <div class="form-group">
+            <%= form.collection_select :org_category, Invitation.org_categories.to_a, :first, ->(e){ t("org_categories.#{e.first}") }, {prompt: false}, class: "form-control"  %>
+          </div>
         </div>
       </div>
 
