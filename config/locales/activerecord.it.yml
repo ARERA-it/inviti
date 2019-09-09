@@ -26,6 +26,7 @@ it:
         email_decoded: Contenuto della e-mail
         email_received_date_time: Data e ora ricezione e-mail
         decision: Presa in carico invito
+        public_event: Evento pubblico
       comment:
         user_id: Utente
         invitation_id: Invito
