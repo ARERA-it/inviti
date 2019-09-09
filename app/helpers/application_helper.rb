@@ -1,4 +1,16 @@
 module ApplicationHelper
+  def cache_view_counter(user)
+    key = "view_counters,#{user.id}"
+    blk = Rails.cache.fetch key
+    unless blk
+      # Rails.logger.info("----->(Re)Write cache for key '#{key}'")
+      blk = render "layouts/sidebar_counters"
+      Rails.cache.write key, blk
+    end
+    blk
+  end
+
+
   def fa_icon(name, style: :regular, options: "")
     s = case style
     when :regular

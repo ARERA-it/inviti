@@ -100,6 +100,11 @@ class Invitation < ApplicationRecord
     i.pass! if i.is_expired?
   end
 
+  after_update do
+    # Rails.logger.info("-----> Delete cache for key starting with 'view_counters'")
+    Rails.cache.delete_matched(/^view_counters/)
+  end
+
   # prop_waiting, :prop_accepted, :prop_refused, :app_waiting, :app_accepted, :app_refused, :direct_app, :direct_app_accepted, :direct_app_refused, :canceled
   def actions_after_decline(comment: "", user: )
     appointees.where(status: [:prop_waiting, :prop_accepted, :app_waiting, :app_accepted, :direct_app, :direct_app_accepted]).each do |appointee|

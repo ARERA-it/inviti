@@ -26,78 +26,7 @@
   <hr class="sidebar-divider">
 
   <!-- Heading -->
-  <div class="sidebar-heading">
-    Viste
-  </div>
-
-  <!-- Nav Item - Da compilare -->
-  <li class="nav-item to_be_filled">
-    <%= link_to invitations_path(sel: :to_be_filled), class: "nav-link" do %>
-      <i class="far fa-fw fa-edit"></i>
-      <span>Info da compilare</span>
-      <span class="badge badge-light inv-count">
-        <%= policy_scope(Invitation).no_info.count %>
-      </span>
-    <% end %>
-  </li>
-
-  <!-- Nav Item - Da assegnare -->
-  <li class="nav-item to_be_assigned">
-    <%= link_to invitations_path(sel: :to_be_assigned), class: "nav-link" do %>
-      <i class="fas fa-fw fa-user-plus"></i>
-      <span>Da assegnare</span>
-      <span class="badge badge-light inv-count">
-        <%= policy_scope(Invitation).to_be_assigned.count %>
-      </span>
-    <% end %>
-  </li>
-
-  <!-- Nav Item - in corso di assegnazione -->
-  <li class="nav-item waitin">
-    <%= link_to invitations_path(sel: :waitin), class: "nav-link" do %>
-      <i class="fas fa-fw fa-user-plus"></i>
-      <span>In assegnazione</span>
-      <span class="badge badge-light inv-count">
-        <%= policy_scope(Invitation).waitin.count %>
-      </span>
-    <% end %>
-  </li>
-
-  <!-- Nav Item - Pronti -->
-  <li class="nav-item ready">
-    <%= link_to invitations_path(sel: :ready), class: "nav-link" do %>
-      <i class="fas fa-fw fa-running"></i>
-      <span>Pronti</span>
-      <span class="badge badge-light inv-count">
-        <%= policy_scope(Invitation).are_assigned.count %>
-      </span>
-    <% end %>
-  </li>
-
-  <!-- Nav Item - Archiviati -->
-  <li class="nav-item archived">
-    <%= link_to invitations_path(sel: :archived), class: "nav-link" do %>
-      <i class="fas fa-fw fa-archive"></i>
-      <span>Archiviati</span>
-      <span class="badge badge-light inv-count">
-        <%= policy_scope(Invitation).archived.count %>
-      </span>
-    <% end %>
-  </li>
-
-  <!-- Divider -->
-  <hr class="sidebar-divider d-none d-md-block">
-
-  <!-- Nav Item - Archiviati -->
-  <li class="nav-item all-invitations">
-    <%= link_to invitations_path(sel: :all), class: "nav-link" do %>
-      <i class="fas fa-fw fa-globe"></i>
-      <span>Tutti gli inviti</span>
-      <span class="badge badge-light inv-count">
-        <%= policy_scope(Invitation).count %>
-      </span>
-    <% end %>
-  </li>
+  <%= cache_view_counter current_user %>
 
 
   <!-- Divider -->
