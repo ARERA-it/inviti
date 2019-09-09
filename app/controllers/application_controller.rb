@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
-  puts ENV.fetch('user_mode').inspect
+  # puts ENV.fetch('user_mode').inspect
 
   alias :devise_current_user :current_user
   def current_user
