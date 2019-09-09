@@ -1,5 +1,5 @@
 <div class="row dashboard-cards">
-  <div class="col-4">
+  <div class="col-3">
     <div class="card mb-4 py-3 border-left-primary" data-url="<%= invitations_path(sel: :to_be_filled) %>">
       <div class="card-body">
         <h4>Da compilare</h4>
@@ -8,21 +8,30 @@
       </div>
     </div>
   </div>
-  <div class="col-4">
+  <div class="col-3">
     <div class="card mb-4 py-3 border-left-primary" data-url="<%= invitations_path(sel: :to_be_assigned) %>">
       <div class="card-body">
         <h4>Da assegnare</h4>
         <p class="number"><%= policy_scope(Invitation).to_be_assigned.count %></p>
-        <p class="description">Raccoglie tutti gli inviti non declinati e per i quali non è stato ancora assegnato una persona incaricata</p>
+        <p class="description">Raccoglie tutti gli inviti per i quali non è stato ancora decisa la partecipazione o non è stato assegnato una persona incaricata</p>
       </div>
     </div>
   </div>
-  <div class="col-4">
+  <div class="col-3">
+    <div class="card mb-4 py-3 border-left-primary" data-url="<%= invitations_path(sel: :to_be_assigned) %>">
+      <div class="card-body">
+        <h4>In assegnazione</h4>
+        <p class="number"><%= policy_scope(Invitation).waitin.count %></p>
+        <p class="description">Raccoglie tutti gli inviti accettati ai quali sono stati assegnati una o più persone incaricate e sono in attesa di conferma</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-3">
     <div class="card mb-4 py-3 border-left-primary" data-url="<%= invitations_path(sel: :running) %>">
       <div class="card-body">
         <h4>In corso</h4>
         <p class="number"><%= policy_scope(Invitation).are_assigned.count %></p>
-        <p class="description">Raccoglie tutti gli inviti accettati, per i quali è stata designata una persona e che devono ancora avere luogo</p>
+        <p class="description">Raccoglie tutti gli inviti accettati, per i quali è stata incaricata una o più persone e che devono ancora avere luogo</p>
       </div>
     </div>
   </div>
