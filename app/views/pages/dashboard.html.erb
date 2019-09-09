@@ -29,7 +29,7 @@
   <div class="col-3">
     <div class="card mb-4 py-3 border-left-primary" data-url="<%= invitations_path(sel: :running) %>">
       <div class="card-body">
-        <h4>In corso</h4>
+        <h4>Pronti</h4>
         <p class="number"><%= policy_scope(Invitation).are_assigned.count %></p>
         <p class="description">Raccoglie tutti gli inviti accettati, per i quali è stata incaricata una o più persone e che devono ancora avere luogo</p>
       </div>
