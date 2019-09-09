@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_25_122630) do
+ActiveRecord::Schema.define(version: 2019_08_09_104545) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -194,6 +194,8 @@ ActiveRecord::Schema.define(version: 2019_07_25_122630) do
     t.text "email_decoded"
     t.integer "appointee_status", default: 0
     t.integer "appointee_steps_count", default: 0
+    t.boolean "public_event", default: false
+    t.integer "org_category", default: 0
     t.index ["appointee_id"], name: "index_invitations_on_appointee_id"
     t.index ["email_received_date_time"], name: "index_invitations_on_email_received_date_time"
     t.index ["from_date_and_time"], name: "index_invitations_on_from_date_and_time"
