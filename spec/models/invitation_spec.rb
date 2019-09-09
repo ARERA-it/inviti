@@ -2,7 +2,7 @@
 #
 # Table name: invitations
 #
-#  id                       :bigint(8)        not null, primary key
+#  id                       :bigint           not null, primary key
 #  title                    :string           default("")
 #  location                 :string           default("")
 #  from_date_and_time       :datetime
@@ -28,6 +28,7 @@
 #  email_decoded            :text
 #  appointee_status         :integer          default("nobody")
 #  appointee_steps_count    :integer          default(0)
+#  public_event             :boolean          default(FALSE)
 #
 
 require 'rails_helper'

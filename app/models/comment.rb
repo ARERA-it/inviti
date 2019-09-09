@@ -2,9 +2,9 @@
 #
 # Table name: comments
 #
-#  id            :bigint(8)        not null, primary key
-#  user_id       :bigint(8)
-#  invitation_id :bigint(8)
+#  id            :bigint           not null, primary key
+#  user_id       :bigint
+#  invitation_id :bigint
 #  content       :text             default("")
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null

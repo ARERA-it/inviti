@@ -2,8 +2,8 @@
 #
 # Table name: user_interactions
 #
-#  id              :bigint(8)        not null, primary key
-#  user_id         :bigint(8)
+#  id              :bigint           not null, primary key
+#  user_id         :bigint
 #  controller_name :string(31)
 #  action_name     :string(31)
 #  created_at      :datetime         not null

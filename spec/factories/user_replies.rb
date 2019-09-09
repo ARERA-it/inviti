@@ -2,8 +2,8 @@
 #
 # Table name: user_replies
 #
-#  id                    :bigint(8)        not null, primary key
-#  appointment_action_id :bigint(8)
+#  id                    :bigint           not null, primary key
+#  appointment_action_id :bigint
 #  token                 :string
 #  status                :integer          default("not_yet")
 #  comment               :text

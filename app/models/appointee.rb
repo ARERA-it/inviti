@@ -2,9 +2,9 @@
 #
 # Table name: appointees
 #
-#  id            :bigint(8)        not null, primary key
-#  invitation_id :bigint(8)
-#  user_id       :bigint(8)
+#  id            :bigint           not null, primary key
+#  invitation_id :bigint
+#  user_id       :bigint
 #  status        :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null

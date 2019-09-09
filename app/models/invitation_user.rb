@@ -2,8 +2,8 @@
 #
 # Table name: invitations_users
 #
-#  invitation_id :bigint(8)
-#  user_id       :bigint(8)
+#  invitation_id :bigint
+#  user_id       :bigint
 #
 
 # TODO: obsolete

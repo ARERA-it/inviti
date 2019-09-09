@@ -2,10 +2,10 @@
 #
 # Table name: accepts
 #
-#  id            :bigint(8)        not null, primary key
+#  id            :bigint           not null, primary key
 #  token         :string
-#  invitation_id :bigint(8)
-#  user_id       :bigint(8)
+#  invitation_id :bigint
+#  user_id       :bigint
 #  decision      :integer          default("not_yet")
 #  comment       :text             default("")
 #  created_at    :datetime         not null

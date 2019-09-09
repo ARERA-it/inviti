@@ -2,7 +2,7 @@
 #
 # Table name: users
 #
-#  id                  :bigint(8)        not null, primary key
+#  id                  :bigint           not null, primary key
 #  remember_created_at :datetime
 #  sign_in_count       :integer          default(0), not null
 #  current_sign_in_at  :datetime
@@ -25,6 +25,15 @@
 
 FactoryBot.define do
   factory :user do
-    
+    display_name { "John Wick" }
+    username { "johnwick" }
+    email { "johnwick@example.com" }
+  end
+
+  factory :admin, class: User do
+    display_name { "John Wick" }
+    username { "johnwick" }
+    email { "johnwick@example.com" }
+    role { :admin }
   end
 end

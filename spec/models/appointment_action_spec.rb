@@ -2,10 +2,10 @@
 #
 # Table name: appointment_actions
 #
-#  id           :bigint(8)        not null, primary key
-#  appointee_id :bigint(8)
-#  group_id     :bigint(8)
-#  user_id      :bigint(8)
+#  id           :bigint           not null, primary key
+#  appointee_id :bigint
+#  group_id     :bigint
+#  user_id      :bigint
 #  kind         :integer
 #  comment      :text
 #  timestamp    :datetime

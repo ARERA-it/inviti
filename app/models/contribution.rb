@@ -2,9 +2,9 @@
 #
 # Table name: contributions
 #
-#  id            :bigint(8)        not null, primary key
-#  invitation_id :bigint(8)
-#  user_id       :bigint(8)
+#  id            :bigint           not null, primary key
+#  invitation_id :bigint
+#  user_id       :bigint
 #  title         :string           default("")
 #  note          :text             default("")
 #  created_at    :datetime         not null

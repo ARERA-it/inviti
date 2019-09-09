@@ -15,9 +15,11 @@ RSpec.feature "Creating a group", type: :feature do
 
     # confirm
 	  fill_in "Nome del gruppo", with: "Collegio"
-	  fill_in "group[user_ids][]", with: @mrossi.id, name: "group[user_ids][]", multiple: true
+    select @mrossi.name, :from => "group_user_ids"
+
 	  click_button "Salva"
-	  # expect(page).to have_content("Il gruppo è stato creato correttamente")
-    # expect(page.current_path).to eq(groups_path) 
+	  expect(page).to have_content("Il gruppo è stato creato correttamente")
+    expect(page).to have_content("Collegio")
+    expect(page.current_path).to eq(groups_path)
 	end
 end

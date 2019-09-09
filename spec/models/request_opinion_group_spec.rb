@@ -2,9 +2,9 @@
 #
 # Table name: request_opinion_groups
 #
-#  id                 :bigint(8)        not null, primary key
-#  request_opinion_id :bigint(8)
-#  group_id           :bigint(8)
+#  id                 :bigint           not null, primary key
+#  request_opinion_id :bigint
+#  group_id           :bigint
 #
 
 require 'rails_helper'
