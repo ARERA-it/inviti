@@ -1,0 +1,12 @@
+it:
+  invitations:
+    search_fields:
+      search_inside: "Cerca in:"
+      all: Tutti i campi
+      location: Luogo
+      title: Titolo
+      organizer: Organizzazione
+      appointee: Incaricato
+      email_body_preview: E-mail
+      nothing_found: Nessun invito trovato
+      nothing_found_w_params: Nessun invito trovato in base ai criteri di ricerca

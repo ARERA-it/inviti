@@ -1,4 +1,104 @@
+<div class="card mb-4 border-left-info">
+  <div class="card-body py-0">
+    <%= render "invitations_search" %>
+  </div>
+</div>
 
+<div class="card shadow mb-4">
+  <div class="card-body">
+
+    <% if invitations.any? %>
+      <div class="table-responsive">
+        <table class="table table-bordered table-sm record-list invitation-table mb-7" id="" width="100%" cellspacing="0">
+          <thead class="thead-light">
+            <tr>
+              <th>&nbsp;</th>
+              <th>Quando</th>
+              <th>Dove</th>
+              <th>Titolo</th>
+              <th>Organizzazione</th>
+              <% if @sel!='to_be_assigned' %>
+                <th>Incaricati</th>
+              <% end %>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tfoot class="thead-light">
+            <tr>
+              <th>&nbsp;</th>
+              <th>Quando</th>
+              <th>Dove</th>
+              <th>Titolo</th>
+              <th>Organizzazione</th>
+              <% if @sel!='to_be_assigned' %>
+                <th>Incaricati</th>
+              <% end %>
+              <th>&nbsp;</th>
+            </tr>
+          </tfoot>
+          <tbody>
+            <% invitations.each do |inv| %>
+              <tr class="invitation clickable <%= !@seen_invitations[inv.id].nil? ? '' : 'font-weight-bold' %>" data-url="<%= invitation_path(inv) %>" data-id="<%= inv.id %>">
+                <td><%= status_badge(inv) %> <%= new_invitation_badge(inv, current_user, @seen_invitations) %></td>
+                <td><span class="datetime"><%= formatta_dataora inv.from_date_and_time, "" %></span></td>
+                <td><%= inv.location %></td>
+                <td>
+                  <% if !inv.title.blank? %>
+                    <span class="title"><%= inv.title %></span>
+                  <% else %>
+                    <span class="alt-title"><%= inv.email_subject %></span>
+                  <% end %>
+                </td>
+                <td><%= inv.organizer %></td>
+                <% if @sel!='to_be_assigned' %>
+                  <td><%= inv.appointees.waiting_n_accepted.map(&:name).join(', ') %></td>
+                <% end %>
+                <td class="">
+                  <div class="status-icons float-right">
+                    <% if policy(inv).view_opinion? %>
+                      <%= icon_for_opinions(inv.opinions) %>
+                      <%= icon_for_comments(inv.comments) %>
+                    <% end %>
+                    <%= icon_for_contributions(inv.contributions) %>
+
+                    <% if policy(inv).destroy? %>
+                      <div class="archive-btn">
+                        <%= fa_icon("trash-alt", style: :solid) %>
+                      </div>
+                    <% end %>
+
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <div class="row">
+        <div class="col">
+          <div class="alert alert-dark" role="alert">
+            <% if params[:search_string] %>
+              <%= t(:nothing_found_w_params, scope: [:invitations, :search_fields]) %>
+            <% else %>
+              <%= t(:nothing_found, scope: [:invitations, :search_fields]) %>
+            <% end %>
+          </div>
+
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="card my-4 border-left-info">
+  <div class="card-body">
+    <%= render "invitations_search_paging" %>
+  </div>
+</div>
+
+
+<% if false %>
 <div class="card shadow mb-4">
   <div class="card-body">
 
@@ -64,3 +164,4 @@
 
   </div>
 </div>
+<% end %>

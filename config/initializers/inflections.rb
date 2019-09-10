@@ -14,3 +14,10 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym 'RESTful'
 # end
+
+ActiveSupport::Inflector.inflections(:it) do |inflect|
+  # inflect.plural /^(ox)$/i, '\1en'
+  # inflect.singular /^(ox)en/i, '\1'
+  inflect.irregular 'invito', 'inviti'
+  # inflect.uncountable %w( fish sheep )
+end

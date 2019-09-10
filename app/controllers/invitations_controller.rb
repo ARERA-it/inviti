@@ -103,40 +103,61 @@ class InvitationsController < ApplicationController
 
     # i = Invitation
     i = policy_scope(Invitation)
-    sel = params['sel'] || 'to_be_filled'
-    case sel
+    @sel = params['sel'] || 'to_be_filled'
+    case @sel
 
     when 'to_be_filled'
       i = i.order(created_at: :desc).no_info
-      @sel = "da compilare"
+      @sel_string = "da compilare"
 
     when 'to_be_assigned'
       i = i.order(from_date_and_time: :asc).to_be_assigned
-      @sel = "da assegnare"
+      @sel_string = "da assegnare"
 
     when 'waitin'
       i = i.order(from_date_and_time: :asc).waitin
-      @sel = "in assegnazione"
+      @sel_string = "in assegnazione"
 
     when 'ready'
       i = i.order(from_date_and_time: :asc).are_assigned
-      @sel = "assegnati"
+      @sel_string = "pronti"
 
     when 'archived'
       i = i.order("from_date_and_time DESC, created_at DESC").archived
-      @sel = "archiviati"
+      @sel_string = "archiviati"
 
     when 'all'
       i = i.order("from_date_and_time DESC, created_at DESC")
-      @sel = "tutti"
+      @sel_string = "tutti"
     end
-    @invitations = i.includes(:opinions, :comments, :contributions).with_attached_files
+    # i.where()
+
+    ss = params[:search_string]
+    if !ss.blank?
+      case params[:search_field]
+      when 'location'
+        i = i.location_contains(ss)
+      when 'title'
+        i = i.title_contains(ss)
+      when 'organizer'
+        i = i.organizer_contains(ss)
+      when 'appointee'
+        i = i.appointees_contains(ss)
+      when 'email_body_preview'
+        i = i.email_contains(ss)
+      else # all
+        i = i.some_field_contains(ss)
+      end
+    end
+    i = i.page params[:page]
+    i = i.includes(:opinions, :comments, :contributions, :appointees, :request_opinions).with_attached_files
     @vis_mode = current_user.settings(:invitation).visualization_mode
 
+    @invitations = i.order(from_date_and_time: :desc)
     # Used by calendar
     if @vis_mode=="calendar"
-      # @start_date = Date.today
-      @start_date = Date.parse("2019-04-01")
+      @start_date = Date.today
+      # @start_date = Date.parse("2019-04-01")
       @end_date = @start_date + 2.month
       @dfd = 1 # desired first day of calendar (1: monday)
 

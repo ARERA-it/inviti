@@ -1,0 +1,17 @@
+it:
+  views:
+    pagination:
+      first: "&laquo; Primo"
+      last: "Ultimo &raquo;"
+      previous: "&lsaquo; Precedente"
+      next: "Successivo &rsaquo;"
+      truncate: "&hellip;"
+  helpers:
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: "Nessun elemento trovato/a"
+          one: "Stai visualizzando <b>1</b> elemento"
+          other: "Stai visualizzando <b> %{count}</b> elementi"
+      more_pages:
+        display_entries: "Vista da <b>%{first} a %{last}</b> di <b>%{total}</b> elementi"

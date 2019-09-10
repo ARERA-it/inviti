@@ -38,6 +38,7 @@ class Invitation < ApplicationRecord
   include EmailDecoder
   audited except: [:email_id, :email_body_preview, :email_body, :email_decoded]
   has_associated_audits # :appointees, :contributions, :comments
+  paginates_per 25 # kaminari
 
   include AASM
 
@@ -47,6 +48,15 @@ class Invitation < ApplicationRecord
     declined: 5,
     past: 6
   }
+
+  INDEX_SEARCH_FIELD = %w( all location title organizer appointee email_body_preview )
+
+  scope :location_contains, -> (ss) { where("location ilike ?", "%#{ss}%") }
+  scope :title_contains, -> (ss) { where("title ilike ?", "%#{ss}%") }
+  scope :organizer_contains, -> (ss) { where("organizer ilike ?", "%#{ss}%") }
+  scope :appointees_contains, -> (ss) { left_joins(appointees: [:user]).where("users.display_name ilike ?", "%#{ss}%") }
+  scope :email_contains, -> (ss) { where("email_body_preview ilike ?", "%#{ss}%") }
+  scope :some_field_contains, -> (ss) { left_joins(appointees: [:user]).where("(invitations.location ilike ?) OR (invitations.title ilike ?) OR (invitations.organizer ilike ?) OR (users.display_name ilike ?) OR (invitations.email_body_preview ilike ?)", "%#{ss}%", "%#{ss}%", "%#{ss}%", "%#{ss}%", "%#{ss}%") }
 
   enum appointee_status: [:nobody, :at_work, :ibrid, :one_or_more]
   enum org_category: [:undefined, :by_company, :partecipated, :general]
@@ -184,14 +194,6 @@ class Invitation < ApplicationRecord
 
   scope :expired,        -> { where(state: :past) }
   scope :not_expired,    -> { where.not(state: :past) }
-  # scope :to_be_assigned, -> { where(state: [:info, :rejected]) }
-
-  #
-  # scope :to_be_assigned, -> { where(appointee_status: [:info, :rejected]) }
-  # scope :are_assigned,   -> { where(state: [:assigned, :accepted])}
-  # scope :alive,          -> { where(state: [:info, :assigned, :accepted, :rejected])}
-
-  # scope :no_info -> is a state
   scope :to_be_assigned, -> { where(state: :info, appointee_status: :nobody) }
   scope :waitin,         -> { where(state: :info, appointee_status: [:ibrid, :at_work]) } # almeno uno in attesa
   scope :are_assigned,   -> { where(state: :info, appointee_status: [:one_or_more]) }

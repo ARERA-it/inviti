@@ -1,7 +1,19 @@
+<div class="card mb-5 border-left-info">
+  <div class="card-body py-0">
+    <%= render "invitations_search" %>
+  </div>
+</div>
+
 <div class="row inv-cards">
   <% invitations.each do |invitation| %>
     <div class="col">
       <%= render 'inv_card', inv: invitation %>
     </div>
   <% end %>
+</div>
+
+<div class="card my-4 border-left-info">
+  <div class="card-body">
+    <%= render "invitations_search_paging" %>
+  </div>
 </div>

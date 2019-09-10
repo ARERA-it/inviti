@@ -1,0 +1,13 @@
+<div class="row">
+  <div class="col">
+    <div class="float-right mb-3 mt-3">
+      <%= form_with url: invitations_path, method: 'get', local: true, class: 'form-inline' do |form| %>
+        <%= hidden_field_tag :sel, params['sel'] %>
+        <%= label_tag :search_field, t(:search_inside, scope: [:invitations, :search_fields]), class: "mr-2" %>
+        <%= select_tag :search_field, options_from_collection_for_select(Invitation::INDEX_SEARCH_FIELD, :to_s, ->(e){ t(e, scope: [:invitations, :search_fields]) }, params[:search_field]), class: "form-control mr-2" %>
+        <%= text_field_tag :search_string, params[:search_string], class: "form-control mr-2" %>
+        <%= submit_tag "Cerca", class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+</div>

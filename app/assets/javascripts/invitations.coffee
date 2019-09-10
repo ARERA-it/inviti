@@ -3,7 +3,9 @@ class InvitationsController
 
   index: ->
     $('.archive-btn').on('click', (e) ->
-      id = $(this).parents('.inv-card').first().data('id')
+      console.log "Hello!"
+      id = $(this).parents('.invitation').first().data('id')
+      console.log id
       if id
         options = {}
         $('#modal-submit-btn').attr('href', "/invitations/#{id}")
