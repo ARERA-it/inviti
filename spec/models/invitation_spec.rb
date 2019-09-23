@@ -29,6 +29,7 @@
 #  appointee_status         :integer          default("nobody")
 #  appointee_steps_count    :integer          default(0)
 #  public_event             :boolean          default(FALSE)
+#  org_category             :integer          default("undefined")
 #
 
 require 'rails_helper'

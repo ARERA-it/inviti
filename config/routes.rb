@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  post 'rejections/dismiss'
+  post 'rejections/dismiss_all'
+  post 'rejections/un_dismiss'
+
   resources :groups do
     get :autocomplete_user_display_name, on: :collection
   end

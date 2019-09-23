@@ -104,10 +104,9 @@ class Invitation < ApplicationRecord
   end
 
   after_save do |i|
-    if i.no_info? and i.has_basic_info?
-      i.info_added!
-    end
+    i.info_added! if i.no_info? and i.has_basic_info?
     i.pass! if i.is_expired?
+
   end
 
   after_update do
@@ -116,6 +115,7 @@ class Invitation < ApplicationRecord
   end
 
   # prop_waiting, :prop_accepted, :prop_refused, :app_waiting, :app_accepted, :app_refused, :direct_app, :direct_app_accepted, :direct_app_refused, :canceled
+  # Will notify the cancellation of the invitation to all participants (if exists)
   def actions_after_decline(comment: "", user: )
     appointees.where(status: [:prop_waiting, :prop_accepted, :app_waiting, :app_accepted, :direct_app, :direct_app_accepted]).each do |appointee|
       appointee.actions.create(kind: :canceled, comment: comment, user: user)
@@ -146,6 +146,7 @@ class Invitation < ApplicationRecord
         decline! # -> enum: :state
         do_not_participate! # -> enum: :decision
         actions_after_decline(comment: comment, user: current_user)
+        Rejection.create(invitation: self)
       end
 
     end
@@ -169,6 +170,7 @@ class Invitation < ApplicationRecord
   has_many :assignment_steps, -> { order "timestamp ASC" }, dependent: :destroy
   has_many :request_opinions, dependent: :destroy
   has_many :appointees, dependent: :destroy
+  has_many :rejections, dependent: :destroy
   # accepts_nested_attributes_for :appointees, allow_destroy: true
 
   # TODO: remove the following

@@ -40,6 +40,7 @@ class User < ApplicationRecord
   has_many :contributions, dependent: :nullify
   has_many :interactions, class_name: "UserInteraction", foreign_key: "user_id"
   has_many :appointees, dependent: :nullify
+  has_many :rej_users, dependent: :destroy
   has_and_belongs_to_many :group
 
 

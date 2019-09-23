@@ -1,0 +1,38 @@
+<% if @rejections %>
+  <div class="card shadow mb-3">
+    <div class="card-body">
+
+      <h3>Inviti declinati</h3>
+
+      <p>
+        La lista che segue mostra gli inviti per i quali il Presidente ha ritenuto che ARERA non debba non partecipare.
+      </p>
+      <p>
+        È stata creata ad uso delle segretarie al fine di avere sott'occhio facilmente gli inviti declinati ed eventualmente
+        intraprendere opportune azioni. È loro possibile archiviare e - viceversa - riabilitare  elementi della lista in modo
+        da tenere in evidenza gli inviti su cui compiere azioni, per esempio rispondere al mittente per informarlo della decisione.
+      </p>
+
+      <table class="table rejected-invitations mt-4">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Titolo</th>
+            <th scope="col">Rifiutato</th>
+            <th scope="col">
+              <span class="float-right">
+                <%= link_to "Archivia tutti", rejections_dismiss_all_path, class: "btn btn-secondary btn-sm dismiss-btn", method: :post %>
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @rejections.each do |rej| %>
+            <%= render 'rejections/table_row', rej: rej %>
+          <% end %>
+        </tbody>
+      </table>
+      <%= paginate @rejections, theme: 'twitter-bootstrap-4' %>
+      <%= page_entries_info @rejections %>
+    </div>
+  </div>
+<% end %>

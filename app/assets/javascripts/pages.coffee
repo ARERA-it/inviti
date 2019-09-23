@@ -10,4 +10,12 @@ class PagesController
       Turbolinks.visit(url)
     )
 
+
+    # $('.dismiss-btn').on('click', ->
+    #   url = $(this).data('url')
+    #   if url!=""
+    #     $.post(url).done ->
+    #       alert("hello!")
+    # )
+
 this.App.pages = new PagesController

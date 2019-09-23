@@ -1,0 +1,28 @@
+<% dsm = rej.dismissed_by?(current_user) %>
+
+<% if dsm %>
+
+  <tr class="dismissed" id="<%= "rej-#{rej.id}" %>">
+    <td><%= link_to rej.invitation.title.truncate(100), rej.invitation, class: 'title-link' %></td>
+    <td><%= formatta_dataora rej.created_at, "" %></td>
+    <td>
+      <span class="float-right">
+        <%= link_to "Riabilita", rejections_un_dismiss_path(rejection_id: rej.id), class: "btn btn-secondary btn-sm dismiss-btn", method: :post, remote: true %>
+      </span>
+    </td>
+  </tr>
+
+
+<% else %>
+  <tr class="not-dismissed" id="<%= "rej-#{rej.id}" %>">
+    <td><%= link_to rej.invitation.title.truncate(100), rej.invitation, class: 'title-link' %></td>
+    <td><%= formatta_dataora rej.created_at, "" %></td>
+    <td>
+      <span class="float-right">
+        <%= link_to "Archivia", rejections_dismiss_path(rejection_id: rej.id), class: "btn btn-secondary btn-sm dismiss-btn", method: :post, remote: true %>
+      </span>
+    </td>
+  </tr>
+
+
+<% end %>

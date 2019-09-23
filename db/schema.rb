@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_09_104545) do
+ActiveRecord::Schema.define(version: 2019_09_20_161743) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -226,6 +226,23 @@ ActiveRecord::Schema.define(version: 2019_08_09_104545) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "rej_users", force: :cascade do |t|
+    t.bigint "rejection_id"
+    t.bigint "user_id"
+    t.boolean "dismissed", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["rejection_id"], name: "index_rej_users_on_rejection_id"
+    t.index ["user_id"], name: "index_rej_users_on_user_id"
+  end
+
+  create_table "rejections", force: :cascade do |t|
+    t.bigint "invitation_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invitation_id"], name: "index_rejections_on_invitation_id"
+  end
+
   create_table "request_opinion_groups", force: :cascade do |t|
     t.bigint "request_opinion_id"
     t.bigint "group_id"
@@ -319,6 +336,9 @@ ActiveRecord::Schema.define(version: 2019_08_09_104545) do
   add_foreign_key "comments", "users"
   add_foreign_key "opinions", "invitations"
   add_foreign_key "opinions", "users"
+  add_foreign_key "rej_users", "rejections"
+  add_foreign_key "rej_users", "users"
+  add_foreign_key "rejections", "invitations"
   add_foreign_key "request_opinion_groups", "groups"
   add_foreign_key "request_opinion_groups", "request_opinions"
   add_foreign_key "request_opinions", "invitations"
