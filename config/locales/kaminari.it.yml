@@ -10,7 +10,7 @@ it:
     page_entries_info:
       one_page:
         display_entries:
-          zero: "Nessun elemento trovato/a"
+          zero: "Nessun elemento trovato"
           one: "Stai visualizzando <b>1</b> elemento"
           other: "Stai visualizzando <b> %{count}</b> elementi"
       more_pages:
