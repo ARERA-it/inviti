@@ -43,3 +43,5 @@ comandi_docker.txt
 docker-compose.staging-with-network.yml
 
 /lib/tasks/migrate.rake
+
+/some-scripts
