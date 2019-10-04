@@ -10,6 +10,7 @@ class InvitationPolicy < ApplicationPolicy
     user.president? ||
     user.advisor? ||
     user.secretary? ||
+    user.observer? ||
     record.appointed_users.include?(user) ||
     record.users_who_was_asked_for_an_opinion.include?(user)
   end
@@ -28,6 +29,7 @@ class InvitationPolicy < ApplicationPolicy
     user.president? ||
     user.advisor? ||
     user.secretary? ||
+    user.observer? ||
     record.appointed_users.include?(user)
   end
 
@@ -37,6 +39,7 @@ class InvitationPolicy < ApplicationPolicy
     user.president? ||
     user.advisor? ||
     user.secretary? ||
+    user.observer? ||
     record.appointed_users.include?(user)
   end
 
@@ -116,7 +119,6 @@ class InvitationPolicy < ApplicationPolicy
 
   def destroy?
     return true  if user.admin?
-    return false if user.viewer?
     return true  if user.secretary? && (record.no_info? || record.info?)
     false
   end
@@ -141,7 +143,7 @@ class InvitationPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      if user.admin? || user.president? || user.advisor? || user.secretary?
+      if user.admin? || user.president? || user.advisor? || user.secretary? || user.observer?
         scope.all
       else
         scope.joins(:appointees).where("appointees.user_id=?", user.id)

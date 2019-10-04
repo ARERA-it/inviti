@@ -29,8 +29,8 @@ class User < ApplicationRecord
   # :registerable, :recoverable, :rememberable, :validatable
   devise :cas_authenticatable, :trackable
 
-  enum role: [:president, :advisor, :commissary, :secretary, :viewer, :admin]
-  enum advisor_group: [:not_advisor, :general_secretary, :external_relations, :board, :tester]
+  enum role: [:president, :advisor, :commissary, :secretary, :viewer, :admin, :observer]
+  enum advisor_group: [:not_advisor, :general_secretary, :external_relations, :board, :tester] # TODO: obsolete?
   enum gender: [:male, :female]
 
   validates :username, presence: true

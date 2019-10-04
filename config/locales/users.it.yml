@@ -6,6 +6,7 @@ it:
     secretary: Segreterie
     viewer: Sola lettura
     admin: Amministratore
+    observer: Osservatore
   advisor_group:
     not_advisor: '-'
     general_secretary: Segreteria generale

@@ -12,7 +12,6 @@ class PagesController < ApplicationController
       (r1-r2).each do |r_id|
         RejUser.create(rejection_id: r_id, user: current_user)
       end
-
       @rejections = Rejection.joins(:invitation, :rej_users).where('rej_users.user_id' => current_user.id).order('rej_users.dismissed', 'rejections.created_at DESC').page params[:page]
     else
       @rejections = nil
