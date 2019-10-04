@@ -123,11 +123,11 @@ class InvitationsController < ApplicationController
       @sel_string = "pronti"
 
     when 'archived'
-      i = i.order("from_date_and_time DESC, created_at DESC").archived
+      i = i.order("from_date_and_time DESC, invitations.created_at DESC").archived
       @sel_string = "archiviati"
 
     when 'all'
-      i = i.order("from_date_and_time DESC, created_at DESC")
+      i = i.order("from_date_and_time DESC, invitations.created_at DESC")
       @sel_string = "tutti"
     end
     # i.where()
@@ -150,10 +150,9 @@ class InvitationsController < ApplicationController
       end
     end
     i = i.page params[:page]
-    i = i.includes(:opinions, :comments, :contributions, :appointees, :request_opinions).with_attached_files
+    @invitations = i.includes(:opinions, :comments, :contributions, :appointees, :request_opinions).with_attached_files
     @vis_mode = current_user.settings(:invitation).visualization_mode
 
-    @invitations = i.order(from_date_and_time: :desc)
     # Used by calendar
     if @vis_mode=="calendar"
       @start_date = Date.today
