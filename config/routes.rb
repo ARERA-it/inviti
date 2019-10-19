@@ -23,6 +23,8 @@ Rails.application.routes.draw do
   # patch 'proposal_to_all_board_members', to: 'invitations#proposal_to_all_board_members'
   get 'settings/update', to: 'settings#update'
 
+  get 'appointees_chart_data', to: 'pages#appointees_chart_data'
+  get 'decisions_chart_data', to: 'pages#decisions_chart_data'
   get 'welcome', as: 'welcome', to: 'pages#welcome'
   get 'dashboard', as: 'dashboard', to: 'pages#dashboard'
 

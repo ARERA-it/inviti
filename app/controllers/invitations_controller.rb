@@ -68,7 +68,7 @@ class InvitationsController < ApplicationController
       # else
         if @invitation.update(want_participate_params)
           # la notifica dell'incarico viene inviata dal modello (mail_to_assigned)
-          puts "---> bene"
+          # puts "---> bene"
           @feedback_hash = { msg: "Dati salvati con successo" }
         else
           puts "---> errore: #{@invitation.errors.inspect}"

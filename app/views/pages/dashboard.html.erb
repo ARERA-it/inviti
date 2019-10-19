@@ -1,4 +1,4 @@
-<h1>Dashboard</h1>
+<h1 class="mb-5">Dashboard</h1>
 
 <%= render 'rejections/rejected' %>
 
@@ -40,3 +40,17 @@
     </div>
   </div>
 </div>
+
+<h2 class="mt-5">Statistiche</h2>
+
+<h3 class="mt-3">Conteggi per decisione presa</h3>
+<div class="row" style="position: relative; height: 80vh/500px/whatever">
+  <canvas id="inviti-decision-chart"></canvas>
+</div>
+
+<h3 class="mt-5">Conteggi per persona incaricata</h3>
+<div class="row" style="position: relative; height: 80vh/500px/whatever">
+  <canvas id="inviti-appointee-chart"></canvas>
+</div>
+
+<p class="mt-5">&nbsp;</p>

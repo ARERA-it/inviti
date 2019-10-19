@@ -24,6 +24,8 @@
 //= require moment-timezone-with-data
 //= require tempusdominus-bootstrap-4
 
+//= require Chart
+
 //= require init
 //= require users
 //= require groups
@@ -34,6 +36,8 @@
 //  require bs-custom-file-input
 //= require hidding-sidebar
 //= require user_interactions
+
+
 
 datatableItalian = {
   "sEmptyTable":     "Nessun dato presente nella tabella",
