@@ -19,6 +19,11 @@ class PagesController < ApplicationController
   end
 
 
+  def stats
+
+  end
+
+
   def decisions_chart_data
     labels = []
     datasets = [

@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   get 'decisions_chart_data', to: 'pages#decisions_chart_data'
   get 'welcome', as: 'welcome', to: 'pages#welcome'
   get 'dashboard', as: 'dashboard', to: 'pages#dashboard'
+  get 'stats', as: 'stats', to: 'pages#stats'
 
   resources :invitations do
     get :update_invitation_expired_statuses, on: :collection

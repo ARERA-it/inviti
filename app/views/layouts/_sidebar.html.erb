@@ -14,7 +14,7 @@
   <!-- Divider -->
   <hr class="sidebar-divider my-0">
 
-  <!-- Nav Item - Dashboard -->
+  <!-- Dashboard -->
   <li class="nav-item dashboard">
     <%= link_to dashboard_path, class: "nav-link" do %>
       <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -24,6 +24,19 @@
 
   <!-- Divider -->
   <hr class="sidebar-divider">
+
+  <li class="nav-item">
+    <%= link_to stats_path, class: "nav-link" do %>
+      <i class="fas fa-fw fa-chart-bar"></i>
+      <span>Statistiche</span>
+    <% end %>
+  </li>
+
+
+
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
 
   <!-- Heading -->
   <%= cache_view_counter current_user %>

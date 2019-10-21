@@ -1,15 +1,7 @@
 class PagesController
   init: ->
 
-  dashboard: ->
-    $('ul.sidebar li.nav-item.dashboard').each (el) ->
-      $(this).addClass('active')
-
-    $('.dashboard-cards .card').on('click', ->
-      url = $(this).data('url')
-      Turbolinks.visit(url)
-    )
-
+  stats: ->
     $.ajax('/decisions_chart_data', method: 'get').done( (data) ->
       console.log data
 
@@ -72,6 +64,21 @@ class PagesController
         }
       })
     ) #
+
+
+
+
+
+
+  dashboard: ->
+    $('ul.sidebar li.nav-item.dashboard').each (el) ->
+      $(this).addClass('active')
+
+    $('.dashboard-cards .card').on('click', ->
+      url = $(this).data('url')
+      Turbolinks.visit(url)
+    )
+
 
 
     # $('.dismiss-btn').on('click', ->
