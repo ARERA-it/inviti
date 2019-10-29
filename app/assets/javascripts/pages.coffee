@@ -6,19 +6,31 @@ class PagesController
       console.log data
 
       bar_chart_data = {
-        labels: data.labels,
+        labels: data.labels, # the months on bottom
         datasets: []
       }
       for dts in data.datasets
         bar_chart_data.datasets.push { label: dts.label, backgroundColor: dts.bg_color, data: dts.data }
 
       ctx = document.getElementById('inviti-decision-chart')
-      # console.log ctx
       ctx.height = 500
+
       myChart = new Chart(ctx, {
         type: 'bar',
         data: bar_chart_data,
         options: {
+          tooltips: {
+            callbacks: {
+              label: (tooltipItem, d) ->
+                label = data.datasets[tooltipItem.datasetIndex].label || ''
+                if label
+                  label += ': '
+                v    = tooltipItem.yLabel
+                tot  = data.sum_per_month[tooltipItem.index]
+                perc = Math.round(v / tot * 100)
+                "#{label} #{v} / #{tot} (#{perc}%)"
+            }
+          },
           scales: {
             xAxes: [{
               stacked: true,
@@ -51,6 +63,18 @@ class PagesController
         type: 'bar',
         data: bar_chart_data,
         options: {
+          tooltips: {
+            callbacks: {
+              label: (tooltipItem, d) ->
+                label = data.datasets[tooltipItem.datasetIndex].label || ''
+                if label
+                  label += ': '
+                v    = tooltipItem.yLabel
+                tot  = data.sum_per_month[tooltipItem.index]
+                perc = Math.round(v / tot * 100)
+                "#{label} #{v} / #{tot} (#{perc}%)"
+            }
+          },
           scales: {
             xAxes: [{
               stacked: true,

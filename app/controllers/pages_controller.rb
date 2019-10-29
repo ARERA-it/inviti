@@ -31,6 +31,8 @@ class PagesController < ApplicationController
       { label: "Rifiutati", bg_color: 'rgba(178, 27, 19, 0.5)', data: [] },
       { label: "Accettati", bg_color: 'rgba(42, 121, 18, 0.5)', data: [] },
     ]
+    sum_per_month = []
+    # sum_per_datasets = []
 
     d = Date.today
     12.times do
@@ -39,12 +41,22 @@ class PagesController < ApplicationController
       i  = Invitation.where("?<=from_date_and_time AND from_date_and_time<=?", d1, d2)
 
       labels.unshift "#{I18n.t('date.abbr_month_names')[d1.month]} #{d1.year}"
-      datasets[0][:data].unshift i.count{|e| e.decision=='waiting'}
-      datasets[1][:data].unshift i.count{|e| e.decision=='do_not_participate'}
-      datasets[2][:data].unshift i.count{|e| e.decision=='participate'}
+      wa = i.count{|e| e.decision=='waiting'}
+      no = i.count{|e| e.decision=='do_not_participate'}
+      pa = i.count{|e| e.decision=='participate'}
+      datasets[0][:data].unshift wa
+      datasets[1][:data].unshift no
+      datasets[2][:data].unshift pa
+      sum_per_month.unshift wa+no+pa
       d = d - 1.month
     end
-    render :json => { labels: labels, datasets: datasets }
+
+    # datasets.each_with_index do |el, i|
+    #   sum_per_datasets[i] = datasets[2][:data].sum
+    # end
+
+    render :json => { labels: labels, datasets: datasets, sum_per_month: sum_per_month }
+    # render :json => { labels: labels, datasets: datasets, sum_per_month: sum_per_month, sum_per_datasets: sum_per_datasets }
   end
 
 
@@ -63,6 +75,8 @@ class PagesController < ApplicationController
       'rgba(255,20,147, 0.5)',
       'rgba(160,82,45, 0.5)',
     ] # https://www.rapidtables.com/web/color/RGB_Color.html
+    sum_per_month = []
+
     d    = Date.today
     d1   = Date.new(d.year, d.month, 1)-11.months
     d2   = Date.new(d.year, d.month, 1)+1.month-1.day
@@ -83,12 +97,15 @@ class PagesController < ApplicationController
       i  = Invitation.where("?<=from_date_and_time AND from_date_and_time<=?", d1, d2)
 
       labels.unshift "#{I18n.t('date.abbr_month_names')[d1.month]} #{d1.year}"
+      sum = 0
       users.each_with_index do |user, i|
         c = Appointee.joins(:invitation).where("?<=invitations.from_date_and_time AND invitations.from_date_and_time<=? AND appointees.user_id=?", d1, d2, user.id).count
         datasets[i][:data].unshift c
+        sum += c
       end
+      sum_per_month.unshift sum
       d = d - 1.month
     end
-    render :json => { labels: labels, datasets: datasets }
+    render :json => { labels: labels, datasets: datasets, sum_per_month: sum_per_month }
   end
 end
