@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_20_161743) do
+ActiveRecord::Schema.define(version: 2019_10_29_130858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -149,6 +149,35 @@ ActiveRecord::Schema.define(version: 2019_09_20_161743) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["job_id"], name: "index_crono_jobs_on_job_id", unique: true
+  end
+
+  create_table "follow_up_actions", force: :cascade do |t|
+    t.bigint "follow_up_id"
+    t.bigint "user_id"
+    t.integer "fu_action", default: 0
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["follow_up_id"], name: "index_follow_up_actions_on_follow_up_id"
+    t.index ["user_id"], name: "index_follow_up_actions_on_user_id"
+  end
+
+  create_table "follow_up_users", force: :cascade do |t|
+    t.bigint "follow_up_id"
+    t.bigint "user_id"
+    t.boolean "dismissed", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["follow_up_id"], name: "index_follow_up_users_on_follow_up_id"
+    t.index ["user_id"], name: "index_follow_up_users_on_user_id"
+  end
+
+  create_table "follow_ups", force: :cascade do |t|
+    t.bigint "invitation_id"
+    t.integer "status", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invitation_id"], name: "index_follow_ups_on_invitation_id"
   end
 
   create_table "groups", force: :cascade do |t|
@@ -334,6 +363,11 @@ ActiveRecord::Schema.define(version: 2019_09_20_161743) do
   add_foreign_key "assignment_steps", "invitations"
   add_foreign_key "comments", "invitations"
   add_foreign_key "comments", "users"
+  add_foreign_key "follow_up_actions", "follow_ups"
+  add_foreign_key "follow_up_actions", "users"
+  add_foreign_key "follow_up_users", "follow_ups"
+  add_foreign_key "follow_up_users", "users"
+  add_foreign_key "follow_ups", "invitations"
   add_foreign_key "opinions", "invitations"
   add_foreign_key "opinions", "users"
   add_foreign_key "rej_users", "rejections"

@@ -31,7 +31,8 @@
 @import "timeline";
 
 @import "avatars";
-@import "rejections";
+@import "follow_ups";
+
 
 // @import "ribbon";
 
@@ -252,8 +253,17 @@ table.record-list {
   color: #c82814;
   background-color: #ffeff3;
   border-color: #e74a3b;
-}
 
+  h2 {
+    font-size: 1.0em;
+    color: #ff6b57;
+  }
+  ul > li {
+    font-size: 0.85em;
+    color: #ff7e70;
+  }
+
+}
 
 // customize tooltip
 .tooltip-inner {

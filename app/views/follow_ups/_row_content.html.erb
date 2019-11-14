@@ -1,0 +1,13 @@
+<td><%= link_to fu.invitation.title.truncate(100), fu.invitation, class: 'title-link' %></td>
+<td><%= formatta_data fu.invitation.from_date_and_time, "" %></td>
+<td><%= livestamp fu.created_at %></td>
+<td>
+  <span class="float-right">
+    <%= link_to follow_up_actions_path(follow_up_id: fu.id), class: "btn btn-secondary btn-sm dismiss-btn", remote: true do %>
+      <%= envelope_icon_with_count(fu.follow_up_actions.count) %>
+    <% end %>
+    <%= link_to follow_up_dismiss_path(follow_up_id: fu.id), class: "btn btn-secondary btn-sm dismiss-btn", method: :post, remote: true do %>
+      <i class="fas <%= dsm ? 'fa-trash-restore' : 'fa-trash' %>"></i>
+    <% end %>
+  </span>
+</td>

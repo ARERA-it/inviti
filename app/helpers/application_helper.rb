@@ -270,4 +270,14 @@ module ApplicationHelper
 
     content_tag(:a, name, html_options, &block)
   end
+
+
+  def envelope_icon_with_count(c)
+    if c>0
+      content_tag(:i, nil, class: "fas fa-envelope")+
+      content_tag(:span, c, class: "badge badge-danger badge-counter")
+    else
+      content_tag(:i, nil, class: "fas fa-envelope")
+    end
+  end
 end

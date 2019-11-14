@@ -7,14 +7,14 @@ class PagesController < ApplicationController
 
   def dashboard
     if current_user.secretary? || current_user.admin?
-      r1 = Rejection.pluck(:id)
-      r2 = RejUser.where(user: current_user).pluck(:rejection_id)
+      r1 = FollowUp.pluck(:id)
+      r2 = FollowUpUser.where(user: current_user).pluck(:follow_up_id)
       (r1-r2).each do |r_id|
-        RejUser.create(rejection_id: r_id, user: current_user)
+        FollowUpUser.create(follow_up_id: r_id, user: current_user)
       end
-      @rejections = Rejection.joins(:invitation, :rej_users).where('rej_users.user_id' => current_user.id).order('rej_users.dismissed', 'rejections.created_at DESC').page params[:page]
+      @follow_ups = FollowUp.joins(:invitation, :follow_up_users).where('follow_up_users.user_id' => current_user.id).order('follow_up_users.dismissed', 'follow_ups.created_at DESC').page params[:page]
     else
-      @rejections = nil
+      @follow_ups = nil
     end
   end
 

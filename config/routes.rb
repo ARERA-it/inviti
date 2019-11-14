@@ -1,7 +1,16 @@
 Rails.application.routes.draw do
-  post 'rejections/dismiss'
-  post 'rejections/dismiss_all'
-  post 'rejections/un_dismiss'
+
+  resources :follow_up_actions
+  
+  resources :follow_ups do
+    post :dismiss
+    post :dismiss_all, on: :collection
+    post :un_dismiss
+  end
+
+  post 'rejections/dismiss' # TODO: remove this
+  post 'rejections/dismiss_all' # TODO: remove this
+  post 'rejections/un_dismiss' # TODO: remove this
 
   resources :groups do
     get :autocomplete_user_display_name, on: :collection

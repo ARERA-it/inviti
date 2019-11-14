@@ -1,0 +1,13 @@
+it:
+  undefined_user: qualcuno
+  follow_ups:
+    previous_actions:
+      zero: 'Nessuna azione intrapresa'
+      one: "1 azione intrapresa"
+      other: '%{count} azioni intraprese'
+
+
+  follow_up_actions:
+    description:
+      none_: 'Azione indefinita di %{user}'
+      sent_email: '%{user} ha inviato una e-mail'

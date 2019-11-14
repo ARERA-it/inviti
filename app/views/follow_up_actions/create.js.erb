@@ -1,0 +1,2 @@
+$('#fu-<%= @fu.id %>').html("<%= j render 'follow_ups/row_content', fu: @fu, dsm: dsm = @fu.dismissed_by?(current_user) %>");
+$('#follow-up-actions-modal').modal('hide');

@@ -1,9 +1,7 @@
-<% if @rejections %>
+<% if @follow_ups %>
   <div class="card shadow mb-3">
     <div class="card-body">
-
       <h3>Inviti declinati</h3>
-
       <p>
         La lista che segue mostra gli inviti per i quali il Presidente ha ritenuto che ARERA non debba non partecipare.
       </p>
@@ -13,7 +11,7 @@
         da tenere in evidenza gli inviti su cui compiere azioni, per esempio rispondere al mittente per informarlo della decisione.
       </p>
 
-      <table class="table rejected-invitations mt-4">
+      <table class="table follow-up-invitations mt-4">
         <thead class="thead-light">
           <tr>
             <th scope="col">Titolo evento</th>
@@ -21,7 +19,7 @@
             <th scope="col">Data rifiuto</th>
             <th scope="col">
               <span class="float-right">
-                <%= link_to rejections_dismiss_all_path, class: "btn btn-secondary btn-sm dismiss-btn", method: :post do %>
+                <%= link_to dismiss_all_follow_ups_path, class: "btn btn-secondary btn-sm dismiss-btn", method: :post do %>
                   <i class="fas fa-trash"></i>
                 <% end %>
               </span>
@@ -29,13 +27,16 @@
           </tr>
         </thead>
         <tbody>
-          <% @rejections.each do |rej| %>
-            <%= render 'rejections/table_row', rej: rej %>
+          <% @follow_ups.each do |fu| %>
+            <%= render 'follow_ups/table_row', fu: fu %>
           <% end %>
         </tbody>
       </table>
-      <%= paginate @rejections, theme: 'twitter-bootstrap-4' %>
-      <%= page_entries_info @rejections %>
+      <%= paginate @follow_ups, theme: 'twitter-bootstrap-4' %>
+      <%= page_entries_info @follow_ups %>
     </div>
   </div>
 <% end %>
+
+
+<%= render 'follow_up_actions/modal' %>

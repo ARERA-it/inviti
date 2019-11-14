@@ -1,0 +1,58 @@
+<%= form_with(model: FollowUpAction.new(follow_up: follow_up), class: 'contrib-form', html: { autocomplete: :off }) do |form| %>
+
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Azioni supplementari</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <p><%= t('follow_ups.previous_actions', count: collection.size) %></p>
+
+    <% collection.each do |a| %>
+      <div class="row mb-2">
+        <div class="col">
+          <div class="card border-left-primary">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <div class="text-xs text-primary text-uppercase mb-1">
+                    <%= follow_up_action_descr(a) %>
+                  </div>
+                  <div class="mb-0 font-weight-bold text-gray-800">
+                    <%= a.comment %>
+                  </div>
+                  <div class="text-xs text-success text-uppercase mt-1">
+                    <%= livestamp(a.created_at) %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+
+
+    <h3 class="mt-4">Aggiungi azione</h3>
+    <div class="error_messages"></div>
+    <%= form.hidden_field :follow_up_id %>
+
+    <div class="form-group">
+      <%= form.label :fu_action, tt('follow_up_action.fu_action') %>
+      <%= form.collection_select :fu_action, FollowUpAction.fu_actions.to_a, :first, ->(e){ t("fu_actions.#{e.first}") }, {prompt: false}, class: "form-control"  %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :comment, tt('follow_up_action.comment') %>
+      <%= form.text_area :comment, rows: 4, class: "form-control"  %>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+    <%= form.submit "Aggiungi", class: "btn btn-primary pull-right" %>
+  </div>
+<% end %>

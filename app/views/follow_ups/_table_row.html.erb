@@ -1,0 +1,5 @@
+<% dsm = fu.dismissed_by?(current_user) %>
+
+<tr class="<%= dsm ? 'dismissed' : 'not-dismissed' %>" id="<%= "fu-#{fu.id}" %>">
+  <%= render 'follow_ups/row_content', fu: fu, dsm: dsm %>
+</tr>

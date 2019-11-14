@@ -4,10 +4,13 @@
 
   <tr class="dismissed" id="<%= "rej-#{rej.id}" %>">
     <td><%= link_to rej.invitation.title.truncate(100), rej.invitation, class: 'title-link' %></td>
-    <td><%= formatta_dataora rej.created_at, "" %></td>
+    <td><%= formatta_data rej.invitation.from_date_and_time, "" %></td>
+    <td><%= livestamp rej.created_at %></td>
     <td>
       <span class="float-right">
-        <%= link_to "Riabilita", rejections_un_dismiss_path(rejection_id: rej.id), class: "btn btn-secondary btn-sm dismiss-btn", method: :post, remote: true %>
+        <%= link_to rejections_un_dismiss_path(rejection_id: rej.id), class: "btn btn-secondary btn-sm dismiss-btn", method: :post, remote: true do %>
+          <i class="fas fa-trash-restore"></i>
+        <% end %>
       </span>
     </td>
   </tr>
@@ -16,13 +19,18 @@
 <% else %>
   <tr class="not-dismissed" id="<%= "rej-#{rej.id}" %>">
     <td><%= link_to rej.invitation.title.truncate(100), rej.invitation, class: 'title-link' %></td>
-    <td><%= formatta_dataora rej.created_at, "" %></td>
+    <td><%= formatta_data rej.invitation.from_date_and_time, "" %></td>
+    <td><%= livestamp rej.created_at %></td>
     <td>
       <span class="float-right">
-        <%= link_to "Archivia", rejections_dismiss_path(rejection_id: rej.id), class: "btn btn-secondary btn-sm dismiss-btn", method: :post, remote: true %>
+        <%= link_to rejections_dismiss_path(rejection_id: rej.id), class: "btn btn-secondary btn-sm dismiss-btn", method: :post, remote: true do %>
+          <i class="fas fa-envelope"></i>
+        <% end %>
+        <%= link_to rejections_dismiss_path(rejection_id: rej.id), class: "btn btn-secondary btn-sm dismiss-btn", method: :post, remote: true do %>
+          <i class="fas fa-trash"></i>
+        <% end %>
       </span>
     </td>
   </tr>
-
 
 <% end %>

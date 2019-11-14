@@ -47,3 +47,7 @@ it:
         status: Stato
       opinion:
         selection: Scelta
+
+      follow_up_action:
+        fu_action: Azione
+        comment: Commento o nota

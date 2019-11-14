@@ -29,6 +29,7 @@
 #  appointee_status         :integer          default("nobody")
 #  appointee_steps_count    :integer          default(0)
 #  public_event             :boolean          default(FALSE)
+#  org_category             :integer          default("undefined")
 #
 
 class Invitation < ApplicationRecord
@@ -146,7 +147,8 @@ class Invitation < ApplicationRecord
         decline! # -> enum: :state
         do_not_participate! # -> enum: :decision
         actions_after_decline(comment: comment, user: current_user)
-        Rejection.create(invitation: self)
+        Rejection.create(invitation: self) # TODO: remove this
+        follow_ups.create
       end
 
     end
@@ -170,7 +172,8 @@ class Invitation < ApplicationRecord
   has_many :assignment_steps, -> { order "timestamp ASC" }, dependent: :destroy
   has_many :request_opinions, dependent: :destroy
   has_many :appointees, dependent: :destroy
-  has_many :rejections, dependent: :destroy
+  has_many :rejections, dependent: :destroy # TODO: remove this
+  has_many :follow_ups, dependent: :destroy
   # accepts_nested_attributes_for :appointees, allow_destroy: true
 
   # TODO: remove the following
