@@ -5,17 +5,39 @@ class UserInteractionsController < ApplicationController
   # GET /user_interactions.json
   def index
     authorize :user_interaction
-    @user_interactions = UserInteraction.limit(200)
+    @display_name = params[:display_name]
+    @display_name = "" if params[:commit]=="Tutti" || params[:commit]=="All" # TODO: localize!
+    @user = User.find_by(display_name: @display_name)
 
-    first_date_available = UserInteraction.last.created_at.to_date # last because of default_scope
+    ui_limit = 200 # User interactions limit
+
     interval             = 3.month
     @today               = Date.today
     dfd                  = 1 # desired first day of calendar (1: monday)
-
-    t1 = Time.zone.parse([@today - interval, first_date_available].max.to_s)
     t2 = Time.zone.parse((@today + 1.day).to_s)
+    if @user
+      @total_interactions_count = UserInteraction.where(user_id: @user.id).count
+      @user_interactions        = UserInteraction.where(user_id: @user.id).limit(ui_limit)
+      first_date_available      = UserInteraction.where(user_id: @user.id).last.created_at.to_date rescue @today # last because of default_scope
+      t1                        = Time.zone.parse([@today - interval, first_date_available].max.to_s)
+      @ui                       = UserInteraction.unscoped.where(user_id: @user.id).where("created_at BETWEEN ? AND ?", t1, t2).group("date(created_at)").order(date_created_at: :desc).count
+    else
+      @total_interactions_count = UserInteraction.count
+      @user_interactions        = UserInteraction.limit(ui_limit)
+      first_date_available      = UserInteraction.last.created_at.to_date # last because of default_scope
+      t1                        = Time.zone.parse([@today - interval, first_date_available].max.to_s)
+      @ui                       = UserInteraction.unscoped.where("created_at BETWEEN ? AND ?", t1, t2).group("date(created_at)").order(date_created_at: :desc).count
+    end
 
-    @ui         = UserInteraction.unscoped.where("created_at BETWEEN ? AND ?", t1, t2).group("date(created_at)").order(date_created_at: :desc).count
+    @user_interactions_aggreg = UserInteractionAggregated.new(10.minutes)
+    @user_interactions_aggreg.aggregate(@user_interactions.to_a)
+
+    puts "==========================================="
+
+    puts   @user_interactions_aggreg.inspect
+
+    puts "==========================================="
+
     @calendario = Calendario.new(t1.to_date, t2.to_date, dtd: dfd, workdays: [1,2,3,4,5])
     @ui_max     = @ui.values.max
 

@@ -1,40 +1,59 @@
 <div class="card shadow mb-4">
   <div class="card-body">
-    <table class="table table-bordered calendario shades ui-cal">
-      <thead>
-        <tr>
-          <th>Lunedì</th>
-          <th>Martedì</th>
-          <th>Mercoledì</th>
-          <th>Giovedì</th>
-          <th>Venerdì</th>
-          <th>Sabato</th>
-          <th>Domenica</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @calendario.weeks.each do |week| %>
+    <div class="row">
+      <div class="col">
+        <div class="float-right mb-3 mt-3">
+          <%= form_with url: user_interactions_path, method: 'get', local: true, class: 'form-inline' do |f| %>
+            <%= label_tag :display_name, "Filtra per utente", class: "mr-2" %>
+            <%= autocomplete_field_tag :display_name, @display_name, autocomplete_user_display_name_users_path,  class: "form-control mr-2" %>
+            <%= submit_tag "Cerca", class: "btn btn-primary mr-2" %>
+            <%= link_to "Tutti", user_interactions_path, class: "btn btn-secondary" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+
+    <% if @ui.any? %>
+      <table class="table table-bordered calendario shades ui-cal">
+        <thead>
           <tr>
-            <% week.each do |cal_date| %>
-              <td class="<%= ui_cell_classes(cal_date, @ui[cal_date.date], @ui_max) %>" data-url="<%= @ui.fetch(cal_date.date, 0)>0 ? daytail_user_interactions_path(date: cal_date.date) : '' %>">
-                <div class="row">
-                  <div class="col">
-                    <div class="float-right">
-                      <span class="number"><%= cal_date.day %></span>
-                      <span class="month-name"><%= I18n.t('date.abbr_month_names')[cal_date.month] %></span>
+            <th>Lunedì</th>
+            <th>Martedì</th>
+            <th>Mercoledì</th>
+            <th>Giovedì</th>
+            <th>Venerdì</th>
+            <th>Sabato</th>
+            <th>Domenica</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @calendario.weeks.each do |week| %>
+            <tr>
+              <% week.each do |cal_date| %>
+                <td class="<%= ui_cell_classes(cal_date, @ui[cal_date.date], @ui_max) %>" data-url="<%= @ui.fetch(cal_date.date, 0)>0 ? daytail_user_interactions_path(date: cal_date.date) : '' %>">
+                  <div class="row">
+                    <div class="col">
+                      <div class="float-right">
+                        <span class="number"><%= cal_date.day %></span>
+                        <span class="month-name"><%= I18n.t('date.abbr_month_names')[cal_date.month] %></span>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <% if count = @ui.fetch(cal_date.date, 0) %>
-                  <span class="count"><%= count %></span>
-                <% end %>
-              </td>
-            <% end %>
-          </tr>
+                  <% if count = @ui.fetch(cal_date.date, 0) %>
+                    <span class="count"><%= count %></span>
+                  <% end %>
+                </td>
+              <% end %>
+            </tr>
 
-        <% end %>
-      </tbody>
-    </table>
-
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <div class="alert alert-secondary" role="alert">
+        Selezione vuota
+      </div>
+    <% end %>
   </div>
 </div>

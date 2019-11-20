@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   resources :follow_up_actions
-  
+
   resources :follow_ups do
     post :dismiss
     post :dismiss_all, on: :collection
@@ -54,6 +54,7 @@ Rails.application.routes.draw do
   devise_for :users
   resources :users do
     get :search_by_name, on: :collection
+    get :autocomplete_user_display_name, on: :collection
   end
 
   get 'comments/create'

@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  autocomplete :user, :display_name, full: true
 
   # GET /users
   # GET /users.json
@@ -12,15 +13,6 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     authorize @user
-  end
-
-  def search_by_name
-    u = User.find_by(display_name: params[:name].strip)
-    respond_to do |format|
-      if u
-        format.json { render json: {id: u.id, name: u.display_name} }
-      end
-    end
   end
 
 

@@ -1,6 +1,31 @@
 <div class="card shadow mb-4">
   <div class="card-body">
-    <p> <%= "Mostro #{user_interactions.size} interazioni (#{UserInteraction.count} totali)" %></p>
+
+    <p> <%= "Mostro #{user_interactions.size} interazioni aggregate (#{@total_interactions_count} totali)" %></p>
+    <div class="table-responsive">
+      <table class="table table-bordered table-sm">
+        <thead>
+          <tr>
+            <th>Utente</th>
+            <th>Intervallo</th>
+            <th>Numero interazioni</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @user_interactions_aggreg.each do |user_interaction| %>
+            <tr>
+              <td><%= user_interaction.user_name %></td>
+              <td><%= interaction_interval(user_interaction) %></td>
+              <td><%= user_interaction.count %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+
+    <p> <%= "Mostro #{user_interactions.size} interazioni (#{@total_interactions_count} totali)" %></p>
     <div class="table-responsive">
       <table class="table table-bordered table-sm">
         <thead>
