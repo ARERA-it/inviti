@@ -32,11 +32,6 @@ class UserInteractionsController < ApplicationController
     @user_interactions_aggreg = UserInteractionAggregated.new(10.minutes)
     @user_interactions_aggreg.aggregate(@user_interactions.to_a)
 
-    puts "==========================================="
-
-    puts   @user_interactions_aggreg.inspect
-
-    puts "==========================================="
 
     @calendario = Calendario.new(t1.to_date, t2.to_date, dtd: dfd, workdays: [1,2,3,4,5])
     @ui_max     = @ui.values.max

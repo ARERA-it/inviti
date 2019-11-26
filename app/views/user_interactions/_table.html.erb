@@ -25,29 +25,31 @@
     </div>
 
 
-    <p> <%= "Mostro #{user_interactions.size} interazioni (#{@total_interactions_count} totali)" %></p>
-    <div class="table-responsive">
-      <table class="table table-bordered table-sm">
-        <thead>
-          <tr>
-            <th>Utente</th>
-            <th>Nome controllore</th>
-            <th>Nome azione</th>
-            <th>Timestamp</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <% user_interactions.each do |user_interaction| %>
+    <% if false %>
+      <p> <%= "Mostro #{user_interactions.size} interazioni (#{@total_interactions_count} totali)" %></p>
+      <div class="table-responsive">
+        <table class="table table-bordered table-sm">
+          <thead>
             <tr>
-              <td><%= link_to user_interaction.user.display_name, user_interaction.user %></td>
-              <td><%= user_interaction.controller_name %></td>
-              <td><%= user_interaction.action_name %></td>
-              <td><%= l user_interaction.created_at, format: :long %></td>
+              <th>Utente</th>
+              <th>Nome controllore</th>
+              <th>Nome azione</th>
+              <th>Timestamp</th>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
+          </thead>
+
+          <tbody>
+            <% user_interactions.each do |user_interaction| %>
+              <tr>
+                <td><%= link_to user_interaction.user.display_name, user_interaction.user %></td>
+                <td><%= user_interaction.controller_name %></td>
+                <td><%= user_interaction.action_name %></td>
+                <td><%= l user_interaction.created_at, format: :long %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
   </div>
 </div>

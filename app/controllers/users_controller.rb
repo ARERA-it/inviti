@@ -13,6 +13,10 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     authorize @user
+    @total_interactions_count = UserInteraction.where(user_id: @user.id).count
+    @user_interactions        = UserInteraction.where(user_id: @user.id).limit(100)
+    @user_interactions_aggreg = UserInteractionAggregated.new(10.minutes)
+    @user_interactions_aggreg.aggregate(@user_interactions.to_a)
   end
 
 
