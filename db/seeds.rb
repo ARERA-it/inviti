@@ -4,7 +4,7 @@ users = [
     email: "marcorossi@example.it",
     job_title: "Presidente",
     appointeeable: true,
-    role: :top
+    role: :president
   },
   {
     display_name: "Laura Pistacchi",
