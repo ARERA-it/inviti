@@ -8,7 +8,7 @@ class SyncUsersJob < ApplicationJob
     # Do something later
 
     added_users = []
-    PersonnelManagement.all.first(12).each do |p|
+    PersonnelManagement.all.each do |p|
       # p: {
       #   "id"=>1,
       #   "tipo_utente"=>"Standard",

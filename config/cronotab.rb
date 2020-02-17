@@ -22,4 +22,4 @@ Crono.perform(CheckNewEmailsJob).every 2.minutes
 
 Crono.perform(UpdateInvitationsJob).every 1.days, at: '00:01'
 
-Crono.perform(SyncUsersJob).every 1.days, at: '00:30'
+Crono.perform(SyncUsersJob).every 1.days, at: '00:35'
