@@ -45,3 +45,4 @@ docker-compose.staging-with-network.yml
 /lib/tasks/migrate.rake
 
 /some-scripts
+.DS_Store
