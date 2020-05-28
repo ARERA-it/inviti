@@ -25,6 +25,12 @@ arr = [
   ['role', 'duplicate', false],
   ['role', 'destroy', false],
 
+  ['group', 'index', false],
+  ['group', 'show', false],
+  ['group', 'create', false],
+  ['group', 'update', false],
+  ['group', 'destroy', false],
+
   ['user', 'index', false],
   ['user', 'show', false],
   ['user', 'create', false],

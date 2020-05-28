@@ -26,7 +26,7 @@
 
         <tbody>
           <% @users.each do |user| %>
-            <tr>
+            <tr class="click-to-show" data-url="<%= policy(user).show? ? user_path(user) : '#' %>">
               <td class="py-2"><%= user.initials %></td>
               <td class="py-2"><%= user.job_title %></td>
               <td class="py-2"><%= user.display_name %></td>
@@ -35,7 +35,6 @@
               <td class="py-2"><%= t user.advisor_group, scope: 'advisor_group' %></td>
               <td class='py-1' style="width:1%;white-space:nowrap;">
                 <div class="float-right">
-                  <% if policy(user).show? %><%= link_to 'Dettaglio', user, class: "btn btn-outline-dark btn-sm" %><% end %>
                   <% if policy(user).edit? %><%= link_to edit_user_path(user), class: "btn btn-outline-dark btn-sm" do %>
                     <%= fa_icon("edit") %>
                   <% end %><% end %>
