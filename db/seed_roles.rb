@@ -32,6 +32,8 @@ arr = [
   ['user', 'destroy', false],
   ['user', 'update_sensitive_attributes', false],
 
+  ['user_interaction', 'index', false],
+
 ]
 arr.each do |el|
   # abstr.permissions.create(controller: el[0], action: el[1], permitted: el[2])

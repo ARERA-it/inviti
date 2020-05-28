@@ -27,33 +27,10 @@ class RolesController < ApplicationController
     end
   end
 
-  # GET /roles/new
-  # def new
-  #   @role = Role.new
-  #   authorize @role
-  # end
-
   # GET /roles/1/edit
   def edit
     authorize @role
   end
-
-  # POST /roles
-  # POST /roles.json
-  # def create
-  #   @role = Role.new(role_params)
-  #   authorize @role
-  #
-  #   respond_to do |format|
-  #     if @role.save
-  #       format.html { redirect_to @role, notice: 'Role was successfully created.' }
-  #       format.json { render :show, status: :created, location: @role }
-  #     else
-  #       format.html { render :new }
-  #       format.json { render json: @role.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
 
   # PATCH/PUT /roles/1
   # PATCH/PUT /roles/1.json

@@ -41,11 +41,6 @@ class UserPolicy < ApplicationPolicy
     else
       [:display_name, :initials, :job_title, :title, :gender]
     end
-    # if user.admin?
-    #   [:username, :display_name, :initials, :job_title, :role_id, :title, :appointeeable, :advisor_group, :gender]
-    # else
-    #   [:display_name, :initials, :job_title, :title, :gender]
-    # end
   end
 
 end

@@ -11,6 +11,10 @@ class RolePolicy < ApplicationPolicy
     role.can?('role', 'update')
   end
 
+  def new?
+    false
+  end
+
   def duplicate?
     role.can?('role', 'create')
   end

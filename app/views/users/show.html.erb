@@ -4,6 +4,8 @@
   </div>
 </div>
 
+<p id="notice"><%= notice %></p>
+
 <div class="card shadow mb-4">
   <div class="card-body">
     <div class="row crud-links-top">
@@ -28,4 +30,6 @@
   </div>
 </div>
 
-<%= render 'user_interactions/table', user_interactions: @user.interactions.limit(50) %>
+<% if policy(UserInteraction).index? %>
+  <%= render 'user_interactions/table', user_interactions: @user.interactions.limit(50) %>
+<% end %>
