@@ -16,7 +16,7 @@
 #  initials            :string(2)
 #  email               :string
 #  job_title           :string
-#  role                :integer          default("viewer")
+#  role                :integer          default(4)
 #  title               :string(30)
 #  appointeeable       :boolean          default(FALSE)
 #  advisor_group       :integer          default("not_advisor")
@@ -29,7 +29,7 @@ class User < ApplicationRecord
   # :registerable, :recoverable, :rememberable, :validatable
   devise :cas_authenticatable, :trackable
 
-  enum role: [:president, :advisor, :commissary, :secretary, :viewer, :admin, :observer]
+  # enum role: [:president, :advisor, :commissary, :secretary, :viewer, :admin, :observer]
   enum advisor_group: [:not_advisor, :general_secretary, :external_relations, :board, :tester] # TODO: obsolete?
   enum gender: [:male, :female]
 
@@ -44,6 +44,7 @@ class User < ApplicationRecord
   has_many :follow_up_users, dependent: :destroy
   has_many :follow_up_actions, dependent: :destroy
   has_and_belongs_to_many :group
+  belongs_to :role
 
 
   before_save do |r|
@@ -51,8 +52,14 @@ class User < ApplicationRecord
     r.email         = "#{r.username}@#{ENV.fetch('DOMAIN', 'example.com')}" if r.username
     r.display_name  = r.username if r.display_name.blank?
     r.initials      = User.calc_initials(r.display_name) if r.initials.blank?
-    r.advisor_group = :not_advisor unless r.advisor? || r.admin?
-    r.advisor_group = :board if r.commissary?
+    # r.advisor_group = :not_advisor unless r.admin? # || r.advisor?
+    # r.advisor_group = :board if r.commissary?
+  end
+
+  # ================
+  def admin?
+    r = role&.code
+    r==Role::ADMIN || r==Role::SUPERUSER
   end
 
   def seen_invitations

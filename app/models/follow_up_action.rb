@@ -5,7 +5,7 @@
 #  id           :bigint           not null, primary key
 #  follow_up_id :bigint
 #  user_id      :bigint
-#  fu_action    :integer          default(0)
+#  fu_action    :integer          default("none_")
 #  comment      :text
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null

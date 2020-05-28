@@ -6,16 +6,7 @@ class PagesController < ApplicationController
   end
 
   def dashboard
-    if current_user.secretary? || current_user.admin?
-      r1 = FollowUp.pluck(:id)
-      r2 = FollowUpUser.where(user: current_user).pluck(:follow_up_id)
-      (r1-r2).each do |r_id|
-        FollowUpUser.create(follow_up_id: r_id, user: current_user)
-      end
-      @follow_ups = FollowUp.joins(:invitation, :follow_up_users).where('follow_up_users.user_id' => current_user.id).order('follow_up_users.dismissed', 'follow_ups.created_at DESC').page params[:page]
-    else
-      @follow_ups = nil
-    end
+    @follow_ups = PagePolicy::Scope.new(current_user, FollowUp).resolve_follow_ups(page: params[:page])
   end
 
 

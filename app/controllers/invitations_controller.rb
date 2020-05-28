@@ -12,6 +12,7 @@ class InvitationsController < ApplicationController
     render :json => h
   end
 
+
   def update_participation
     authorize @invitation
     respond_to do |format|

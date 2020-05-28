@@ -1,0 +1,69 @@
+<div class="row">
+  <div class="col-sm">
+    <h1 class="display-5">Lista ruoli</h1>
+  </div>
+</div>
+
+<p id="notice"><%= notice %></p>
+
+
+<div class="card shadow mb-4">
+  <div class="card-body">
+
+    <div class="table-responsive">
+      <table class="table table-bordered table-sm table-hover record-list invitation-table" id="rolesDataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Codice</th>
+            <th>Description</th>
+            <th>Users</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @roles.each do |role| %>
+            <tr class="click-to-show" data-url="<%= policy(role).show? ? role_path(role) : '#' %>">
+              <td class="py-2"><%= role.name %></td>
+              <td class="py-2"><%= role.code %></td>
+              <td class="py-2"><%= role.description %></td>
+              <td class="py-2"><%= role.users.count %></td>
+              <td class="py-1" style="width:1%;white-space:nowrap;">
+                <div class="float-right">
+                  <% if policy(role).edit? %>
+                    <%= link_to edit_role_path(role), class: "btn btn-outline-dark btn-sm", data: { toggle: 'tooltip', placement: 'top'}, title: 'Modifica' do %>
+                      <%= fa_icon("edit") %>
+                    <% end %>
+                  <% end %>
+                  <% if policy(role).duplicate? %>
+                    <%= link_to role_duplicate_path(role), class: "btn btn-outline-dark btn-sm", data: { toggle: 'tooltip', placement: 'top'}, title: 'Duplica' do %>
+                      <%= fa_icon("clone") %>
+                    <% end %>
+                  <% end %>
+                  <% unless role.abstract? || role.guest? %>
+                    <% if policy(role).destroy? %>
+                      <%= link_to role, method: :delete, data: { confirm: "Confermi l'eliminazione?" }, class: "btn btn-outline-danger btn-sm", data: { toggle: 'tooltip', placement: 'top'}, title: 'Elimina' do %>
+                        <%= fa_icon("trash-alt") %>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <br>
+
+    <div class="row margin-bottom-20">
+      <div class="col">
+        <% if policy(Role).new? %>
+          <%= link_to 'Nuovo ruolo', new_role_path, class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

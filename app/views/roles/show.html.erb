@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-sm mb-3">
+    <h1 class="display-5">Dettaglio ruolo '<%= @role.name %>'</h1>
+  </div>
+</div>
+
+<div class="card shadow mb-4">
+  <div class="card-body">
+    <div class="row crud-links-top">
+      <div class="col">
+        <% if policy(Role).index? %><%= link_to_list roles_path %><% end %>
+        <% if policy(@role).edit? %><%= link_to_edit edit_role_path(@role) %><% end %>
+        <% if policy(Role).new? %><%= link_to_new new_role_path %><% end %>
+      </div>
+    </div>
+
+    <h3 class="my-3">Permessi</h3>
+
+    <div class="table-responsive">
+      <table class="table table-bordered table-sm table-hover" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Permission</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @role.permissions.each do |p| %>
+            <tr>
+              <td><%= p.description! %></td>
+              <td><%= checked p.permitted %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+
+    <h3 class="my-3">Utenti (<%= @role.users.count %>)</h3>
+    <p>
+      <%= @role.users.map(&:name).join(', ')  %>
+    </p>
+
+
+    <div class="row crud-links-bottom">
+      <div class="col">
+        <% if policy(Role).index? %><%= link_to_list roles_path %><% end %>
+        <% if policy(@role).edit? %><%= link_to_edit edit_role_path(@role) %><% end %>
+        <% if policy(Role).new? %><%= link_to_new new_role_path %><% end %>
+      </div>
+    </div>
+  </div>
+</div>

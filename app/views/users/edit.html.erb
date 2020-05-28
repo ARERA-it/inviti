@@ -8,9 +8,9 @@
   <div class="card-body">
     <div class="row crud-links-top">
       <div class="col">
-        <%= link_to_list users_path %>
-        <%= link_to_detail user_path(@user) %>
-        <%= link_to_new new_user_path  %>
+        <% if policy(User).index? %><%= link_to_list users_path %><% end %>
+        <% if policy(@user).show? %><%= link_to_detail user_path(@user) %><% end %>
+        <% if policy(@user).new? %><%= link_to_new new_user_path  %><% end %>
       </div>
     </div>
 
@@ -18,9 +18,9 @@
 
     <div class="row crud-links-bottom">
       <div class="col">
-        <%= link_to_list users_path %>
-        <%= link_to_detail user_path(@user) %>
-        <%= link_to_new new_user_path  %>
+        <% if policy(User).index? %><%= link_to_list users_path %><% end %>
+        <% if policy(@user).show? %><%= link_to_detail user_path(@user) %><% end %>
+        <% if policy(@user).new? %><%= link_to_new new_user_path  %><% end %>
       </div>
     </div>
   </div>

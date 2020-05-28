@@ -27,20 +27,22 @@
         <tbody>
           <% @users.each do |user| %>
             <tr>
-              <td><%= user.initials %></td>
-              <td><%= user.job_title %></td>
-              <td><%= user.display_name %></td>
-              <td><%= user.email %></td>
-              <td><%= t user.role, scope: 'role' %></td>
-              <td><%= t user.advisor_group, scope: 'advisor_group' %></td>
-              <td class='float-right'>
-                <%= link_to 'Dettaglio', user, class: "btn btn-outline-dark btn-sm" %>
-                <%= link_to edit_user_path(user), class: "btn btn-outline-dark btn-sm" do %>
-                  <%= fa_icon("edit") %>
-                <% end %>
-                <%= link_to user, method: :delete, data: { confirm: "Confermi l'eliminazione?" }, class: "btn btn-outline-danger btn-sm" do %>
-                  <%= fa_icon("trash-alt") %>
-                <% end %>
+              <td class="py-2"><%= user.initials %></td>
+              <td class="py-2"><%= user.job_title %></td>
+              <td class="py-2"><%= user.display_name %></td>
+              <td class="py-2"><%= user.email %></td>
+              <td class="py-2"><%= user.role&.name %></td>
+              <td class="py-2"><%= t user.advisor_group, scope: 'advisor_group' %></td>
+              <td class='py-1' style="width:1%;white-space:nowrap;">
+                <div class="float-right">
+                  <% if policy(user).show? %><%= link_to 'Dettaglio', user, class: "btn btn-outline-dark btn-sm" %><% end %>
+                  <% if policy(user).edit? %><%= link_to edit_user_path(user), class: "btn btn-outline-dark btn-sm" do %>
+                    <%= fa_icon("edit") %>
+                  <% end %><% end %>
+                  <% if policy(user).destroy? %><%= link_to user, method: :delete, data: { confirm: "Confermi l'eliminazione?" }, class: "btn btn-outline-danger btn-sm" do %>
+                    <%= fa_icon("trash-alt") %>
+                  <% end %><% end %>
+                </div>
               </td>
             </tr>
           <% end %>
@@ -51,7 +53,7 @@
 
     <div class="row margin-bottom-20">
       <div class="col">
-        <%= link_to 'Nuovo utente', new_user_path, class: "btn btn-primary" %>
+        <% if policy(User).new? %><%= link_to 'Nuovo utente', new_user_path, class: "btn btn-primary" %> <% end %>
       </div>
     </div>
   </div>

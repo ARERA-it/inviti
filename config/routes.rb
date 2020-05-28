@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  resources :permissions
+  resources :roles do
+    get :duplicate
+  end
   resources :follow_up_actions
 
   resources :follow_ups do

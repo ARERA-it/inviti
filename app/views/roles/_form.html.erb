@@ -1,0 +1,13 @@
+<%= form_with(model: role, local: true) do |form| %>
+  <%= render 'layouts/error_message', model: role %>
+
+  <%= render 'fields', role: role, form: form, ro: false %>
+
+  <div class="actions space-top">
+    <%= form.submit "Salva", class: "btn btn-primary" %>
+    <% if policy(Role).index? %><%= link_to 'Annulla', roles_path, class: "btn btn-default" %><% end %>
+    <% if @role.persisted? && policy(@role).show? %>
+      <%= link_to 'Dettaglio', @role, class: "btn btn-default" %>
+    <% end %>
+  </div>
+<% end %>

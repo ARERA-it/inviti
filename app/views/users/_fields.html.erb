@@ -34,16 +34,16 @@
   </div>
 
   <div class="col-md-4">
-    <% if policy(@user).change_role? %>
+    <% if policy(@user).update_sensitive_attributes? %>
       <div class="form-group">
-        <%= form.label :role, "Ruolo" %>
-        <%= form.collection_select :role, User.roles, :first, ->(e){ t("role.#{e.first}") }, { prompt: true }, class: "form-control", disabled: ro  %>
+        <%= form.label :role_id, "Ruolo" %>
+        <%= form.collection_select :role_id, Role.concrete, :id, :name, { prompt: true }, class: "form-control", disabled: ro  %>
       </div>
     <% end %>
   </div>
 
   <div class="col-md-4">
-    <% if policy(@user).change_role? %>
+    <% if policy(@user).update_sensitive_attributes? %>
       <div class="form-group">
         <%= form.label :role, "Esprime parere per conto di" %>
         <%= form.collection_select :advisor_group, User.advisor_groups, :first, ->(e){ t("advisor_group.#{e.first}") }, { prompt: true }, class: "form-control", disabled: ro  %>

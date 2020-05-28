@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-sm mb-3">
+    <h1 class="display-5">Modifica ruolo</h1>
+  </div>
+</div>
+
+<div class="card shadow mb-4">
+  <div class="card-body">
+    <div class="row crud-links-top">
+      <div class="col">
+        <% if policy(Role).index? %><%= link_to_list roles_path %> <% end %>
+        <% if policy(@role).show? %><%= link_to_detail role_path(@role) %><% end %>
+        <% if policy(Role).new? %><%= link_to_new new_role_path  %><% end %>
+      </div>
+    </div>
+
+    <%= render 'form', role: @role %>
+
+    <div class="row crud-links-bottom">
+      <div class="col">
+        <% if policy(Role).index? %><%= link_to_list roles_path %> <% end %>
+        <% if policy(@role).show? %><%= link_to_detail role_path(@role) %><% end %>
+        <% if policy(Role).new? %><%= link_to_new new_role_path  %><% end %>
+      </div>
+    </div>
+  </div>
+</div>

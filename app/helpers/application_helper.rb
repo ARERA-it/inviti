@@ -41,6 +41,14 @@ module ApplicationHelper
     end
   end
 
+  def checked(bool)
+    if bool
+      content_tag(:i, nil, class: "far fa-check-square")
+    else
+      content_tag(:i, nil, class: "far fa-square")
+    end
+  end
+
   def link_to_list(path)
     link_to path, class: 'btn btn-link' do
       content_tag(:i, "", class: "fas fa-list fa-fw") + " Elenco"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_29_130858) do
+ActiveRecord::Schema.define(version: 2020_05_27_153953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -249,6 +249,18 @@ ActiveRecord::Schema.define(version: 2019_10_29_130858) do
     t.index ["user_id"], name: "index_opinions_on_user_id"
   end
 
+  create_table "permissions", force: :cascade do |t|
+    t.bigint "role_id"
+    t.text "description"
+    t.string "controller"
+    t.string "action"
+    t.boolean "permitted", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["role_id", "controller", "action"], name: "permizzions"
+    t.index ["role_id"], name: "index_permissions_on_role_id"
+  end
+
   create_table "projects", force: :cascade do |t|
     t.integer "president_can_assign", default: 0
     t.datetime "created_at", null: false
@@ -285,6 +297,15 @@ ActiveRecord::Schema.define(version: 2019_10_29_130858) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invitation_id"], name: "index_request_opinions_on_invitation_id"
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_roles_on_code"
   end
 
   create_table "settings", id: :serial, force: :cascade do |t|
@@ -340,13 +361,14 @@ ActiveRecord::Schema.define(version: 2019_10_29_130858) do
     t.string "initials", limit: 2
     t.string "email"
     t.string "job_title"
-    t.integer "role", default: 4
+    t.integer "role_id", default: 4
     t.string "title", limit: 30
     t.boolean "appointeeable", default: false
     t.integer "advisor_group", default: 0
     t.integer "gender", default: 0
     t.index ["display_name"], name: "index_users_on_display_name"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["role_id"], name: "index_users_on_role_id"
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
@@ -370,6 +392,7 @@ ActiveRecord::Schema.define(version: 2019_10_29_130858) do
   add_foreign_key "follow_ups", "invitations"
   add_foreign_key "opinions", "invitations"
   add_foreign_key "opinions", "users"
+  add_foreign_key "permissions", "roles"
   add_foreign_key "rej_users", "rejections"
   add_foreign_key "rej_users", "users"
   add_foreign_key "rejections", "invitations"

@@ -152,6 +152,14 @@ $(document).on("turbolinks:load", function() {
     obj.insertBefore(this);
     return false;
   });
+
+
+
+  $('table.record-list tbody').on('click', 'tr.click-to-show td:not(.action-buttons)', function () {
+  const url = $(this).parent().data('url');
+  Turbolinks.visit(url);
+});
+
 })
 
 

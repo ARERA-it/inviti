@@ -5,8 +5,8 @@
 
   <div class="actions space-top">
     <%= form.submit "Salva", class: "btn btn-primary" %>
-    <%= link_to 'Annulla', users_path, class: "btn btn-default" %>
-    <% if @user.id %>
+    <% if policy(User).index? %><%= link_to 'Annulla', users_path, class: "btn btn-default" %><% end %>
+    <% if @user.persisted? && policy(@user).show? %>
       <%= link_to 'Dettaglio', @user, class: "btn btn-default" %>
     <% end %>
   </div>

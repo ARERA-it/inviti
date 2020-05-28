@@ -2,33 +2,50 @@ class UserPolicy < ApplicationPolicy
 
   # only admin -> see ApplicationPolicy
 
-  # def index?
-  #   user.admin?
-  # end
-  #
+  def index?
+    role.can?('user', 'index')
+  end
+
   def show?
-    user.admin? or user.id==record.id
+    role.can?('user', 'show') || user.id==record.id
   end
-  def edit?
-    user.admin? or user.id==record.id
+
+  def create?
+    role.can?('user', 'create')
   end
+
+  def new?
+    create?
+  end
+
   def update?
-    user.admin? or user.id==record.id
+    role.can?('user', 'update')
   end
-  def change_role?
-    user.admin?
+
+  def edit?
+    update?
+  end
+
+  def destroy?
+    role.can?('user', 'destroy')
+  end
+
+  def update_sensitive_attributes?
+    role.can?('user', 'update_sensitive_attributes')
   end
 
 
   def permitted_attributes
-    if user.admin?
-      [:username, :display_name, :initials, :job_title, :role, :title, :appointeeable, :advisor_group, :gender]
+    if role.can?('user', 'update_sensitive_attributes')
+      [:display_name, :initials, :job_title, :title, :gender, :username, :role_id, :title, :appointeeable, :advisor_group]
     else
       [:display_name, :initials, :job_title, :title, :gender]
     end
+    # if user.admin?
+    #   [:username, :display_name, :initials, :job_title, :role_id, :title, :appointeeable, :advisor_group, :gender]
+    # else
+    #   [:display_name, :initials, :job_title, :title, :gender]
+    # end
   end
 
-  def topbar_full_menu?
-    user.admin?
-  end
 end

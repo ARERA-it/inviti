@@ -16,7 +16,7 @@
 #  initials            :string(2)
 #  email               :string
 #  job_title           :string
-#  role                :integer          default("viewer")
+#  role                :integer          default(4)
 #  title               :string(30)
 #  appointeeable       :boolean          default(FALSE)
 #  advisor_group       :integer          default("not_advisor")

@@ -278,3 +278,16 @@ table.record-list {
     color: #4e8f00;
   }
 }
+
+
+table.record-list {
+  tr.click-to-show {
+    cursor: pointer;
+  }
+
+  tr.hiddable {
+    a.btn {
+      visibility: hidden;
+    }
+  }
+}

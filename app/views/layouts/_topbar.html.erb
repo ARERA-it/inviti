@@ -40,8 +40,13 @@
         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
           <a class="dropdown-item" href="#">Cambia utente corrente (funzionalità demo):</a>
           <div class="dropdown-divider"></div>
-          <% User.where(id: [10,30,11,4,6,67,86]).order('display_name ASC').each do |user| %>
-            <%= link_to user.display_name, url_for(switch_to_user: user.id), class: 'dropdown-item' %>
+          <% User.order('display_name ASC').each do |user| %>
+            <%= link_to url_for(switch_to_user: user.id), class: 'dropdown-item' do %>
+              <%= user.display_name %>
+              <% if role = user.role %>
+                <i> <%= "(#{role.name})" %></i>
+              <% end %>
+            <% end %>
           <% end %>
         </div>
       </li>
@@ -59,39 +64,51 @@
       </a>
       <!-- Dropdown - User Information -->
       <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-        <% if policy(current_user).topbar_full_menu? %>
 
+        <% if policy(current_user).show? %>
           <%= link_to current_user, class: "dropdown-item" do %>
             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
             Profilo
           <% end %>
+        <% end %>
 
+        <% if policy(User).index? %>
           <%= link_to users_path, class: "dropdown-item" do %>
             <i class="fas fa-users fa-sm fa-fw mr-2 text-gray-400"></i>
             Gestione utenti
           <% end %>
+        <% end %>
 
+        <% if policy(Role).index? %>
+          <%= link_to roles_path, class: "dropdown-item" do %>
+            <i class="fas fa-hard-hat fa-sm fa-fw mr-2 text-gray-400"></i>
+            Gestione ruoli
+          <% end %>
+        <% end %>
+
+        <% if policy(Group).index? %>
           <%= link_to groups_path, class: "dropdown-item" do %>
             <i class="fas fa-users fa-sm fa-fw mr-2 text-gray-400"></i>
             Gestione gruppi
           <% end %>
+        <% end %>
 
+        <% if policy(UserInteraction).index? %>
           <%= link_to user_interactions_path, class: "dropdown-item" do %>
             <i class="fas fa-eye fa-sm fa-fw mr-2 text-gray-400"></i>
             Utilizzo Web app
           <% end %>
+        <% end %>
 
+        <% if policy(Project).index? %>
           <%= link_to edit_project_path(Project.primo), class: "dropdown-item" do %>
             <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
             Impostazioni
           <% end %>
-
-          <a class="dropdown-item" href="#">
-            <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-            Activity Log
-          </a>
-          <div class="dropdown-divider"></div>
         <% end %>
+
+        <div class="dropdown-divider"></div>
+        
         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
           <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
           Esci

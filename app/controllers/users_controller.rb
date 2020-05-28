@@ -22,7 +22,7 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def new
-    authorize :user
+    authorize User
     @user = User.new
   end
 
@@ -34,9 +34,9 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    authorize :user
     @user = User.new
     @user.update_attributes permitted_attributes(@user)
+    authorize @user
     respond_to do |format|
       if @user.save
         format.html { redirect_to @user, notice: "L'utente è stato creato con successo." }

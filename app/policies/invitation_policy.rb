@@ -1,46 +1,51 @@
 class InvitationPolicy < ApplicationPolicy
+
   def index?
-    true
+    role.can?('invitations', 'index')
   end
 
 
   # user roles: :president, :advisor, :commissary, :secretary, :viewer, :admin
   def show?
-    user.admin? ||
-    user.president? ||
-    user.advisor? ||
-    user.secretary? ||
-    user.observer? ||
-    record.appointed_users.include?(user) ||
-    record.users_who_was_asked_for_an_opinion.include?(user)
+    role.can?('invitations', 'show')
+    # user.admin? ||
+    # user.president? ||
+    # user.advisor? ||
+    # user.secretary? ||
+    # user.observer? ||
+    # record.appointed_users.include?(user) ||
+    # record.users_who_was_asked_for_an_opinion.include?(user)
   end
 
   # Vedere i pareri
   def view_opinion?
-    user.admin? ||
-    user.president? ||
-    user.advisor? ||
-    record.users_who_was_asked_for_an_opinion.include?(user)
+    role.can?('invitations', 'view_opinion')
+    # user.admin? ||
+    # user.president? ||
+    # user.advisor? ||
+    # record.users_who_was_asked_for_an_opinion.include?(user)
   end
 
   # Vedere il pannello del designato
   def view_appointee?
-    user.admin? ||
-    user.president? ||
-    user.advisor? ||
-    user.secretary? ||
-    user.observer? ||
-    record.appointed_users.include?(user)
+    role.can?('invitations', 'view_appointee')
+    # user.admin? ||
+    # user.president? ||
+    # user.advisor? ||
+    # user.secretary? ||
+    # user.observer? ||
+    # record.appointed_users.include?(user)
   end
 
   # Vedere il pannello dei contributi
   def view_contributions?
-    user.admin? ||
-    user.president? ||
-    user.advisor? ||
-    user.secretary? ||
-    user.observer? ||
-    record.appointed_users.include?(user)
+    role.can?('invitations', 'view_contributions')
+    # user.admin? ||
+    # user.president? ||
+    # user.advisor? ||
+    # user.secretary? ||
+    # user.observer? ||
+    # record.appointed_users.include?(user)
   end
 
   # Vedere il pannello delle info generali
@@ -143,12 +148,22 @@ class InvitationPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      if user.admin? || user.president? || user.advisor? || user.secretary? || user.observer?
+      if role.can?('invitation', 'see_all')
         scope.all
-      else
+      elsif role.can?('invitation', 'only_see_his_own')
         scope.joins(:appointees).where("appointees.user_id=?", user.id)
+      else
+        scope.limit(0)
       end
     end
+    
+    # def previous_resolve
+    #   if user.admin? || user.president? || user.advisor? || user.secretary? || user.observer?
+    #     scope.all
+    #   else
+    #     scope.joins(:appointees).where("appointees.user_id=?", user.id)
+    #   end
+    # end
   end
 
 end
