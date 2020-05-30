@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-sm mb-3">
+  <div class="col-sm">
     <h1 class="display-5">Nuovo gruppo</h1>
   </div>
 </div>
@@ -8,7 +8,7 @@
   <div class="card-body">
     <div class="row crud-links-top">
       <div class="col">
-        <%= link_to_list groups_path %>
+        <% if policy(Group).index? %><%= link_to_list groups_path %><% end %>
       </div>
     </div>
 
@@ -16,7 +16,7 @@
 
     <div class="row crud-links-bottom">
       <div class="col">
-        <%= link_to_list groups_path %>
+        <% if policy(Group).index? %><%= link_to_list groups_path %><% end %>
       </div>
     </div>
   </div>

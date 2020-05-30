@@ -8,9 +8,9 @@
   <div class="card-body">
     <div class="row crud-links-top">
       <div class="col">
-        <%= link_to_list groups_path %>
-        <%= link_to_detail group_path(@group) %>
-        <%= link_to_new new_group_path  %>
+        <% if policy(Group).index? %><%= link_to_list groups_path %><% end %>
+        <% if policy(@group).show? %><%= link_to_detail group_path(@group) %><% end %>
+        <% if policy(@group).new? %><%= link_to_new new_group_path  %><% end %>
       </div>
     </div>
 
@@ -18,9 +18,9 @@
 
     <div class="row crud-links-bottom">
       <div class="col">
-        <%= link_to_list groups_path %>
-        <%= link_to_detail group_path(@group) %>
-        <%= link_to_new new_group_path  %>
+        <% if policy(Group).index? %><%= link_to_list groups_path %><% end %>
+        <% if policy(@group).show? %><%= link_to_detail group_path(@group) %><% end %>
+        <% if policy(@group).new? %><%= link_to_new new_group_path  %><% end %>
       </div>
     </div>
   </div>

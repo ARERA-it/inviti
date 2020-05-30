@@ -53,8 +53,8 @@ end
   ["Superuser", Role::SUPERUSER],
   ["Amministratore", Role::ADMIN],
 ].each do |e|
-  guest = Role.find_or_create_by(name: e[0], code: e[1])
-  guest.sync_roles
+  role = Role.find_or_create_by(name: e[0], code: e[1])
+  role.sync_roles
 end
 
 
@@ -71,3 +71,6 @@ User.all.each do |u|
     u.save
   end
 end
+
+Permission.where(role: Role.admin).update_all(permitted: true)
+Permission.where(role: Role.superuser).update_all(permitted: true)

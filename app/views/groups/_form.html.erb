@@ -5,8 +5,8 @@
 
   <div class="actions space-top">
     <%= form.submit "Salva", class: "btn btn-primary" %>
-    <%= link_to 'Annulla', groups_path, class: "btn btn-default" %>
-    <% if @group.id %>
+    <% if policy(Group).index? %><%= link_to 'Annulla', groups_path, class: "btn btn-default" %><% end %>
+    <% if @group.persisted? && policy(@group).show? %>
       <%= link_to 'Dettaglio', @group, class: "btn btn-default" %>
     <% end %>
   </div>

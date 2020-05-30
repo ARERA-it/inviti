@@ -1,16 +1,18 @@
 <div class="row">
-  <div class="col-sm mb-3">
+  <div class="col-sm">
     <h1 class="display-5">Dettaglio gruppo</h1>
   </div>
 </div>
+
+<p id="notice"><%= notice %></p>
 
 <div class="card shadow mb-4">
   <div class="card-body">
     <div class="row crud-links-top">
       <div class="col">
-        <%= link_to_list groups_path %>
-        <%= link_to_edit edit_group_path(@group) %>
-        <%= link_to_new new_group_path  %>
+        <% if policy(Group).index? %><%= link_to_list groups_path %><% end %>
+        <% if policy(@group).edit? %><%= link_to_edit edit_group_path(@group) %><% end %>
+        <% if policy(@group).new? %><%= link_to_new new_group_path %><% end %>
       </div>
     </div>
 
@@ -20,9 +22,9 @@
 
     <div class="row crud-links-bottom">
       <div class="col">
-        <%= link_to_list groups_path %>
-        <%= link_to_edit edit_group_path(@group) %>
-        <%= link_to_new new_group_path  %>
+        <% if policy(Group).index? %><%= link_to_list groups_path %><% end %>
+        <% if policy(@group).edit? %><%= link_to_edit edit_group_path(@group) %><% end %>
+        <% if policy(@group).new? %><%= link_to_new new_group_path %><% end %>
       </div>
     </div>
   </div>

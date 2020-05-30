@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-sm mb-3">
+  <div class="col-sm">
     <h1 class="display-5">Lista gruppi</h1>
   </div>
 </div>
@@ -23,20 +23,19 @@
 
         <tbody>
           <% @groups.each do |group| %>
-            <tr>
-              <td><%= group.name %></td>
-              <td><%= yes_icon group.ask_opinion %></td>
-              <td><%= yes_icon group.appointable %></td>
-              <td><%= group.users.map(&:display_name).join(', ').truncate(80) %></td>
-              <td>
+            <tr class="click-to-show" data-url="<%= policy(group).show? ? group_path(group) : '#' %>">
+              <td class="py-2"><%= group.name %></td>
+              <td class="py-2"><%= checked group.ask_opinion %></td>
+              <td class="py-2"><%= checked group.appointable %></td>
+              <td class="py-2"><%= group.users.map(&:display_name).join(', ').truncate(80) %></td>
+              <td class='py-1' style="width:1%;white-space:nowrap;">
                 <div class="float-right">
-                  <%= link_to 'Dettaglio', group, class: "btn btn-outline-dark btn-sm" %>
-                  <%= link_to edit_group_path(group), class: "btn btn-outline-dark btn-sm" do %>
+                  <% if policy(group).edit? %><%= link_to edit_group_path(group), class: "btn btn-outline-dark btn-sm" do %>
                     <%= fa_icon("edit") %>
-                  <% end %>
-                  <%= link_to group, method: :delete, data: { confirm: "Confermi l'eliminazione?" }, class: "btn btn-outline-danger btn-sm" do %>
+                  <% end %><% end %>
+                  <% if policy(group).destroy? %><%= link_to group, method: :delete, data: { confirm: "Confermi l'eliminazione?" }, class: "btn btn-outline-danger btn-sm" do %>
                     <%= fa_icon("trash-alt") %>
-                  <% end %>
+                  <% end %><% end %>
                 </div>
               </td>
             </tr>
@@ -48,7 +47,7 @@
 
     <div class="row margin-bottom-20">
       <div class="col">
-        <%= link_to 'Nuovo gruppo', new_group_path, class: "btn btn-primary" %>
+        <% if policy(Group).new? %><%= link_to 'Nuovo gruppo', new_group_path, class: "btn btn-primary" %><% end %>
       </div>
     </div>
   </div>
