@@ -156,9 +156,23 @@ $(document).on("turbolinks:load", function() {
 
 
   $('table.record-list tbody').on('click', 'tr.click-to-show td:not(.action-buttons)', function () {
-  const url = $(this).parent().data('url');
-  Turbolinks.visit(url);
-});
+    const url = $(this).parent().data('url');
+    Turbolinks.visit(url);
+  });
+
+
+  // toast
+  var flh = $('body').data('flash');
+  if (!$.isEmptyObject(flh)) {
+    if (flh.hasOwnProperty('notice')) {
+      $('#toast-notice .toast-body').text(flh.notice);
+      $('#toast-notice').toast('show');
+    }
+    if (flh.hasOwnProperty('alert')) {
+      $('#toast-alert .toast-body').text(flh.alert);
+      $('#toast-alert').toast('show');
+    }
+  }
 
 })
 

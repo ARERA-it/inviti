@@ -26,7 +26,7 @@
               <td class="py-2"><%= role.code %></td>
               <td class="py-2"><%= role.description %></td>
               <td class="py-2"><%= role.users.count %></td>
-              <td class="py-1" style="width:1%;white-space:nowrap;">
+              <td class="py-1 action-buttons">
                 <div class="float-right">
                   <% if policy(role).edit? %>
                     <%= link_to edit_role_path(role), class: "btn btn-outline-dark btn-sm", data: { toggle: 'tooltip', placement: 'top'}, title: 'Modifica' do %>
@@ -34,7 +34,7 @@
                     <% end %>
                   <% end %>
                   <% if policy(role).duplicate? %>
-                    <%= link_to role_duplicate_path(role), class: "btn btn-outline-dark btn-sm", data: { toggle: 'tooltip', placement: 'top'}, title: 'Duplica' do %>
+                    <%= link_to role_duplicate_path(role), class: "btn btn-outline-dark btn-sm", data: { toggle: 'tooltip', placement: 'top'}, title: 'Duplica', data: { confirm: "Confermi la duplicazione?" } do %>
                       <%= fa_icon("clone") %>
                     <% end %>
                   <% end %>

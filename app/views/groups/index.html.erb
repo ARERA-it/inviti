@@ -26,7 +26,7 @@
               <td class="py-2"><%= checked group.ask_opinion %></td>
               <td class="py-2"><%= checked group.appointable %></td>
               <td class="py-2"><%= group.users.map(&:display_name).join(', ').truncate(80) %></td>
-              <td class='py-1' style="width:1%;white-space:nowrap;">
+              <td class='py-1 action-buttons'>
                 <div class="float-right">
                   <% if policy(group).edit? %><%= link_to edit_group_path(group), class: "btn btn-outline-dark btn-sm" do %>
                     <%= fa_icon("edit") %>

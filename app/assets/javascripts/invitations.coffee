@@ -3,9 +3,9 @@ class InvitationsController
 
   index: ->
     $('.archive-btn').on('click', (e) ->
-      console.log "Hello!"
+      # console.log "Hello!"
       id = $(this).parents('.invitation').first().data('id')
-      console.log id
+      # console.log id
       if id
         options = {}
         $('#modal-submit-btn').attr('href', "/invitations/#{id}")
@@ -185,11 +185,11 @@ class InvitationsController
 
       # $('.who-participates').hide()
       url = $('#participate-yes').data('url')
-      console.log url
+      # console.log url
       $.get(url).done((data) ->
         if data=='true'
           $('#confirm-non-participation-modal').modal('show')
-          console.log data
+          # console.log data
       )
 
       $('.who-participates').addClass('d-none')

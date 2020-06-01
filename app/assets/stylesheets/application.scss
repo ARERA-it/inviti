@@ -291,3 +291,17 @@ table.record-list {
     }
   }
 }
+
+
+.toast {
+  width: 300px;
+  position: fixed;
+  // position: absolute;
+  top: 100px;
+  right: 50px;
+}
+
+.action-buttons {
+  width: 1%;
+  white-space: nowrap;
+}
