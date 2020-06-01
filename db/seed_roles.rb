@@ -40,6 +40,8 @@ arr = [
 
   ['user_interaction', 'index', false],
 
+  ['project', 'update', false],
+
 ]
 arr.each do |el|
   # abstr.permissions.create(controller: el[0], action: el[1], permitted: el[2])
@@ -74,3 +76,5 @@ end
 
 Permission.where(role: Role.admin).update_all(permitted: true)
 Permission.where(role: Role.superuser).update_all(permitted: true)
+
+# Permission.find_or_create_by(role: Role.superuser, controller: 'project', action: 'update', permitted: true)

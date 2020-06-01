@@ -1,15 +1,5 @@
 <%= form_with(model: @project, local: true) do |form| %>
-  <% if @project.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= t('errors.messages.not_saved', count: @project.errors.count) %></h2>
-      <ul>
-      <% @project.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
+  <%= render 'layouts/error_message', model:  @project %>
 
   <p>Il presidente può assegnare un invito...</p>
   <div class="row">
@@ -27,7 +17,7 @@
       <div class="form-check">
         <%= form.radio_button :president_can_assign, :all_opinions, class: "form-check-input" %>
         <%= form.label :president_can_assign_all_opinions, "devono essere presenti TUTTI i pareri", class: "form-check-label" %>
-        <small id="emailHelp" class="form-text text-muted">È necessaria la presenza di un parere di ciascuno dei seguenti uffici: <%= advisor_groups_and_users %></small>
+        <small id="emailHelp" class="form-text text-muted">È necessaria la presenza di un parere di ciascuno dei seguenti gruppi: <%= advisor_groups_and_users %></small>
       </div>
     </div>
   </div>

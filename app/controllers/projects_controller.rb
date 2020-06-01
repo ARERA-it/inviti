@@ -13,10 +13,10 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       if @project.update(comment_params)
         format.html { redirect_to edit_project_path(@project), notice: "Le impostazioni sono state salvate con successo." }
-        format.json { render :show, status: :ok, location: @project }
+        # format.json { render :show, status: :ok, location: @project }
       else
         format.html { render :edit }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
+        # format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
   end
