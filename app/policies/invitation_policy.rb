@@ -1,13 +1,13 @@
 class InvitationPolicy < ApplicationPolicy
 
   def index?
-    role.can?('invitations', 'index')
+    role.can?('invitation', 'index')
   end
 
 
   # user roles: :president, :advisor, :commissary, :secretary, :viewer, :admin
   def show?
-    role.can?('invitations', 'show')
+    role.can?('invitation', 'show')
     # user.admin? ||
     # user.president? ||
     # user.advisor? ||
@@ -19,7 +19,7 @@ class InvitationPolicy < ApplicationPolicy
 
   # Vedere i pareri
   def view_opinion?
-    role.can?('invitations', 'view_opinion')
+    role.can?('invitation', 'view_opinion')
     # user.admin? ||
     # user.president? ||
     # user.advisor? ||
@@ -28,7 +28,7 @@ class InvitationPolicy < ApplicationPolicy
 
   # Vedere il pannello del designato
   def view_appointee?
-    role.can?('invitations', 'view_appointee')
+    role.can?('invitation', 'view_appointee')
     # user.admin? ||
     # user.president? ||
     # user.advisor? ||
@@ -39,7 +39,7 @@ class InvitationPolicy < ApplicationPolicy
 
   # Vedere il pannello dei contributi
   def view_contributions?
-    role.can?('invitations', 'view_contributions')
+    role.can?('invitation', 'view_contributions')
     # user.admin? ||
     # user.president? ||
     # user.advisor? ||
@@ -123,9 +123,9 @@ class InvitationPolicy < ApplicationPolicy
 
 
   def destroy?
-    return true  if user.admin?
-    return true  if user.secretary? && (record.no_info? || record.info?)
-    false
+    role.can?('invitation', 'destroy')
+    # return true  if user.admin?
+    # return true  if user.secretary? && (record.no_info? || record.info?)
   end
 
   def download_ics?
@@ -156,7 +156,7 @@ class InvitationPolicy < ApplicationPolicy
         scope.limit(0)
       end
     end
-    
+
     # def previous_resolve
     #   if user.admin? || user.president? || user.advisor? || user.secretary? || user.observer?
     #     scope.all

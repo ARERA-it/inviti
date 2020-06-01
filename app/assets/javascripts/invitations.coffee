@@ -15,12 +15,14 @@ class InvitationsController
 
     $('.inv-card').on('click', ->
       url = $(this).data('url')
-      Turbolinks.visit(url)
+      if url!=''
+        Turbolinks.visit(url)
     )
 
     $('.cal-event').on('click', ->
       url = $(this).data('url')
-      Turbolinks.visit(url)
+      if url!=''
+        Turbolinks.visit(url)
     )
 
     # highlight selected item on sidebar
@@ -42,7 +44,8 @@ class InvitationsController
 
     $('table.record-list tr.clickable').on('click', ->
       url = $(this).data('url')
-      Turbolinks.visit(url)
+      if url!=''
+        Turbolinks.visit(url)
     )
 
 

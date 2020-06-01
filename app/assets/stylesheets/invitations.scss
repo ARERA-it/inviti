@@ -2,19 +2,19 @@
 
 .inv-cards {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: flex-start;
-  align-content: flex-start;
+  // flex-direction: row;
+  // flex-wrap: wrap;
+  // justify-content: flex-start;
+  // align-items: flex-start;
+  // align-content: flex-start;
 
-  .col {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
+  // .colz {
+  //   padding-left: 10px;
+  //   padding-right: 10px;
+  // }
 
   .inv-card {
-    align-self: flex-start;
+    // align-self: flex-start;
     min-width: 380px;
     max-width: 420px;
     cursor: pointer;

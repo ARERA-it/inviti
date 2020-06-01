@@ -152,7 +152,7 @@ class InvitationsController < ApplicationController
     end
     i = i.page params[:page]
     @invitations = i.includes(:opinions, :comments, :contributions, :appointees, :request_opinions).with_attached_files
-    @vis_mode = current_user.settings(:invitation).visualization_mode
+    @vis_mode = current_user.settings(:invitation).visualization_mode # 'cards', 'list', 'calendar'
 
     # Used by calendar
     if @vis_mode=="calendar"
