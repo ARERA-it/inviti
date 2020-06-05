@@ -6,15 +6,15 @@ class CommentsController < ApplicationController
     authorize :comment
     options = { user_id: current_user.id }.merge comment_params
 
-    if options['content'].blank?
+    if false && options['content'].blank?
       render json: { status: 200, message: "Commento assente." }.to_json
     else
       @comment = Comment.new(options)
       respond_to do |format|
         if @comment.save
-          format.js # { render js: "$('<li>#{@comment.content}</li>').prependTo('.comments > ul');"}
+          format.js
         else
-          format.js { render js: "alert('Qualcosa è andato storto...');" }
+          format.js { render template: 'shared/wrong.js.erb' }
         end
       end
     end

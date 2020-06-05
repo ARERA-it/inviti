@@ -5,16 +5,16 @@ class RequestOpinionsController < ApplicationController
   def create
     authorize :request_opinion
     p = request_opinion_params # "request_opinion"=>{"invitation_id"=>"52", "group_ids"=>["4", "1"]}
-    @req_opinion = RequestOpinion.new(p)
+    @req_opinion = RequestOpinion.new(p.merge(user: current_user))
     respond_to do |format|
       if p[:group_ids] && p[:group_ids].any?
         if @req_opinion.save
           @feedback_hash = { msg: "Richiesta inviata con successo" }
         else
-          @feedback_hash = { msg: "Qualcosa è andato storto", txt_class: 'alert' }
+          @feedback_hash = { msg: "Qualcosa è andato storto", kind: 'alert' }
         end
       else
-        @feedback_hash = { msg: "Selezionare almeno un destinatario" }
+        @feedback_hash   = { msg: "Selezionare almeno un destinatario", kind: 'alert' }
       end
       format.js {}
     end

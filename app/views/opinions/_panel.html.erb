@@ -4,21 +4,40 @@
   </div>
   <div class="card-body">
 
-    <% if policy(RequestOpinion).create? %>
+    <% if policy(RequestOpinion).create? || policy(RequestOpinion).show? %>
       <%= render "request_opinions/req_op" %>
     <% end %>
 
-    <% if policy(@invitation).express_opinion? %>
+    <% user_asked_for_opinion = @invitation.users_who_was_asked_for_an_opinion.include?(current_user.id) %>
+    <% if policy(Opinion).express? || user_asked_for_opinion %>
       <div class="row border-bottom mb-3 pb-3">
         <div class="col-md-12">
-          <p class="title">Il tuo parere</p>
-          <%= form_with(model: @opinion , class: 'form-inline') do |form| %>
-            <%= form.hidden_field :invitation_id %>
-            <div class="form-group">
-              <%= form.collection_select :selection, Opinion.choices, :first, ->(e){ t("opinion.#{e.first}") }, {prompt: true}, class: "form-control"  %>
+          <% if user_asked_for_opinion %>
+            <div class="warning-1 mb-3">
+              <i class="fas fa-exclamation-triangle mr-1"></i>
+              <% requester_ids = @invitation.request_opinions.joins(groups: :users).where('users.id' => current_user.id).pluck('request_opinions.user_id') %>
+              <% if (arr = requester_ids.compact.uniq).any? %>
+                <% if arr.size==1 %>
+                  <%= "#{User.find(arr.first).display_name} ha richiesto esplicitamente il tuo parere" %>
+                <% else %>
+                  <%= "#{User.find(arr).map(&:display_name).join(', ')} hanno richiesto esplicitamente il tuo parere" %>
+                <% end %>
+              <% else %>
+                Il Presidente ha richiesto esplicitamente il tuo parere
+              <% end %>
             </div>
-            <%= form.submit "Salva", class: "btn btn-primary ml-3" %>
-            <span class="ajax-submit-feedback" id="text-after-submit-opinion-panel"></span>
+          <% end %>
+          <p class="title">Il tuo parere</p>
+          <%= form_with(model: @opinion) do |form| %>
+            <%= form.hidden_field :invitation_id %>
+            <div class="form-row">
+              <div class="col">
+                <%= form.collection_select :selection, Opinion.choices, :first, ->(e){ t("opinion.#{e.first}") }, {prompt: true}, class: "form-control"  %>
+              </div>
+              <div class="col-auto">
+                <%= form.submit "Salva", class: "btn btn-primary" %>
+              </div>
+            </div>
           <% end %>
         </div>
       </div>
@@ -41,6 +60,7 @@
         </div>
       </div>
     <% end %>
+
 
     <% if policy(Comment).show? %>
       <div class="row">

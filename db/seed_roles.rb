@@ -9,7 +9,8 @@ Permission.where(role_id: abstr.id).destroy_all
 arr = [
   ['invitation', 'index', true],
   ['invitation', 'show', true],
-  ['invitation', 'express_opinion', false],
+  ['invitation', 'audits', true],
+  # ['invitation', 'express_opinion', false],
   ['invitation', 'view_opinion', false],
   ['invitation', 'view_appointee', false],
   ['invitation', 'view_contributions', false],
@@ -41,6 +42,15 @@ arr = [
   ['user_interaction', 'index', false],
 
   ['project', 'update', false],
+
+  ['request_opinion', 'create', false], # può richiedere opinione?
+  ['request_opinion', 'show', false], # può vedere le richieste di opinioni?
+  ['opinion', 'show', false],
+  ['opinion', 'express', false], # in alternativa quello incluso nel gruppo con 'ask_opinion'=true
+  ['comment', 'show', false],
+  ['comment', 'create', false],
+  ['appointee', 'create', false],
+  ['appointee', 'change', false]
 
 ]
 arr.each do |el|

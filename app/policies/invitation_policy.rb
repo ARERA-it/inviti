@@ -20,10 +20,25 @@ class InvitationPolicy < ApplicationPolicy
   # Vedere i pareri
   def view_opinion?
     role.can?('invitation', 'view_opinion')
+    # role.can?('invitation', 'view_opinion')
     # user.admin? ||
     # user.president? ||
     # user.advisor? ||
     # record.users_who_was_asked_for_an_opinion.include?(user)
+  end
+
+  # express_opinion? MOVED TO opinion/update
+  # def express_opinion?
+    # role.can?('invitation', 'express_opinion')
+    # record.users_who_was_asked_for_an_opinion.include?(user.id)
+
+    # user.admin? ||
+    # user.advisor? ||
+    # record.users_who_was_asked_for_an_opinion.include?(user)
+  # end
+
+  def audits?
+    role.can?('invitation', 'audits')
   end
 
   # Vedere il pannello del designato
@@ -62,11 +77,6 @@ class InvitationPolicy < ApplicationPolicy
     show? # TODO: davvero?
   end
 
-  def express_opinion?
-    user.admin? ||
-    user.advisor? ||
-    record.users_who_was_asked_for_an_opinion.include?(user)
-  end
 
   def update_participation?
     user.admin? || user.president?
@@ -77,9 +87,10 @@ class InvitationPolicy < ApplicationPolicy
   end
 
   def update_general_info?
-    user.admin? ||
-    user.president? ||
-    user.secretary?
+    true # TODO: fix
+    # user.admin? ||
+    # user.president? ||
+    # user.secretary?
   end
 
 

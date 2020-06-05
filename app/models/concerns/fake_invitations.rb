@@ -13,7 +13,7 @@ module FakeInvitations
       a23 = ["Rai 1", "Rai 2", "Rai 3", "Canale 5", "La7", "Sky"]
       example_pdfs = Dir[File.join(Rails.root, 'example_pdfs', '*')]
       appointeeables = User.appointeeable.pluck(:id)
-      advisor_ids = User.advisor.pluck(:id)
+      advisor_ids = User.all.pluck(:id) # User.advisor.pluck(:id)
 
       size.times do
         stato = email_status_only ? 0 : rand(6)
@@ -25,7 +25,8 @@ module FakeInvitations
         # stato 5: invito passato
         org = nil
         subj = dice(0.5) ? "#{a1.sample} #{org = Faker::University.name}" : "#{a2.sample} #{org = a23.sample}"
-        from_dt = Faker::Time.between(2.weeks.ago, 3.weeks.from_now, :all)
+        # from_dt = Faker::Time.between(2.weeks.ago, 3.weeks.from_now, :all)
+        from_dt = Faker::Time.between_dates(from: 2.weeks.ago, to: 3.weeks.from_now, period: :day)
 
         appointee_id = nil    # id incaricato
         # alt_appointee_name = nil  # nome incaricato
@@ -47,7 +48,7 @@ module FakeInvitations
           email_body_preview: Faker::Lorem.sentence,
           email_body: email_body,
           email_decoded: email_body,
-          email_received_date_time: Faker::Time.between(6.weeks.ago, 2.weeks.ago, :all),
+          email_received_date_time: Faker::Time.between_dates(from: 6.weeks.ago, to: 2.weeks.ago, period: :all),
           location: stato>0 ? Faker::Address.city : nil,
           from_date_and_time: stato>0 ? from_dt : nil,
           to_date_and_time: stato>0 ? (dice(0.5) ? from_dt+2.hour : nil): nil,
@@ -61,7 +62,8 @@ module FakeInvitations
           puts i.errors
         end
         if i && stato>1
-          i.create_opinion(user_id: advisor_ids.sample, selection: Opinion::CHOICES[1..-1].sample)
+          Opinion.create(user_id: advisor_ids.sample, invitation_id: i.id, selection: Opinion::CHOICES[1..-1].sample)
+          # i.create_opinion(user_id: advisor_ids.sample, selection: Opinion::CHOICES[1..-1].sample)
         end
         if dice(0.4)
           pdfs = example_pdfs.clone.shuffle

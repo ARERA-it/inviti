@@ -2,19 +2,8 @@
 
 .inv-cards {
   display: flex;
-  // flex-direction: row;
-  // flex-wrap: wrap;
-  // justify-content: flex-start;
-  // align-items: flex-start;
-  // align-content: flex-start;
-
-  // .colz {
-  //   padding-left: 10px;
-  //   padding-right: 10px;
-  // }
 
   .inv-card {
-    // align-self: flex-start;
     min-width: 380px;
     max-width: 420px;
     cursor: pointer;
@@ -208,4 +197,9 @@ td .status-icons {
 
 ul.lp-30 {
   padding-left: 30px;
+}
+
+.warning-1 {
+  font-size: 0.9em;
+  color: #f18387;
 }

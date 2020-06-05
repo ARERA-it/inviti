@@ -39,4 +39,5 @@ class Group < ApplicationRecord
   def Group.opinion_group_and_users
     Group.where(ask_opinion: true).includes(:users).map{|g| [g.name, g.users.map(&:display_name)]}
   end
+
 end

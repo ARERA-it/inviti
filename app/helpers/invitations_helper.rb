@@ -1,5 +1,23 @@
 module InvitationsHelper
 
+  def translate_invitation_ui_index_selector(sel)
+    case sel
+    when 'to_be_assigned'
+      "da assegnare"
+    when 'waitin'
+      "in assegnazione"
+    when 'ready'
+      "pronti"
+    when 'archived'
+      "archiviati"
+    when 'all'
+      "tutti"
+    else # 'to_be_filled'
+      "da compilare"
+    end
+  end
+
+
   def new_invitation_badge(invitation, current_user, hash)
     case invitation.new_or_changed?(current_user, hash: nil)
     when :new

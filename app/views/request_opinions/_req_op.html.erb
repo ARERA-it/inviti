@@ -1,21 +1,28 @@
 <div class="row req-opinion-wrapper border-bottom mb-3">
-  <div class="col-md-12">
-    <%= form_with(model: @request_opinion, class: 'mb-2') do |form| %>
-      <%= form.hidden_field :invitation_id %>
-      <div class="form-group row">
-        <div class="col-sm-3">Richiedi parere:</div>
-        <div class="col-sm-9">
-          <% Group.where(ask_opinion: true).order(:name).each do |group| %>
-            <div class="form-check">
-              <%= form.check_box("group_ids", { multiple: true, class: "form-check-input"}, group.id, nil) %>
-              <%= form.label "group_ids_#{group.id}", group.name, class: "form-check-label", data: { toggle: 'tooltip'}, title: group.users.map(&:name).sort.join(', ') %>
-            </div>
-          <% end %>
+  <div class="col">
+    <% if policy(RequestOpinion).create? %>
+      <%= form_with(model: @request_opinion, class: 'mb-2') do |form| %>
+        <%= form.hidden_field :invitation_id %>
+        <div class="form-group row">
+          <div class="col-auto">Richiedi parere</div>
+          <div class="col">
+            <% Group.where(ask_opinion: true).order(:name).each do |group| %>
+              <div class="form-check">
+                <%= form.check_box("group_ids", { multiple: true, class: "form-check-input"}, group.id, nil) %>
+                <%= form.label "group_ids_#{group.id}", group.name, class: "form-check-label", data: { toggle: 'tooltip', placement: 'right' }, title: group.users.map(&:name).sort.join(', ') %>
+              </div>
+            <% end %>
+          </div>
         </div>
-      </div>
-      <%= form.submit "Invia richiesta", class: "btn btn-primary" %>
-      <span class="ajax-submit-feedback" id="text-after-request-opinion-panel"></span>
+        <div class="row">
+          <div class="col">
+            <%= form.submit "Invia richiesta", class: "btn btn-primary" %>
+          </div>
+        </div>
+      <% end %>
     <% end %>
-    <%= render "request_opinions/submitted_requests", request_opinions: @invitation.request_opinions %>
+    <% if policy(RequestOpinion).show? %>
+      <%= render "request_opinions/submitted_requests", request_opinions: @invitation.request_opinions.left_joins(:user) %>
+    <% end %>
   </div>
 </div>

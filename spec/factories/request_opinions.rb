@@ -3,10 +3,10 @@
 # Table name: request_opinions
 #
 #  id            :bigint           not null, primary key
-#  destination   :string           default("")
 #  invitation_id :bigint
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  user_id       :integer
 #
 
 FactoryBot.define do

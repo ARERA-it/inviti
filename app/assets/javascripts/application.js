@@ -37,6 +37,7 @@
 //= require hidding-sidebar
 //= require user_interactions
 
+//= require toast
 
 
 datatableItalian = {
@@ -160,19 +161,6 @@ $(document).on("turbolinks:load", function() {
     Turbolinks.visit(url);
   });
 
-
-  // toast
-  var flh = $('body').data('flash');
-  if (!$.isEmptyObject(flh)) {
-    if (flh.hasOwnProperty('notice')) {
-      $('#toast-notice .toast-body').text(flh.notice);
-      $('#toast-notice').toast('show');
-    }
-    if (flh.hasOwnProperty('alert')) {
-      $('#toast-alert .toast-body').text(flh.alert);
-      $('#toast-alert').toast('show');
-    }
-  }
 
 })
 

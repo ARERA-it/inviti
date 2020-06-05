@@ -6,9 +6,7 @@
 
 <div class="row">
   <div class="col">
-    <p>
-      <%= "Trovati: #{@invitations.total_count} inviti" %>
-    </p>
+    <p><%= "Trovati: #{@invitations.total_count} inviti" %></p>
   </div>
 </div>
 
@@ -16,13 +14,13 @@
   <div class="col">
     <div class="btn-group btn-group-toggle vis-mode" data-toggle="buttons">
       <label class="btn btn-secondary  vis-mode-selector <%= @vis_mode=='cards' ? 'active' : '' %>">
-        <%= radio_button_tag :vis_mode, :cards, autocomplete: 'off' %> <i class="fas fa-window-maximize"></i>
+        <%= radio_button_tag :vis_mode, :cards %> <i class="fas fa-window-maximize"></i>
       </label>
-      <label class="btn btn-secondary vis-mode-selector <%= @vis_mode=='list' ? 'active' : '' %>"  style="padding-left: 2em;">
-        <%= radio_button_tag :vis_mode, :list, autocomplete: 'off' %> <i class="fas fa-list"></i>
+      <label class="btn btn-secondary vis-mode-selector <%= @vis_mode=='list' ? 'active' : '' %>">
+        <%= radio_button_tag :vis_mode, :list %><i class="fas fa-list"></i>
       </label>
       <label class="btn btn-secondary vis-mode-selector <%= @vis_mode=='calendar' ? 'active' : '' %>">
-        <%= radio_button_tag :vis_mode, :calendar, autocomplete: 'off' %> <i class="fas fa-calendar-alt"></i>
+        <%= radio_button_tag :vis_mode, :calendar %><i class="fas fa-calendar-alt"></i>
       </label>
     </div>
   </div>

@@ -16,7 +16,7 @@
 #  initials            :string(2)
 #  email               :string
 #  job_title           :string
-#  role                :integer          default(4)
+#  role_id             :integer          default(4)
 #  title               :string(30)
 #  appointeeable       :boolean          default(FALSE)
 #  advisor_group       :integer          default("not_advisor")
@@ -143,5 +143,11 @@ class User < ApplicationRecord
       res = res && intersection.any?
     end
     res
+  end
+
+
+  # Get all users present in a group you can ask for an opinion
+  def User.to_ask_an_opinion
+    User.joins(:group).where('groups.ask_opinion' => true)
   end
 end

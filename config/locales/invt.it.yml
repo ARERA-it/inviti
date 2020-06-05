@@ -2,6 +2,12 @@ it:
   sometime: data da spec.
   somewhere: luogo da spec.
 
+  toast:
+    info: Info
+    warning: Attenzione
+    just_now: Adesso
+    something_went_wrong: Qualcosa è andato storto
+
   opinion:
     undefined: Non espresso
     do_not_participate: Declinare l'invito

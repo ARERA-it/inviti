@@ -1,4 +1,12 @@
 module ApplicationHelper
+
+def help_me(text, extra_classes: "")
+  content_tag(:span, class: "help-me #{extra_classes}", data: { content: text, title: t(:help_popover_title)}  ) do
+    content_tag(:i, nil, class: "far fa-question-circle")
+  end
+end
+
+
   def cache_view_counter(user)
     key = "view_counters,#{user.id}"
     blk = Rails.cache.fetch key

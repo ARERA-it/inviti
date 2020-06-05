@@ -42,6 +42,8 @@ class Invitation < ApplicationRecord
   paginates_per 25 # kaminari
 
   include AASM
+  DEFAULT_UI_INDEX_SELECTOR = 'to_be_filled'
+  VALID_UI_INDEX_SELECTORS  = %w( to_be_filled to_be_assigned waitin ready archived all )
 
   enum state: {
     no_info: 0,
@@ -52,12 +54,54 @@ class Invitation < ApplicationRecord
 
   INDEX_SEARCH_FIELD = %w( all location title organizer appointee email_body_preview )
 
-  scope :location_contains, -> (ss) { where("location ilike ?", "%#{ss}%") }
-  scope :title_contains, -> (ss) { where("title ilike ?", "%#{ss}%") }
-  scope :organizer_contains, -> (ss) { where("organizer ilike ?", "%#{ss}%") }
-  scope :appointees_contains, -> (ss) { left_joins(appointees: [:user]).where("users.display_name ilike ?", "%#{ss}%") }
-  scope :email_contains, -> (ss) { where("email_body_preview ilike ?", "%#{ss}%") }
-  scope :some_field_contains, -> (ss) { left_joins(appointees: [:user]).where("(invitations.location ilike ?) OR (invitations.title ilike ?) OR (invitations.organizer ilike ?) OR (users.display_name ilike ?) OR (invitations.email_body_preview ilike ?)", "%#{ss}%", "%#{ss}%", "%#{ss}%", "%#{ss}%", "%#{ss}%") }
+  scope :filter_by_status, -> (sel) {
+    case sel
+    when 'to_be_assigned'
+      order(from_date_and_time: :asc).to_be_assigned
+
+    when 'waitin'
+      order(from_date_and_time: :asc).waitin
+
+    when 'ready'
+      order(from_date_and_time: :asc).are_assigned
+
+    when 'archived'
+      order("from_date_and_time DESC, invitations.created_at DESC").archived
+
+    when 'all'
+      order("from_date_and_time DESC, invitations.created_at DESC")
+
+    else # 'to_be_filled'
+      order(created_at: :desc).no_info
+    end
+  }
+
+  scope :filter_by_search, -> (ss, sf) {
+    if ss.blank?
+      all
+    else
+      case sf
+      when 'location'
+        where("location ilike ?", "%#{ss}%")
+      when 'title'
+        where("title ilike ?", "%#{ss}%")
+      when 'organizer'
+        where("organizer ilike ?", "%#{ss}%")
+      when 'appointee'
+        left_joins(appointees: [:user]).where("users.display_name ilike ?", "%#{ss}%")
+      when 'email_body_preview'
+        where("email_body_preview ilike ?", "%#{ss}%")
+      else # all
+        left_joins(appointees: [:user]).where("(invitations.location ilike ?) OR (invitations.title ilike ?) OR (invitations.organizer ilike ?) OR (users.display_name ilike ?) OR (invitations.email_body_preview ilike ?)", "%#{ss}%", "%#{ss}%", "%#{ss}%", "%#{ss}%", "%#{ss}%")
+      end
+    end
+
+  }
+
+  def Invitation.validate_ui_index_selector(sel)
+    VALID_UI_INDEX_SELECTORS.include?(sel) ? sel : DEFAULT_UI_INDEX_SELECTOR
+  end
+
 
   enum appointee_status: [:nobody, :at_work, :ibrid, :one_or_more]
   enum org_category: [:undefined, :by_company, :partecipated, :general]
@@ -228,7 +272,7 @@ class Invitation < ApplicationRecord
   end
 
   def users_who_was_asked_for_an_opinion
-    request_opinions.map{|ro| ro.groups_users}.flatten.uniq
+    request_opinions.joins(groups: :users).pluck('users.id').uniq
   end
 
   def appointed_users

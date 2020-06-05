@@ -99,58 +99,20 @@ class InvitationsController < ApplicationController
   # GET /invitations
   # GET /invitations.json
   def index
+    puts "------> session[:invitation_index_sel]: #{session[:invitation_index_sel]}"
     # @read_ids = current_user.invitations.pluck(:id) # invitation already read # TODO: obsolete
     @seen_invitations = current_user.seen_invitations
+    @sel = Invitation.validate_ui_index_selector(params['sel']) # status selection
+    @sel_string = helpers.translate_invitation_ui_index_selector(@sel)
+
+    session[:invitation_index_sel] = @sel
 
     # i = Invitation
     i = policy_scope(Invitation)
-    @sel = params['sel'] || 'to_be_filled'
-    case @sel
+      .filter_by_status(@sel)
+      .filter_by_search(params[:search_string], params[:search_field])
+      .page(params[:page])
 
-    when 'to_be_filled'
-      i = i.order(created_at: :desc).no_info
-      @sel_string = "da compilare"
-
-    when 'to_be_assigned'
-      i = i.order(from_date_and_time: :asc).to_be_assigned
-      @sel_string = "da assegnare"
-
-    when 'waitin'
-      i = i.order(from_date_and_time: :asc).waitin
-      @sel_string = "in assegnazione"
-
-    when 'ready'
-      i = i.order(from_date_and_time: :asc).are_assigned
-      @sel_string = "pronti"
-
-    when 'archived'
-      i = i.order("from_date_and_time DESC, invitations.created_at DESC").archived
-      @sel_string = "archiviati"
-
-    when 'all'
-      i = i.order("from_date_and_time DESC, invitations.created_at DESC")
-      @sel_string = "tutti"
-    end
-    # i.where()
-
-    ss = params[:search_string]
-    if !ss.blank?
-      case params[:search_field]
-      when 'location'
-        i = i.location_contains(ss)
-      when 'title'
-        i = i.title_contains(ss)
-      when 'organizer'
-        i = i.organizer_contains(ss)
-      when 'appointee'
-        i = i.appointees_contains(ss)
-      when 'email_body_preview'
-        i = i.email_contains(ss)
-      else # all
-        i = i.some_field_contains(ss)
-      end
-    end
-    i = i.page params[:page]
     @invitations = i.includes(:opinions, :comments, :contributions, :appointees, :request_opinions).with_attached_files
     @vis_mode = current_user.settings(:invitation).visualization_mode # 'cards', 'list', 'calendar'
 
@@ -176,8 +138,10 @@ class InvitationsController < ApplicationController
   # GET /invitations/1.json
   def show
     authorize @invitation
-    if policy(@invitation).express_opinion? # policy(Opinion).update?
-      @opinion   = @invitation.opinions.where(user: current_user).first || @invitation.opinions.create(user: current_user)
+    # if policy(@invitation).express_opinion? # policy(Opinion).update?
+    if policy(Opinion).express? # policy(Opinion).update?
+      # @opinion   = @invitation.opinions.where(user: current_user).first || @invitation.opinions.create(user: current_user)
+      @opinion   = @invitation.opinions.find_or_create_by(user: current_user)
     end
     @other_opinions  = @invitation.opinions.where.not(user: current_user).where("selection >0")
     @comments        = @invitation.comments.order(created_at: :asc)

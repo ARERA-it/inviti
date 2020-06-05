@@ -15,6 +15,8 @@ class Comment < ApplicationRecord
   belongs_to :invitation
   audited associated_with: :invitation, only: :content
 
+  validates :content, presence: true
+
   before_save :append_audit_comment
   def append_audit_comment
     if new_record? # because before_update doesn't work
