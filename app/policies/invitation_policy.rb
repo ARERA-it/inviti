@@ -8,23 +8,15 @@ class InvitationPolicy < ApplicationPolicy
   # user roles: :president, :advisor, :commissary, :secretary, :viewer, :admin
   def show?
     role.can?('invitation', 'show')
-    # user.admin? ||
-    # user.president? ||
-    # user.advisor? ||
-    # user.secretary? ||
-    # user.observer? ||
-    # record.appointed_users.include?(user) ||
-    # record.users_who_was_asked_for_an_opinion.include?(user)
   end
 
   # Vedere i pareri
+  # la card dei pareri ha dentro molte cose diverse
+  # uno può vedere il riquadro delle opinioni se può vedere almeno uno dei
+  # suoi contenuti
   def view_opinion?
-    role.can?('invitation', 'view_opinion')
     # role.can?('invitation', 'view_opinion')
-    # user.admin? ||
-    # user.president? ||
-    # user.advisor? ||
-    # record.users_who_was_asked_for_an_opinion.include?(user)
+    false
   end
 
   # express_opinion? MOVED TO opinion/update
@@ -44,23 +36,11 @@ class InvitationPolicy < ApplicationPolicy
   # Vedere il pannello del designato
   def view_appointee?
     role.can?('invitation', 'view_appointee')
-    # user.admin? ||
-    # user.president? ||
-    # user.advisor? ||
-    # user.secretary? ||
-    # user.observer? ||
-    # record.appointed_users.include?(user)
   end
 
   # Vedere il pannello dei contributi
   def view_contributions?
     role.can?('invitation', 'view_contributions')
-    # user.admin? ||
-    # user.president? ||
-    # user.advisor? ||
-    # user.secretary? ||
-    # user.observer? ||
-    # record.appointed_users.include?(user)
   end
 
   # Vedere il pannello delle info generali
@@ -70,7 +50,7 @@ class InvitationPolicy < ApplicationPolicy
 
   # Vedere il pannello della email
   def view_email_info?
-    show?
+    role.can?('invitation', 'view_email_info')
   end
 
   def show_audit?
@@ -87,19 +67,12 @@ class InvitationPolicy < ApplicationPolicy
   end
 
   def update_general_info?
-    true # TODO: fix
-    # user.admin? ||
-    # user.president? ||
-    # user.secretary?
+    role.can?('invitation', 'update_general_info')
   end
 
 
-
-
-
-  # Le info generali
-  def update?
-    show?
+  def update? # Le info generali
+    update_general_info?
   end
 
   def usual_and_particular
@@ -140,7 +113,7 @@ class InvitationPolicy < ApplicationPolicy
   end
 
   def download_ics?
-    show?
+    role.can?('invitation', 'download_ical')
   end
 
 

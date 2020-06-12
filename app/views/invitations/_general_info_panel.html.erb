@@ -4,24 +4,17 @@
   </div>
   <div class="card-body">
     <%= form_with(model: @invitation, html: { autocomplete: :off }) do |form| %>
-      <% if @invitation.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= t('errors.messages.not_saved', count: @invitation.errors.count) %></h2>
-          <ul>
-            <% @invitation.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
+      <% render 'layouts/error_message', model: @invitation %>
 
       <div class="form-group">
         <%= form.label :title, "Titolo" %>
         <div class="input-group">
           <%= form.text_field :title, class: "form-control", placeholder: "", readonly: read_only %>
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" id="button-copy-email-subject">Copia da email</button>
-          </div>
+          <% unless read_only %>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" id="button-copy-email-subject">Copia da email</button>
+            </div>
+          <% end %>
         </div>
       </div>
 
@@ -71,13 +64,13 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group form-check">
-            <%= form.check_box :public_event, class: "form-check-input" %>
+            <%= form.check_box :public_event, class: "form-check-input", disabled: read_only %>
             <%= form.label :public_event %>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <%= form.collection_select :org_category, Invitation.org_categories.to_a, :first, ->(e){ t("org_categories.#{e.first}") }, {prompt: false}, class: "form-control"  %>
+            <%= form.collection_select :org_category, Invitation.org_categories.to_a, :first, ->(e){ t("org_categories.#{e.first}") }, { prompt: false}, class: "form-control", disabled: read_only  %>
           </div>
         </div>
       </div>
@@ -91,7 +84,6 @@
       <div class="actions">
         <%= hidden_field_tag :submit_feedback, 'text-after-submit-info-panel' %>
         <%= form.submit "Salva", class: "btn btn-primary", disabled: read_only %>
-        <span class="ajax-submit-feedback" id="text-after-submit-info-panel"></span>
 
         <span id="download_cal">
           <%= render 'download_calendar', inv: @invitation %>

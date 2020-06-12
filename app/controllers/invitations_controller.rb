@@ -176,10 +176,11 @@ class InvitationsController < ApplicationController
     respond_to do |format|
       @invitation.curr_user = current_user
       if @invitation.update(invitation_params)
-        format.js {}
+        @feedback_hash = { msg: "Informazioni generali salvate correttamente" }
       else
-        format.js { render :js => "alert('Qualcosa è andato storto...')" }
+        @feedback_hash = { msg: "Qualcosa è andato storto", kind: 'alert' }
       end
+      format.js {}
     end
   end
 

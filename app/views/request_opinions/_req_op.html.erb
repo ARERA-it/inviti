@@ -9,7 +9,7 @@
             <% Group.where(ask_opinion: true).order(:name).each do |group| %>
               <div class="form-check">
                 <%= form.check_box("group_ids", { multiple: true, class: "form-check-input"}, group.id, nil) %>
-                <%= form.label "group_ids_#{group.id}", group.name, class: "form-check-label", data: { toggle: 'tooltip', placement: 'right' }, title: group.users.map(&:name).sort.join(', ') %>
+                <%= form.label "group_ids_#{group.id}", group_name_and_count(group), class: "form-check-label", data: { toggle: 'tooltip', placement: 'right' }, title: group.users.map(&:name).sort.join(', ') %>
               </div>
             <% end %>
           </div>

@@ -4,15 +4,14 @@
   </div>
   <div class="card-body">
 
-    <% if policy(RequestOpinion).create? || policy(RequestOpinion).show? %>
+    <% if @opinion_auth[:create_req_opinion] || @opinion_auth[:show_req_opinion] %>
       <%= render "request_opinions/req_op" %>
     <% end %>
 
-    <% user_asked_for_opinion = @invitation.users_who_was_asked_for_an_opinion.include?(current_user.id) %>
-    <% if policy(Opinion).express? || user_asked_for_opinion %>
+    <% if @opinion_auth[:express_opinion] || @opinion_auth[:asked_for_opinion] %>
       <div class="row border-bottom mb-3 pb-3">
         <div class="col-md-12">
-          <% if user_asked_for_opinion %>
+          <% if @opinion_auth[:asked_for_opinion] %>
             <div class="warning-1 mb-3">
               <i class="fas fa-exclamation-triangle mr-1"></i>
               <% requester_ids = @invitation.request_opinions.joins(groups: :users).where('users.id' => current_user.id).pluck('request_opinions.user_id') %>
@@ -44,7 +43,7 @@
     <% end %>
 
 
-    <% if policy(Opinion).show? && @other_opinions.any? %>
+    <% if @opinion_auth[:show_opinion] && @other_opinions.any? %>
       <div class="row border-bottom mb-3 pb-3">
         <div class="col-md-12">
           <p class="title">Pareri di altri</p>
@@ -52,7 +51,11 @@
             <% @other_opinions.each do |op| %>
             <li>
               <strong><%= op.user.display_name %></strong>
-              (<%= @invitation.request_opinions.map(&:groups).flatten.uniq.keep_if{|gr| gr.users.include?(op.user)}.map(&:name).join(',') %>):
+              <% if (names = @invitation.request_opinions.map(&:groups).flatten.uniq.keep_if{|gr| gr.users.include?(op.user)}.map(&:name)).any? %>
+                (<%= names.join(',') %>):
+              <% else %>
+                :
+              <% end %>
               <em><%= t op.selection, scope: :opinion %></em>
             </li>
             <% end %>
@@ -62,7 +65,7 @@
     <% end %>
 
 
-    <% if policy(Comment).show? %>
+    <% if @opinion_auth[:show_comment] %>
       <div class="row">
         <div class="col-md-12">
           <p class="title">Commenti</p>
@@ -73,7 +76,7 @@
               <% end %>
             </ul>
 
-            <% if policy(Comment).create? %>
+            <% if @opinion_auth[:create_comment] %>
               <%= form_with(model: @comment) do |form| %>
                 <%= form.hidden_field :invitation_id %>
                 <div class="form-group">
@@ -83,7 +86,6 @@
 
                 <div class="actions">
                   <%= form.submit "Invia", class: "btn btn-primary" %>
-                  <span class="ajax-submit-feedback" id="text-after-submit-comment-panel"></span>
                 </div>
               <% end %>
             <% end %>

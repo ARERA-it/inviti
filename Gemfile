@@ -100,3 +100,4 @@ gem 'kaminari' # https://github.com/kaminari/kaminari
 gem 'bootstrap4-kaminari-views' # https://github.com/KamilDzierbicki/bootstrap4-kaminari-views
 
 gem 'faraday' # https://github.com/lostisland/faraday
+gem 'google_drive'

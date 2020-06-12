@@ -1,0 +1,6 @@
+it:
+  groups:
+    group_count:
+      zero: "gruppo vuoto"
+      one: "1 persona"
+      other: "%{count} persone"

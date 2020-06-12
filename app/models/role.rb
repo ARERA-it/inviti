@@ -30,11 +30,16 @@ class Role < ApplicationRecord
     code==GUEST
   end
 
+  def superuser?
+    code==SUPERUSER
+  end
+
   def code_not_nil?
     !code.nil?
   end
 
   def can?(controller, action)
+    return true if superuser?
     Permission.find_by(role_id: id, controller: controller, action: action)&.permitted || false
   end
 

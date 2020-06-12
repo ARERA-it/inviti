@@ -14,7 +14,7 @@ class RequestOpinionsController < ApplicationController
           @feedback_hash = { msg: "Qualcosa è andato storto", kind: 'alert' }
         end
       else
-        @feedback_hash   = { msg: "Selezionare almeno un destinatario", kind: 'alert' }
+        @feedback_hash   = { msg: "Selezionare almeno un gruppo", kind: 'alert' }
       end
       format.js {}
     end

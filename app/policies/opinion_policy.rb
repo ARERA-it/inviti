@@ -5,7 +5,7 @@ class OpinionPolicy < ApplicationPolicy
   end
 
   def express?
-    role.can?('opinion', 'express') || User.to_ask_an_opinion.include?(user)
+    role.can?('opinion', 'express') #|| User.to_ask_an_opinion.include?(user)
   end
 
   def update?

@@ -3,21 +3,40 @@ class CommentsController < ApplicationController
 
   # Add a comment
   def create
-    authorize :comment
+    authorize Comment
     options = { user_id: current_user.id }.merge comment_params
+    # "comment"=>{"invitation_id"=>"33", "content"=>"Un commento"}
 
-    if false && options['content'].blank?
-      render json: { status: 200, message: "Commento assente." }.to_json
-    else
-      @comment = Comment.new(options)
-      respond_to do |format|
-        if @comment.save
-          format.js
+    @comment = Comment.new(options)
+    respond_to do |format|
+      if @comment.save
+        @feedback_hash = { msg: "" }
+        format.js {}
+      else
+        if @comment.content.blank?
+          @feedback_hash = { msg: "Commento assente", kind: 'alert' }
         else
-          format.js { render template: 'shared/wrong.js.erb' }
+          @feedback_hash = { msg: "Qualcosa è andato storto", kind: 'alert' }
         end
+        format.js { render template: 'comments/failed.js.erb' }
       end
     end
+
+
+
+    #
+    # if options['content'].blank?
+    #   render json: { status: 200, message: "Commento assente." }.to_json
+    # else
+    #   @comment = Comment.new(options)
+    #   respond_to do |format|
+    #     if @comment.save
+    #       format.js
+    #     else
+    #       format.js { render template: 'shared/wrong.js.erb' }
+    #     end
+    #   end
+    # end
   end
 
   private

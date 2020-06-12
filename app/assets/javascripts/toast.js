@@ -13,7 +13,8 @@ function show_toast(kind, message) {
   console.log(kind);
   console.log(message);
 
-  if (kind=='alert') {
+
+  if (kind=='alert' && message!=="") {
     show_toast_alert(message);
   } else {
     show_toast_notice(message);

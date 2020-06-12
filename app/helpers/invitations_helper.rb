@@ -1,5 +1,17 @@
 module InvitationsHelper
 
+  def opinion_authorization(invitation, user)
+    hash = {}
+    hash[:create_req_opinion] = policy(RequestOpinion).create?
+    hash[:show_req_opinion]   = policy(RequestOpinion).show?
+    hash[:asked_for_opinion]  = invitation.users_who_was_asked_for_an_opinion.include?(user.id)
+    hash[:express_opinion]    = policy(Opinion).express?
+    hash[:show_opinion]       = policy(Opinion).show?
+    hash[:show_comment]       = policy(Comment).show?
+    hash[:create_comment]     = policy(Comment).create?
+    hash
+  end
+
   def translate_invitation_ui_index_selector(sel)
     case sel
     when 'to_be_assigned'

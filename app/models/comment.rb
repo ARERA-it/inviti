@@ -18,6 +18,8 @@ class Comment < ApplicationRecord
   validates :content, presence: true
 
   before_save :append_audit_comment
+  before_validation :clear_content
+
   def append_audit_comment
     if new_record? # because before_update doesn't work
       self.audit_comment = "#{user.name} ha aggiunto un commento"
@@ -26,4 +28,7 @@ class Comment < ApplicationRecord
     end
   end
 
+  def clear_content
+    self.content = content.strip
+  end
 end
