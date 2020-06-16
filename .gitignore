@@ -46,3 +46,5 @@ docker-compose.staging-with-network.yml
 
 /some-scripts
 .DS_Store
+
+/config/google-api-credentials.json
