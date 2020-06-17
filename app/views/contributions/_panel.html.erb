@@ -8,7 +8,9 @@
         <p>Al momento non ci sono contributi.</p>
       <% else %>
         <% @contributions.each do |c| %>
-          <%= render 'contributions/contribution', c: c %>
+          <% if policy(c).view? %>
+            <%= render 'contributions/contribution', c: c %>
+          <% end %>
         <% end %>
       <% end %>
     </div>
@@ -28,23 +30,12 @@
           <%= form.file_field :contribution_files, class: "form-control", multiple: true  %>
         </div>
 
-        <% if false %>
-          <div class="form-group">
-            <%= form.label :contribution_files, tt('contribution.contribution_files') %>
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" name="contribution[contribution_files][]" id="contribution_contribution_files">
-              <label class="custom-file-label" for="customFile">Seleziona i documenti...</label>
-            </div>
-          </div>
-        <% end %>
-
         <div class="form-group">
           <%= form.label :note, tt('contribution.note') %>
           <%= form.text_area :note, rows: 4, class: "form-control" %>
         </div>
 
         <%= form.submit "Carica", class: "btn btn-primary pull-right" %>
-        <span class="ajax-submit-feedback" id="text-after-submit-contribution-panel"></span>
       <% end %>
     <% end %>
   </div>

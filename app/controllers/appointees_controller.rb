@@ -1,7 +1,5 @@
 class AppointeesController < ApplicationController
-  # before_action :select_user_and_group, only: [:create, :update]
   before_action :set_invitation, only: [:create]
-  # before_action :set_appointee, only: [:show, :edit, :update, :destroy, :ui_choices, :edit_form]
   before_action :set_appointee, only: [:edit_form]
 
 

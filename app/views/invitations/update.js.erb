@@ -1,10 +1,6 @@
-// var $sel = $('#<%= params[:submit_feedback] %>');
-// $sel.text("Dati salvati");
-
 show_toast("<%= raw @feedback_hash[:kind] %>", "<%= raw @feedback_hash[:msg] %>");
 
-
-$('#appointee_panel').replaceWith("<%= j render('appointees/panel', read_only: !policy(@invitation).want_participate? || @invitation.no_info?) %>");
+$('#appointee_panel').replaceWith("<%= j render('appointees/panel', read_only: @invitation.no_info?) %>");
 $('#download_cal').html("<%= j render 'download_calendar', inv: @invitation %>");
 
 function manageParticipation() {
@@ -20,8 +16,3 @@ $('#invitation_decision').on('change', function(){
   manageParticipation();
 })
 manageParticipation();
-
-
-// setTimeout(function() {
-//   $sel.text("");
-// }, 1000);

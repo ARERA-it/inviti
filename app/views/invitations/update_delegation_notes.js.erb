@@ -1,7 +1,1 @@
-var $sel = $('#<%= params[:submit_feedback] %>');
-// show message
-$sel.text("<%= raw @feedback_hash[:msg] %>");
-// hide message
-setTimeout(function() {
-  $sel.text("");
-}, 1000);
+show_toast("<%= raw @feedback_hash[:kind] %>", "<%= raw @feedback_hash[:msg] %>");

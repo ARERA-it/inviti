@@ -13,7 +13,7 @@
       <%= render 'opinions/panel' %>
     <% end %>
     <% if policy(@invitation).view_appointee? %>
-      <%= render 'appointees/panel', read_only: !policy(@invitation).want_participate? || @invitation.no_info? %>
+      <%= render 'appointees/panel', read_only: @invitation.no_info? || @invitation.past?  %>
     <% end %>
     <% if policy(@invitation).view_contributions? %>
       <%= render 'contributions/panel' %>

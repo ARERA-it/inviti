@@ -3,13 +3,16 @@
     Incarico
   </div>
   <div class="card-body">
+
     <%= appointee_disabled_fields_message @invitation %>
+    <%= appointee_expired_message @invitation %>
+    
     <div class="row mb-3" id="participation-buttons" data-update-url="<%= update_participation_invitation_path(@invitation) %>" data-has-app-url="<%= has_appointees_invitation_path(@invitation) %>">
       <div class="col-6">
-        <button type="button" class="btn btn-outline-success btn-block participation-btn" id="participate-yes" <%= policy(Appointee).change? ? '' : 'disabled' %>>ARERA partecipa</button>
+        <button type="button" class="btn btn-outline-success btn-block participation-btn" id="participate-yes" <%= policy(@invitation).update_participation? && !@invitation.past? ? '' : 'disabled' %>>ARERA partecipa</button>
       </div>
       <div class="col-6">
-        <button type="button" class="btn btn-outline-danger btn-block participation-btn" id="participate-no" <%= policy(Appointee).change? ? '' : 'disabled' %>>ARERA non partecipa</button>
+        <button type="button" class="btn btn-outline-danger btn-block participation-btn" id="participate-no" <%= policy(@invitation).update_participation? && !@invitation.past? ? '' : 'disabled' %>>ARERA non partecipa</button>
       </div>
       <%= hidden_field_tag :invitation_decision, @invitation.decision %>
     </div>
@@ -41,18 +44,11 @@
 
       <div class="form-group">
         <%= form.label :delegation_notes, "Osservazioni e note" %>
-        <%= form.text_area :delegation_notes, rows: 4, class: "form-control", readonly: read_only %>
+        <%= form.text_area :delegation_notes, rows: 4, class: "form-control", readonly: read_only || !policy(@invitation).update_delegation_notes? %>
       </div>
 
-      <% if false # TODO: remove this %>
-        <div id="assignment-steps">
-          <%= render 'appointees/assignment_steps' %>
-        </div>
-      <% end %>
-
       <%= hidden_field_tag :submit_feedback, 'text-after-submit-appointee-panel' %>
-      <%= form.submit "Salva", class: "btn btn-primary pull-right", disabled: read_only %>
-      <span class="ajax-submit-feedback" id="text-after-submit-appointee-panel"></span>
+      <%= form.submit "Salva osservazioni e note", class: "btn btn-primary pull-right", disabled: read_only || !policy(@invitation).update_delegation_notes? %>
 
     <% end %>
   </div>

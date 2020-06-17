@@ -5,15 +5,5 @@ $('#contribution_title').removeClass("is-invalid");
 $('#contribution_title + div.invalid-feedback').remove();
 
 $('#contribution_note').val("");
-//
-// // scroll to the new/last message
-// var $p = $('.panel-chat');
-// var height = $p[0].scrollHeight;
-// $p.scrollTop(height);
 
-var $sel = $('#text-after-submit-contribution-panel');
-$sel.text("Contributo aggiunto");
-
-setTimeout(function() {
-  $sel.text("");
-}, 1000);
+show_toast("<%= raw @feedback_hash[:kind] %>", "<%= raw @feedback_hash[:msg] %>");

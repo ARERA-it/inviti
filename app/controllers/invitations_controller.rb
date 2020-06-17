@@ -7,12 +7,11 @@ class InvitationsController < ApplicationController
     term = params[:term]
     r = Group.sanitize_sql_array(["SELECT id, name as value, name as label, 'group' as type FROM groups WHERE name ilike ? UNION SELECT id, display_name as value, display_name as label, 'user' as type FROM users WHERE display_name ilike ? LIMIT 15", "%#{term}%", "%#{term}%"])
     h = Group.connection.select_all(r).to_hash
-    # puts "----> #{r}"
-    # puts "----> #{h}"
     render :json => h
   end
 
 
+  # click on 'Participate' or 'Do not participate'
   def update_participation
     authorize @invitation
     respond_to do |format|
@@ -21,7 +20,11 @@ class InvitationsController < ApplicationController
       if @invitation.update_participation(decision, comment, current_user)
         @feedback_hash = { msg: "Decisione salvata" }
       else
-        @feedback_hash = { msg: "Qualcosa è andato storto" }
+        if @invitation.past?
+          @feedback_hash = { msg: "L'evento risulta scaduto", kind: 'alert' }
+        else
+          @feedback_hash = { msg: "Qualcosa è andato storto", kind: 'alert' }
+        end
       end
       format.js
     end
@@ -42,41 +45,16 @@ class InvitationsController < ApplicationController
     end
   end
 
-
+  # OK
   def update_delegation_notes
     authorize @invitation
     respond_to do |format|
       if @invitation.update(delegation_notes: params[:invitation][:delegation_notes])
         @feedback_hash = { msg: "Osservazioni salvate con successo" }
       else
-        @feedback_hash = { msg: "Qualcosa è andato storto" }
+        @feedback_hash = { msg: "Qualcosa è andato storto", kind: 'alert' }
       end
       format.js
-    end
-
-  end
-
-
-  # Modifica le info sull'incarico
-  # TODO: lo togliamo? è una replica di update_participation ?
-  # togli anche policy e js
-  def want_participate
-    authorize @invitation
-    # find_appointee
-    respond_to do |format|
-      if params[:invitation][:decision]=="participate" # && params[:invitation][:appointee_id].nil?
-      #   @feedback_hash = { msg: "L'utente non è stato trovato" }
-      # else
-        if @invitation.update(want_participate_params)
-          # la notifica dell'incarico viene inviata dal modello (mail_to_assigned)
-          # puts "---> bene"
-          @feedback_hash = { msg: "Dati salvati con successo" }
-        else
-          puts "---> errore: #{@invitation.errors.inspect}"
-          @feedback_hash = { msg: "Qualcosa è andato storto" }
-        end
-      end
-      format.js {}
     end
   end
 
@@ -99,7 +77,7 @@ class InvitationsController < ApplicationController
   # GET /invitations
   # GET /invitations.json
   def index
-    puts "------> session[:invitation_index_sel]: #{session[:invitation_index_sel]}"
+    # puts "------> session[:invitation_index_sel]: #{session[:invitation_index_sel]}"
     # @read_ids = current_user.invitations.pluck(:id) # invitation already read # TODO: obsolete
     @seen_invitations = current_user.seen_invitations
     @sel = Invitation.validate_ui_index_selector(params['sel']) # status selection
@@ -149,15 +127,9 @@ class InvitationsController < ApplicationController
     @contributions   = @invitation.contributions
     @contribution    = Contribution.new(invitation: @invitation)
     @request_opinion = RequestOpinion.new(invitation: @invitation)
-    # @invitation.user_display_name =
-
     @invitation.users << current_user # check invitation as 'read' # TODO: obsolete
 
-    # puts "---> current_user: #{current_user.id}"
-    # puts "---> @invitation: #{@invitation.id}"
-
     @seen_at = UserInvitation.create_or_touch(current_user, @invitation)
-    # puts "---> @seen_at: #{@seen_at.inspect}"
   end
 
 
@@ -254,18 +226,10 @@ class InvitationsController < ApplicationController
       params[:invitation][:appointee_id] = appointee ? appointee.id : nil
     end
 
-    # Use callbacks to share common setup or constraints between actions.
     def set_invitation
       @invitation = Invitation.find(params[:id])
     end
 
-    def want_participate_params
-      params.require(:invitation).permit(:delegation_notes) #, :decision, :user_display_name)
-    end
-    # Never trust parameters from the scary internet, only allow the white list through.
-    # def appointee_params
-    #   params.require(:invitation).permit(:decision, :appointee_id, :delegation_notes, :send_email) #, :user_display_name)
-    # end
     def invitation_params
       params.require(:invitation).permit(:title, :location, :from_date_and_time_view, :to_date_and_time_view, :organizer, :notes, :appointee_id, :alt_appointee_name, :delegation_notes, :decision, :public_event, :org_category) #, :user_display_name)
     end

@@ -8,12 +8,11 @@ class ContributionsController < ApplicationController
     @contribution.user = current_user
     respond_to do |format|
       if @contribution.save
-        format.js
+        @feedback_hash = { msg: "Contributo aggiunto" }
       else
-        # @model = 'contribution'
-        # @object = @contribution
-        format.js { render template: 'layouts/error_message.js.erb', locals: { object: @contribution, model: 'contribution' } }
+        @feedback_hash = { msg: "Qualcosa è andato storto", kind: 'alert' }
       end
+      format.js
     end
   end
 
@@ -24,11 +23,14 @@ class ContributionsController < ApplicationController
     authorize @contribution
     @contribution.destroy
     respond_to do |format|
+      @feedback_hash = { msg: "Contributo eliminato con successo" }
       format.js
     end
   end
 
+
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_contribution
       @contribution = Contribution.find(params[:id])

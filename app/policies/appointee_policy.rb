@@ -3,12 +3,14 @@ class AppointeePolicy < ApplicationPolicy
   # aggiungere un partecipante
 
   def change?
-    # user.president? || user.admin?
     role.can?('appointee', 'change')
   end
 
   def create?
-    role.can?('appointee', 'create')
-    # change?
+    change?
+  end
+
+  def view_comments?
+  	user.id==record.user_id || role.can?('appointee', 'view_comments')
   end
 end

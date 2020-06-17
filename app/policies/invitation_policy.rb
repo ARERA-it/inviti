@@ -14,6 +14,7 @@ class InvitationPolicy < ApplicationPolicy
   # la card dei pareri ha dentro molte cose diverse
   # uno può vedere il riquadro delle opinioni se può vedere almeno uno dei
   # suoi contenuti
+  # TODO: viene ancora usato!!!
   def view_opinion?
     # role.can?('invitation', 'view_opinion')
     false
@@ -33,14 +34,20 @@ class InvitationPolicy < ApplicationPolicy
     role.can?('invitation', 'audits')
   end
 
-  # Vedere il pannello del designato
+  # Vedere il pannello della persona incaricata
   def view_appointee?
     role.can?('invitation', 'view_appointee')
   end
 
+  def update_delegation_notes?
+    role.can?('appointee', 'change_note') # invitation#delegation_notes
+  end
+
+
   # Vedere il pannello dei contributi
   def view_contributions?
-    role.can?('invitation', 'view_contributions')
+    true
+    # role.can?('invitation', 'view_contributions')
   end
 
   # Vedere il pannello delle info generali
@@ -57,14 +64,14 @@ class InvitationPolicy < ApplicationPolicy
     show? # TODO: davvero?
   end
 
-
+  # participate or not?
   def update_participation?
-    user.admin? || user.president?
+    role.can?('invitation', 'update_participation')
   end
 
-  def cancel_participation?
-    update_participation?
-  end
+  # def cancel_participation?
+  #   update_participation?
+  # end
 
   def update_general_info?
     role.can?('invitation', 'update_general_info')
@@ -82,29 +89,6 @@ class InvitationPolicy < ApplicationPolicy
     user.secretary? ||
     record.users_who_was_asked_for_an_opinion.include?(user)
   end
-
-  def update_delegation_notes?
-    user.admin? || user.president?
-  end
-
-
-  # Le info sull'incarico
-  # TODO: obsoleto
-  def want_participate?
-    return true if user.admin?
-    return false if !user.president?
-
-    case Project.primo.president_can_assign
-    when "at_least_one_opinion"
-      User.any_advisor_expressed_an_opinion_on record
-    when "all_opinions"
-      User.all_advisor_expressed_an_opinion_on record
-    else
-      true
-    end
-  end
-
-
 
   def destroy?
     role.can?('invitation', 'destroy')

@@ -11,8 +11,10 @@
         <li>
           <span class="title"><%= redcarpet_render step.description %></span>
           <span class="float-right"><%= livestamp(step.timestamp) %></span>
-          <% if c = step.comment || step.action.comment %>
-            <p class="comment"><%= c %></p>
+          <% if policy(a).view_comments? %>
+            <% if c = step.comment || step.action.comment %>
+              <p class="comment"><%= c %></p>
+            <% end %>
           <% end %>
         </li>
       <% end %>

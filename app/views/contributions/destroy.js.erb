@@ -1,1 +1,3 @@
 $('#contr-<%= @contribution.id %>').remove()
+
+show_toast("<%= raw @feedback_hash[:kind] %>", "<%= raw @feedback_hash[:msg] %>");

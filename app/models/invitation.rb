@@ -150,8 +150,17 @@ class Invitation < ApplicationRecord
 
   after_save do |i|
     i.info_added! if i.no_info? and i.has_basic_info?
-    i.pass! if i.is_expired?
-
+    # i.pass! if i.is_expired?
+    if i.is_expired?
+      i.pass! if !i.past?
+    else
+      if i.past? 
+        # someone has rectified wrong event dates
+        # of invitation was checked (his state) as :past
+        # The invitation must be moved to state :info
+        i.update_column(:state, :info)
+      end
+    end
   end
 
   after_update do

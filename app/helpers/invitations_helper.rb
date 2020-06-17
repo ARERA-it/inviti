@@ -238,6 +238,14 @@ module InvitationsHelper
     end
   end
 
+  def appointee_expired_message(invitation)
+    if invitation.past?
+      content_tag(:div, class: "alert alert-warning", role: "alert") do
+        content_tag(:div, "L'evento risulta scaduto!")
+      end
+    end
+  end
+
 
   def appointee_ui_choices(current_status=nil)
     Appointee.ui_choices(current_status).map{|e| [e, I18n.t(e, scope: 'appointee_ui_choices').html_safe, I18n.t(e, scope: 'appointee_ui_choices_help')]}
