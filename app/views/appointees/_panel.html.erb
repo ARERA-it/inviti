@@ -49,7 +49,6 @@
 
       <%= hidden_field_tag :submit_feedback, 'text-after-submit-appointee-panel' %>
       <%= form.submit "Salva osservazioni e note", class: "btn btn-primary pull-right", disabled: read_only || !policy(@invitation).update_delegation_notes? %>
-
     <% end %>
   </div>
 </div>

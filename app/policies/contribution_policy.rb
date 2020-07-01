@@ -1,25 +1,34 @@
 class ContributionPolicy < ApplicationPolicy
 
-  # Visualizzare un determinato contributo
-  def view?
-    create? ||
-    role.can?('contribution', 'view')
+
+  # Can show all contributions
+  def index?
+    role.can?('contribution', 'index')
   end
 
 
-  # Aggiungere un contributo
-  def create?
+  # Add a contribute
+  def create?(invitation)
     role.can?('contribution', 'create') ||
-    record.invitation.appointed_users.include?(user)
+    invitation.appointed_users.include?(user)
   end
 
 
-  # Eliminare un contributo
+  # Destroy a contribute
   def destroy?
-    # - admin, oppure
-    # - autore (colui che l'ha creato), purché nel frattempo non
-    #      sia diventato 'viewer'
     role.can?('contribution', 'destroy') ||
     record.user==user
   end
+
+
+  class Scope < Scope
+    def resolve
+      if role.can?('contribution', 'index')
+        scope.all
+      else
+        scope.where(user_id: user.id)
+      end
+    end
+  end
+
 end

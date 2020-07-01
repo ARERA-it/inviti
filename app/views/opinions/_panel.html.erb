@@ -11,21 +11,11 @@
     <% if @opinion_auth[:express_opinion] || @opinion_auth[:asked_for_opinion] %>
       <div class="row border-bottom mb-3 pb-3">
         <div class="col-md-12">
-          <% if @opinion_auth[:asked_for_opinion] %>
-            <div class="warning-1 mb-3">
-              <i class="fas fa-exclamation-triangle mr-1"></i>
-              <% requester_ids = @invitation.request_opinions.joins(groups: :users).where('users.id' => current_user.id).pluck('request_opinions.user_id') %>
-              <% if (arr = requester_ids.compact.uniq).any? %>
-                <% if arr.size==1 %>
-                  <%= "#{User.find(arr.first).display_name} ha richiesto esplicitamente il tuo parere" %>
-                <% else %>
-                  <%= "#{User.find(arr).map(&:display_name).join(', ')} hanno richiesto esplicitamente il tuo parere" %>
-                <% end %>
-              <% else %>
-                Il Presidente ha richiesto esplicitamente il tuo parere
-              <% end %>
-            </div>
-          <% end %>
+
+          <div id="asked_for_opinion_notice">
+            <%= render 'opinions/asked_for_opinion', invitation: @invitation, asked_for_opinion: @opinion_auth[:asked_for_opinion], opinion: @opinion %>
+          </div>
+
           <p class="title">Il tuo parere</p>
           <%= form_with(model: @opinion) do |form| %>
             <%= form.hidden_field :invitation_id %>

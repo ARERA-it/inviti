@@ -1,13 +1,7 @@
-console.log('kkk1');
 $('ul.chat').append("<%= escape_javascript(render partial: 'invitations/chat_comment', locals: { comment: @comment } ) %>");
-console.log('kkk2');
 $('#comment_content').val("");
-console.log('kkk3');
 
 // scroll to the new/last message
 var $p = $('.panel-chat');
 var height = $p[0].scrollHeight;
 $p.scrollTop(height);
-
-console.log('kkk');
-// show_toast("<%= raw @feedback_hash[:kind] %>", "<%= raw @feedback_hash[:msg] %>");

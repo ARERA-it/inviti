@@ -7,6 +7,8 @@ class OpinionsController < ApplicationController
     authorize @opinion
     respond_to do |format|
       if @opinion.update(opinion_params)
+        @invitation = @opinion.invitation
+        @asked_for_opinion = @invitation.users_who_was_asked_for_an_opinion.include?(current_user.id)
         format.js {}
       else
         format.js { render :js => "alert('Qualcosa è andato storto...')" }

@@ -19,7 +19,7 @@
 #  role_id             :integer          default(4)
 #  title               :string(30)
 #  appointeeable       :boolean          default(FALSE)
-#  advisor_group       :integer          default("not_advisor")
+#  advisor_group       :integer          default(0)
 #  gender              :integer          default("male")
 #
 

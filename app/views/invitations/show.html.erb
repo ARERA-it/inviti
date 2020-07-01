@@ -8,29 +8,25 @@
 
 <div class="row">
   <div class="col-lg-6">
-    <% @opinion_auth = opinion_authorization(@invitation, current_user) %>
     <% if @opinion_auth.values.any? %>
       <%= render 'opinions/panel' %>
     <% end %>
     <% if policy(@invitation).view_appointee? %>
       <%= render 'appointees/panel', read_only: @invitation.no_info? || @invitation.past?  %>
     <% end %>
-    <% if policy(@invitation).view_contributions? %>
+    <% if @contributions.any? || policy(Contribution).create?(@invitation) %>
       <%= render 'contributions/panel' %>
     <% end %>
   </div>
 
   <div class="col-lg-6">
-    <% if policy(@invitation).view_general_info? %>
-      <%= render 'general_info_panel', read_only: !policy(@invitation).update_general_info? && false %>
-    <% end %>
+    <%= render 'general_info_panel', read_only: !policy(@invitation).update? %>
     <% if policy(@invitation).view_email_info? %>
       <%= render 'email_info_panel' %>
     <% end %>
-    <% if policy(@invitation).show_audit? %>
+    <% if policy(@invitation).audits? %>
       <%= render 'show_audit' %>
     <% end %>
-
   </div>
 </div>
 

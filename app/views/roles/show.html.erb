@@ -20,16 +20,18 @@
       <table class="table table-bordered table-sm table-hover" width="100%" cellspacing="0">
         <thead>
           <tr>
+            <th>Domain</th>
             <th>Description</th>
             <th>Permission</th>
           </tr>
         </thead>
 
         <tbody>
-          <% @role.permissions.each do |p| %>
+          <% Permission.all.each do |p| %>
             <tr>
+              <td><%= t(p.domain, scope: 'permissions.domain', default: p.domain&.humanize) %></td>
               <td><%= p.description! %></td>
-              <td><%= checked p.permitted %></td>
+              <td><%= checked (PermissionRole.find_by(role: @role, permission: p)&.permitted || false) %></td>
             </tr>
           <% end %>
         </tbody>

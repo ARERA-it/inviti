@@ -1,0 +1,15 @@
+<% if asked_for_opinion && opinion.selection=="undefined" %>
+  <div class="warning-1 mb-3">
+    <i class="fas fa-exclamation-triangle mr-1"></i>
+    <% requester_ids = invitation.request_opinions.joins(groups: :users).where('users.id' => current_user.id).pluck('request_opinions.user_id') %>
+    <% if (arr = requester_ids.compact.uniq).any? %>
+      <% if arr.size==1 %>
+        <%= "#{User.find(arr.first).display_name} ha richiesto esplicitamente il tuo parere" %>
+      <% else %>
+        <%= "#{User.find(arr).map(&:display_name).join(', ')} hanno richiesto esplicitamente il tuo parere" %>
+      <% end %>
+    <% else %>
+      È stato richiesto esplicitamente il tuo parere
+    <% end %>
+  </div>
+<% end %>

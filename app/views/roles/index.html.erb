@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-sm">
-    <h1 class="display-5">Lista ruoli</h1>
+    <h1 class="display-5">Ruoli e permessi</h1>
   </div>
 </div>
 
@@ -13,8 +13,8 @@
           <tr>
             <th>Nome</th>
             <th>Codice</th>
-            <th>Description</th>
-            <th>Users</th>
+            <th>Descrizione</th>
+            <th>Utenti</th>
             <th>&nbsp;</th>
           </tr>
         </thead>
@@ -34,15 +34,13 @@
                     <% end %>
                   <% end %>
                   <% if policy(role).duplicate? %>
-                    <%= link_to role_duplicate_path(role), class: "btn btn-outline-dark btn-sm", data: { toggle: 'tooltip', placement: 'top'}, title: 'Duplica', data: { confirm: "Confermi la duplicazione?" } do %>
+                    <%= link_to role_duplicate_path(role), class: "btn btn-outline-dark btn-sm", data: { toggle: 'tooltip', placement: 'top', confirm: "Confermi la duplicazione?"}, title: 'Duplica' do %>
                       <%= fa_icon("clone") %>
                     <% end %>
                   <% end %>
-                  <% unless role.abstract? || role.guest? %>
-                    <% if policy(role).destroy? %>
-                      <%= link_to role, method: :delete, data: { confirm: "Confermi l'eliminazione?" }, class: "btn btn-outline-danger btn-sm", data: { toggle: 'tooltip', placement: 'top'}, title: 'Elimina' do %>
-                        <%= fa_icon("trash-alt") %>
-                      <% end %>
+                  <% if role.trashable? && policy(role).destroy? %>
+                    <%= link_to role, method: :delete, class: "btn btn-outline-danger btn-sm", data: { toggle: 'tooltip', placement: 'top', confirm: "Confermi l'eliminazione?"}, title: 'Elimina' do %>
+                      <%= fa_icon("trash-alt") %>
                     <% end %>
                   <% end %>
                 </div>

@@ -28,6 +28,23 @@
   </div>
 </div>
 
-<% if policy(UserInteraction).index? %>
+
+<div class="card shadow mb-4">
+  <div class="card-body">
+    <h4 class="mb-4"><%= "Gruppi nei quali l'utente è inserito, raggruppati per finalità" %>:</h4>
+    <ul>
+      <% Group.list.each do |group_type| %>
+        <li>
+          <%= t(group_type, scope: 'groups.types') %>:
+          <%= @user.groups.select{|e| e.send(group_type) }.map(&:name).join(', ') %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+
+
+<% if policy(:page).web_app_stats? %>
   <%= render 'user_interactions/table', user_interactions: @user.interactions.limit(50) %>
 <% end %>

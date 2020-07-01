@@ -8,14 +8,12 @@
         <p>Al momento non ci sono contributi.</p>
       <% else %>
         <% @contributions.each do |c| %>
-          <% if policy(c).view? %>
-            <%= render 'contributions/contribution', c: c %>
-          <% end %>
+          <%= render 'contributions/contribution', c: c %>
         <% end %>
       <% end %>
     </div>
 
-    <% if policy(@contribution).create? %>
+    <% if policy(Contribution).create?(@invitation) %>
       <h4>Aggiungi nuovo contributo</h4>
       <%= form_with(model: @contribution, class: 'contrib-form', html: { autocomplete: :off }) do |form| %>
         <%= form.hidden_field :invitation_id %>

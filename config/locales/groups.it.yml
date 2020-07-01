@@ -4,3 +4,6 @@ it:
       zero: "gruppo vuoto"
       one: "1 persona"
       other: "%{count} persone"
+    types:
+      ask_opinion: A cui chiedere un parere
+      appointable: Incaricabili

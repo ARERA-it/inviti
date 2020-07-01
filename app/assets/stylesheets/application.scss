@@ -305,3 +305,17 @@ table.record-list {
   width: 1%;
   white-space: nowrap;
 }
+
+
+
+
+.help-me {
+  color: #999;
+  margin-left: 0.4em;
+  margin-right: 0.4em;
+
+  &:hover {
+    cursor: pointer;
+    color: #555;
+  }
+}

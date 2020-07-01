@@ -11,12 +11,14 @@
     <div class="form-group form-check">
       <%= form.check_box :ask_opinion, disabled: ro, class: "form-check-input" %>
       <%= form.label :ask_opinion, "Gruppo a cui chiedere un parere", class: "form-check-label" %>
+      <%= help_me "Quando selezionato il gruppo comparirà, nel dettaglio di un invito, tra quelli a cui chiedere un parere" %>
     </div>
   </div>
   <div class="col-md-6">
     <div class="form-group form-check">
       <%= form.check_box :appointable, disabled: ro, class: "form-check-input" %>
       <%= form.label :appointable, "Incaricabili in gruppo", class: "form-check-label" %>
+      <%= help_me "Quando selezionato il gruppo sarà ricercabile al pari degli utenti al momento dell'incarico" %>
     </div>
   </div>
 </div>

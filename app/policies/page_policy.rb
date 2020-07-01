@@ -4,6 +4,14 @@ class PagePolicy < ApplicationPolicy
     true
   end
 
+  def invitation_stats?
+    role.can?('page', 'invitation_stats')
+  end
+
+  def web_app_stats?
+    role.can?('page', 'web_app_stats')
+  end
+
   class Scope < Scope
 
     def resolve_follow_ups(page:)

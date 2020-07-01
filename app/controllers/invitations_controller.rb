@@ -1,5 +1,5 @@
 class InvitationsController < ApplicationController
-  before_action :set_invitation, only: [:show, :update, :update_delegation_notes, :destroy, :download_ics, :proposal_to_all_board_members, :audits, :email_decoded, :has_appointees, :update_participation, :cancel_participation]
+  before_action :set_invitation, only: [:update, :update_delegation_notes, :destroy, :download_ical, :proposal_to_all_board_members, :audits, :email_decoded, :has_appointees, :update_participation, :cancel_participation]
   # return [{"id":"175","label":"John Wick","value":"John Wick"},{"id":"251","label":"Bruce Lee","val...
 
 
@@ -85,7 +85,6 @@ class InvitationsController < ApplicationController
 
     session[:invitation_index_sel] = @sel
 
-    # i = Invitation
     i = policy_scope(Invitation)
       .filter_by_status(@sel)
       .filter_by_search(params[:search_string], params[:search_field])
@@ -115,16 +114,24 @@ class InvitationsController < ApplicationController
   # GET /invitations/1
   # GET /invitations/1.json
   def show
+    @invitation = Invitation.find(params[:id])
     authorize @invitation
+    # @invitation = policy_scope(Invitation.where(id: params[:id])).first
+    # if @invitation.nil? || !@invitation.users_who_was_asked_for_an_opinion.include?(current_user.id)
+    #   raise Pundit::NotAuthorizedError, "non hai i privilegi per eseguire l'azione"
+    # end
+    @opinion_auth = helpers.opinion_authorization(@invitation, current_user)
+
+    # authorize @invitation
     # if policy(@invitation).express_opinion? # policy(Opinion).update?
-    if policy(Opinion).express? # policy(Opinion).update?
+    if @opinion_auth[:express_opinion] || @opinion_auth[:asked_for_opinion] # policy(Opinion).express?  # policy(Opinion).update?
       # @opinion   = @invitation.opinions.where(user: current_user).first || @invitation.opinions.create(user: current_user)
       @opinion   = @invitation.opinions.find_or_create_by(user: current_user)
     end
     @other_opinions  = @invitation.opinions.where.not(user: current_user).where("selection >0")
     @comments        = @invitation.comments.order(created_at: :asc)
     @comment         = Comment.new(invitation: @invitation)
-    @contributions   = @invitation.contributions
+    @contributions   = policy_scope(@invitation.contributions)
     @contribution    = Contribution.new(invitation: @invitation)
     @request_opinion = RequestOpinion.new(invitation: @invitation)
     @invitation.users << current_user # check invitation as 'read' # TODO: obsolete
@@ -135,6 +142,7 @@ class InvitationsController < ApplicationController
 
 
   def audits
+    authorize @invitation
     @seen_at = DateTime.parse(params[:seen_at])
     respond_to{|format| format.js}
   end
@@ -208,7 +216,7 @@ class InvitationsController < ApplicationController
   end
 
 
-  def download_ics
+  def download_ical
     authorize @invitation
     file, filename = InvitationCalendar.generate_ics(@invitation, invitation_url(@invitation))
     send_data file,

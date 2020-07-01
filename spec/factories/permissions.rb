@@ -3,11 +3,11 @@
 # Table name: permissions
 #
 #  id          :bigint           not null, primary key
-#  role_id     :bigint
 #  description :text
+#  domain      :string
 #  controller  :string
 #  action      :string
-#  permitted   :boolean          default(FALSE)
+#  position    :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #

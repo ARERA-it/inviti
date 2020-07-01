@@ -42,10 +42,12 @@
           <div class="dropdown-divider"></div>
           <% User.order('display_name ASC').each do |user| %>
             <%= link_to url_for(switch_to_user: user.id), class: 'dropdown-item' do %>
-              <%= user.display_name %>
-              <% if role = user.role %>
-                <i> <%= "(#{role.name})" %></i>
-              <% end %>
+              <span class="<%= user==current_user ? 'font-weight-bold' : '' %>">
+                <%= user.display_name %>
+                <% if role = user.role %>
+                  <i> <%= "(#{role.name})" %></i>
+                <% end %>
+              </span>
             <% end %>
           <% end %>
         </div>
@@ -93,7 +95,7 @@
           <% end %>
         <% end %>
 
-        <% if policy(UserInteraction).index? %>
+        <% if policy(:page).web_app_stats? %>
           <%= link_to user_interactions_path, class: "dropdown-item" do %>
             <i class="fas fa-eye fa-sm fa-fw mr-2 text-gray-400"></i>
             Utilizzo Web app
@@ -108,7 +110,7 @@
         <% end %>
 
         <div class="dropdown-divider"></div>
-        
+
         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
           <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
           Esci

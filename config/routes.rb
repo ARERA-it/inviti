@@ -45,7 +45,7 @@ Rails.application.routes.draw do
   resources :invitations do
     get :update_invitation_expired_statuses, on: :collection
     get :autocomplete_display_name, on: :collection
-    get :download_ics, on: :member
+    get :download_ical, on: :member
     get :audits, on: :member
     get :email_decoded, on: :member
     get :has_appointees, on: :member
@@ -61,11 +61,8 @@ Rails.application.routes.draw do
     get :autocomplete_user_display_name, on: :collection
   end
 
-  get 'comments/create'
   resources :comments
-  resources :opinions
-
-  # get 'users', to: 'users#index'
+  resources :opinions, only: :update
 
   root 'pages#welcome'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

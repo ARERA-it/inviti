@@ -30,12 +30,8 @@ class AcceptsController < ApplicationController
     respond_to do |format|
       if @accept.update(accept_params)
         format.html { redirect_to @accept }
-        # format.json { render :show, status: :ok, location: @invitation }
-        # format.js {}
       else
         format.html { render :edit }
-        # format.json { render json: @invitation.errors, status: :unprocessable_entity }
-        # format.js { render :js => "alert('Qualcosa è andato storto...')" }
       end
     end
   end

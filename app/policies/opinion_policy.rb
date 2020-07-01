@@ -9,6 +9,6 @@ class OpinionPolicy < ApplicationPolicy
   end
 
   def update?
-    express?
+    express? || record.invitation.users_who_was_asked_for_an_opinion.include?(user.id)
   end
 end

@@ -140,6 +140,9 @@ $(document).on("turbolinks:load", function() {
   $('[data-toggle="tooltip"]').tooltip();
 
 
+  // enable popover
+  $('[data-toggle="popover"]').popover();
+
 
   $("[data-form-prepend]").click(function(e) {
     var obj = $($(this).attr("data-form-prepend"));

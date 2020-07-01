@@ -20,6 +20,9 @@ class Group < ApplicationRecord
   audited
 
   # after_validation :user_with_same_name
+  def Group.list
+    [:ask_opinion, :appointable]
+  end
 
   def same_name_of_an_existing_group
     if User.find_by(display_name: name)

@@ -24,15 +24,21 @@
       <table class="table table-bordered table-sm" width="100%" cellspacing="0">
         <thead>
           <tr>
+            <th>Domain</th>
             <th>Description</th>
             <th>Permission</th>
           </tr>
         </thead>
 
         <tbody>
-          <%= form.fields_for :permissions do |f| %>
+
+          <%= form.fields_for :permission_roles, @role.permission_roles.joins(:permission).order('permissions.position', 'permissions.domain', 'permissions.controller', 'permissions.action') do |f| %>
             <tr>
-              <td><%= f.object.description! %></td>
+              <td>
+                <%= f.hidden_field :permission_id %>
+                <%= t(f.object.permission.domain, scope: 'permissions.domain', default: f.object.permission.domain&.humanize) %>
+              </td>
+              <td><%= f.object.permission.description! %></td>
               <td><%= f.check_box :permitted %></td>
             </tr>
           <% end %>

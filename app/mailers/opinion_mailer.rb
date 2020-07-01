@@ -25,6 +25,11 @@ class OpinionMailer < ApplicationMailer
     user       = User.find params[:user]
     receiver   = ensure_receiver(user)
 
+    # puts "---------"
+    # puts "receiver: #{receiver.inspect}"
+    # puts "username: #{ENV["test_username"]}"
+    # puts "---------"
+
     # puts "----> send email to #{user.name} / #{receiver.email} (#{Time.now})"
 
     mail(to: receiver.email, subject: 'Richiesto parere su partecipazione ad evento') do |format|

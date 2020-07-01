@@ -23,13 +23,15 @@
 <div class="row">
   <div class="col-md-4">
     <div class="form-group">
-      <%= form.label :username, "Indirizzo email" %>
-      <div class="input-group mb-3">
-        <%= form.text_field :username, class: "form-control", readonly: ro %>
-        <div class="input-group-append">
-          <span class="input-group-text" id="basic-addon2">@arera.it</span>
-        </div>
-      </div>
+      <%= form.label :username, "Username" %>
+      <%= form.text_field :username, class: "form-control", readonly: ro %>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="form-group">
+      <%= form.label :email, "Indirizzo email" %>
+      <%= form.text_field :email, class: "form-control", readonly: ro %>
     </div>
   </div>
 
@@ -37,19 +39,21 @@
     <% if policy(@user).update_sensitive_attributes? %>
       <div class="form-group">
         <%= form.label :role_id, "Ruolo" %>
-        <%= form.collection_select :role_id, Role.concrete, :id, :name, { prompt: true }, class: "form-control", disabled: ro  %>
+        <%= form.collection_select :role_id, Role.list, :id, :name, { prompt: true }, class: "form-control", disabled: ro  %>
       </div>
     <% end %>
   </div>
 
-  <div class="col-md-4">
-    <% if policy(@user).update_sensitive_attributes? %>
-      <div class="form-group">
-        <%= form.label :role, "Esprime parere per conto di" %>
-        <%= form.collection_select :advisor_group, User.advisor_groups, :first, ->(e){ t("advisor_group.#{e.first}") }, { prompt: true }, class: "form-control", disabled: ro  %>
-      </div>
-    <% end %>
-  </div>
+  <% if false %>
+    <div class="col-md-4">
+      <% if policy(@user).update_sensitive_attributes? %>
+        <div class="form-group">
+          <%= form.label :advisor_group, "Esprime parere per conto di" %>
+          <%= form.collection_select :advisor_group, User.advisor_groups, :first, ->(e){ t("advisor_group.#{e.first}") }, { prompt: true }, class: "form-control", disabled: ro  %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 </div>
 
 <div class="row">

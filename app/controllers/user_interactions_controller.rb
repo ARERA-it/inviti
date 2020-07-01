@@ -4,7 +4,9 @@ class UserInteractionsController < ApplicationController
   # GET /user_interactions
   # GET /user_interactions.json
   def index
-    authorize :user_interaction
+    # authorize :user_interaction
+    authorize :page, :web_app_stats?, policy_class: PagePolicy
+
     @display_name = params[:display_name]
     @display_name = "" if params[:commit]=="Tutti" || params[:commit]=="All" # TODO: localize!
     @user = User.find_by(display_name: @display_name)

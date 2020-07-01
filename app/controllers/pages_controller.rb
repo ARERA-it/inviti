@@ -10,8 +10,8 @@ class PagesController < ApplicationController
   end
 
 
-  def stats
-
+  def invitation_stats
+    authorize :page
   end
 
 

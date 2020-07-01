@@ -1,4 +1,4 @@
-<div class="invitation card shadow inv-card" data-url="<%= policy(inv).show? ? invitation_path(inv) : '' %>" data-id="<%= inv.id %>">
+<div class="invitation card shadow inv-card" data-url="<%= invitation_path(inv) %>" data-id="<%= inv.id %>">
 
   <div class="card-header">
     <span class="location"><%= location_icon inv.location %></span>
@@ -55,14 +55,15 @@
   </div>
 
   <div class="card-footer status-icons">
-    <% if policy(inv).view_opinion? %>
+    <% if policy(Opinion).show? %>
       <%= icon_for_opinions(inv.opinions) %>
+    <% end %>
+    <% if policy(Comment).show? %>
       <%= icon_for_comments(inv.comments) %>
     <% end %>
-    <%= icon_for_contributions(inv.contributions) %>
+    <% if policy(inv).view_contributions? %>
+      <%= icon_for_contributions(inv.contributions) %>
+    <% end %>
   </div>
   <%= ribbon(inv) %>
-  <!-- ribbon(inv) -->
-
-  <!-- ribbon(inv, new_invitation: !@read_ids.include?(inv.id)) -->
 </div>

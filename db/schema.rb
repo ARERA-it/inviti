@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_05_074624) do
+ActiveRecord::Schema.define(version: 2020_06_29_110939) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -249,16 +249,23 @@ ActiveRecord::Schema.define(version: 2020_06_05_074624) do
     t.index ["user_id"], name: "index_opinions_on_user_id"
   end
 
-  create_table "permissions", force: :cascade do |t|
+  create_table "permission_roles", force: :cascade do |t|
     t.bigint "role_id"
+    t.bigint "permission_id"
+    t.boolean "permitted", default: false
+    t.index ["permission_id"], name: "index_permission_roles_on_permission_id"
+    t.index ["role_id"], name: "index_permission_roles_on_role_id"
+  end
+
+  create_table "permissions", force: :cascade do |t|
     t.text "description"
+    t.string "domain"
     t.string "controller"
     t.string "action"
-    t.boolean "permitted", default: false
+    t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["role_id", "controller", "action"], name: "permizzions"
-    t.index ["role_id"], name: "index_permissions_on_role_id"
+    t.index ["controller", "action"], name: "permizzions"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -392,7 +399,8 @@ ActiveRecord::Schema.define(version: 2020_06_05_074624) do
   add_foreign_key "follow_ups", "invitations"
   add_foreign_key "opinions", "invitations"
   add_foreign_key "opinions", "users"
-  add_foreign_key "permissions", "roles"
+  add_foreign_key "permission_roles", "permissions"
+  add_foreign_key "permission_roles", "roles"
   add_foreign_key "rej_users", "rejections"
   add_foreign_key "rej_users", "users"
   add_foreign_key "rejections", "invitations"

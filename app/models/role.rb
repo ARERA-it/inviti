@@ -11,23 +11,32 @@
 #
 
 class Role < ApplicationRecord
-  has_many :users
-  has_many :permissions, -> { order(:controller, :action) }, dependent: :destroy
-  accepts_nested_attributes_for :permissions
+  has_many :users, dependent: :nullify
+  # has_many :permissions, -> { order(:controller, :action) }, dependent: :destroy
+  has_many :permission_roles, dependent: :destroy
+  accepts_nested_attributes_for :permission_roles
   validates :name, uniqueness: true
   validates :code, uniqueness: true, if: :code_not_nil?
+  before_save :set_code_if_nil
 
-  ABSTRACT  = 'abstract'
   GUEST     = 'guest'
   ADMIN     = 'admin'
   SUPERUSER = 'superuser'
 
-  def abstract?
-    code==ABSTRACT
+  def Role.list
+    Role.all.order(:name)
+  end
+
+  def trashable?
+    !(guest? || admin? || superuser?)
   end
 
   def guest?
     code==GUEST
+  end
+
+  def admin?
+    code==ADMIN
   end
 
   def superuser?
@@ -40,19 +49,13 @@ class Role < ApplicationRecord
 
   def can?(controller, action)
     return true if superuser?
-    Permission.find_by(role_id: id, controller: controller, action: action)&.permitted || false
+    perm = Permission.find_by(controller: controller, action: action)
+    return false if perm.nil?
+    PermissionRole.find_by(role_id: id, permission_id: perm.id)&.permitted || false
   end
 
   def set_all_to(bool)
     Permission.where(role_id: id).update_all(permitted: bool)
-  end
-
-  def Role.abstract
-    Role.find_by(code: ABSTRACT)
-  end
-
-  def Role.concrete
-    Role.where.not(code: ABSTRACT)
   end
 
   def Role.superuser
@@ -64,38 +67,42 @@ class Role < ApplicationRecord
   end
 
   def Role.guest
-    r = Role.find_by(code: GUEST)
-    if r.nil?
-      r = Role.create(name: 'guest', code: GUEST)
-      r.sync_roles
-    end
-    r
+    Role.find_by(code: GUEST)
   end
 
-  def sync_roles
-    if abstract?
-      # sync ALL concrete roles
-      abstract_role_permissions = Permission.where(role_id: id)
-      Role.concrete.each do |role|
-        sync_one(abstract_role_permissions, role)
-      end
-    else
-      # sync only current concrete roles
-      abstract_role_permissions = Permission.where(role_id: Role.abstract.id)
-      sync_one(abstract_role_permissions, self)
-    end
-  end
+  # def sync_roles
+  #   if abstract?
+  #     # sync ALL concrete roles
+  #     abstract_role_permissions = Permission.where(role_id: id)
+  #     Role.all.each do |role|
+  #       sync_one(abstract_role_permissions, role)
+  #     end
+  #   else
+  #     # sync only current concrete roles
+  #     abstract_role_permissions = Permission.where(role_id: Role.abstract.id)
+  #     sync_one(abstract_role_permissions, self)
+  #   end
+  # end
 
   def duplicate
     n = "#{self.name} copy"
     while !(r = Role.find_by(name: n)).nil?
       n = SecureRandom.hex.first(6)
     end
-    r = Role.create(name: n, description: "")
-    permissions.each do |p|
-      r.permissions.create(controller: p.controller, action: p.action, permitted: p.permitted)
+    c = n.parameterize.underscore
+    r = Role.create(name: n, code: c, description: "-- Copy of #{self.description}")
+
+    Permission.all.each do |perm|
+      bool = PermissionRole.find_by(role: self, permission: perm)&.permitted || false
+      PermissionRole.create(role: r, permission: perm, permitted: bool)
     end
     r
+  end
+
+  def set_code_if_nil
+    if code.nil?
+      self.code = name.parameterize.underscore
+    end
   end
 
   private

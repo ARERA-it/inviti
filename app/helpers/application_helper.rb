@@ -1,10 +1,10 @@
 module ApplicationHelper
 
-def help_me(text, extra_classes: "")
-  content_tag(:span, class: "help-me #{extra_classes}", data: { content: text, title: t(:help_popover_title)}  ) do
-    content_tag(:i, nil, class: "far fa-question-circle")
+  def help_me(text, extra_classes: "")
+    content_tag(:span, class: "help-me #{extra_classes}", data: { toggle: 'popover', placement: 'top', content: text, title: t(:help_popover_title)}  ) do
+      content_tag(:i, nil, class: "far fa-question-circle")
+    end
   end
-end
 
 
   def cache_view_counter(user)

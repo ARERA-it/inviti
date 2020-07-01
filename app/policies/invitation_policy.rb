@@ -1,33 +1,13 @@
 class InvitationPolicy < ApplicationPolicy
 
-  def index?
-    role.can?('invitation', 'index')
-  end
+  # def index?
+  #   role.can?('invitation', 'index')
+  # end
 
 
   # user roles: :president, :advisor, :commissary, :secretary, :viewer, :admin
-  def show?
-    role.can?('invitation', 'show')
-  end
-
-  # Vedere i pareri
-  # la card dei pareri ha dentro molte cose diverse
-  # uno può vedere il riquadro delle opinioni se può vedere almeno uno dei
-  # suoi contenuti
-  # TODO: viene ancora usato!!!
-  def view_opinion?
-    # role.can?('invitation', 'view_opinion')
-    false
-  end
-
-  # express_opinion? MOVED TO opinion/update
-  # def express_opinion?
-    # role.can?('invitation', 'express_opinion')
-    # record.users_who_was_asked_for_an_opinion.include?(user.id)
-
-    # user.admin? ||
-    # user.advisor? ||
-    # record.users_who_was_asked_for_an_opinion.include?(user)
+  # def show?
+  #   role.can?('invitation', 'show')
   # end
 
   def audits?
@@ -39,20 +19,23 @@ class InvitationPolicy < ApplicationPolicy
     role.can?('invitation', 'view_appointee')
   end
 
+  # participate or not?
+  def update_participation?
+    role.can?('invitation', 'update_participation')
+  end
+
+
   def update_delegation_notes?
     role.can?('appointee', 'change_note') # invitation#delegation_notes
   end
 
 
-  # Vedere il pannello dei contributi
+  # Show contributions counter on invitation card or list
   def view_contributions?
+    # - the correct one:
+    # policy_scope(record.contributions).any? || policy(Contribution).create?(record)
+    # - quello rapido ma impreciso
     true
-    # role.can?('invitation', 'view_contributions')
-  end
-
-  # Vedere il pannello delle info generali
-  def view_general_info?
-    show?
   end
 
   # Vedere il pannello della email
@@ -60,43 +43,17 @@ class InvitationPolicy < ApplicationPolicy
     role.can?('invitation', 'view_email_info')
   end
 
-  def show_audit?
-    show? # TODO: davvero?
-  end
-
-  # participate or not?
-  def update_participation?
-    role.can?('invitation', 'update_participation')
-  end
-
-  # def cancel_participation?
-  #   update_participation?
-  # end
-
-  def update_general_info?
-    role.can?('invitation', 'update_general_info')
-  end
-
 
   def update? # Le info generali
-    update_general_info?
+    role.can?('invitation', 'update')
   end
 
-  def usual_and_particular
-    user.admin? ||
-    user.president? ||
-    user.advisor? ||
-    user.secretary? ||
-    record.users_who_was_asked_for_an_opinion.include?(user)
-  end
-
+  # destroy an invitation
   def destroy?
     role.can?('invitation', 'destroy')
-    # return true  if user.admin?
-    # return true  if user.secretary? && (record.no_info? || record.info?)
   end
 
-  def download_ics?
+  def download_ical?
     role.can?('invitation', 'download_ical')
   end
 
@@ -111,27 +68,24 @@ class InvitationPolicy < ApplicationPolicy
   # Aggiungere un commento (dopo il parere)  ->  v. comment_policy
 
 
+  def show?
+    # can show record if:
+    # - by role can show_all
+    # - user is between appointees
+    # - his opinion was requested
+    role.can?('invitation', 'show_all') || record.appointees.where("appointees.user_id=?", user.id).any? || record.request_opinions.map{|ro| ro.groups_users.include?(user)}.any?
+  end
 
 
 
   class Scope < Scope
     def resolve
-      if role.can?('invitation', 'see_all')
+      if role.can?('invitation', 'show_all')
         scope.all
-      elsif role.can?('invitation', 'only_see_his_own')
-        scope.joins(:appointees).where("appointees.user_id=?", user.id)
       else
-        scope.limit(0)
+        scope.joins(:appointees).where("appointees.user_id=?", user.id) # here no check if user opinion was requested
       end
     end
-
-    # def previous_resolve
-    #   if user.admin? || user.president? || user.advisor? || user.secretary? || user.observer?
-    #     scope.all
-    #   else
-    #     scope.joins(:appointees).where("appointees.user_id=?", user.id)
-    #   end
-    # end
   end
 
 end

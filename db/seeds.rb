@@ -1,6 +1,7 @@
 users = [
   {
     display_name: "Marco Rossi",
+    username: "marcorossi",
     email: "marcorossi@example.it",
     job_title: "Presidente",
     appointeeable: true,
@@ -8,6 +9,7 @@ users = [
   },
   {
     display_name: "Laura Pistacchi",
+    username: "laurapistacchi",
     email: "laurapistacchi@example.it",
     job_title: "Commissario",
     appointeeable: true,
@@ -15,6 +17,7 @@ users = [
   },
   {
     display_name: "Simone Fragola",
+    username: "simonefragola",
     email: "simonefragola@example.it",
     job_title: "Commissario",
     appointeeable: true,
@@ -22,6 +25,7 @@ users = [
   },
   {
     display_name: "Anastasia Lampone",
+    username: "anastasialamone",
     email: "anastasialamone@example.it",
     job_title: "Commissario",
     appointeeable: true,
@@ -29,6 +33,7 @@ users = [
   },
   {
     display_name: "Giancarlo Capperi",
+    username: "giancarlocapperi",
     email: "giancarlocapperi@example.it",
     job_title: "Commissario",
     appointeeable: true,
@@ -36,6 +41,7 @@ users = [
   },
   {
     display_name: "Carolina Mela",
+    username: "carolinamela",
     email: "carolinamela@example.it",
     appointeeable: true,
     job_title: "Segretario Generale",
@@ -43,6 +49,7 @@ users = [
   },
   {
     display_name: "Hans Kruger",
+    username: "hanskruger",
     email: "hanskruger@example.it",
     job_title: "Web Developer",
     role: :admin
