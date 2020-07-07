@@ -48,3 +48,4 @@ docker-compose.staging-with-network.yml
 .DS_Store
 
 /config/google-api-credentials.json
+/lib/arera_roles.rb
