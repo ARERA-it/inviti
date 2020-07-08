@@ -27,7 +27,6 @@
 //= require Chart
 
 //= require init
-//= require users
 //= require groups
 //= require invitations
 //= require accepts

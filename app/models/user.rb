@@ -23,14 +23,14 @@
 #  gender              :integer          default("male")
 #
 
+# TODO: advisor_group field is OBSOLETE
+
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   # :registerable, :recoverable, :rememberable, :validatable
   devise :cas_authenticatable, :trackable
 
-  # enum role: [:president, :advisor, :commissary, :secretary, :viewer, :admin, :observer]
-  # enum advisor_group: [:not_advisor, :general_secretary, :external_relations, :board, :tester] # TODO: obsolete?
   enum gender: [:male, :female]
 
   validates :username, presence: true
@@ -49,11 +49,8 @@ class User < ApplicationRecord
 
   before_save do |r|
     r.username      = r.username.downcase
-    # r.email         = "#{r.username}@#{ENV.fetch('DOMAIN', 'example.com')}" if r.username
     r.display_name  = r.username if r.display_name.blank?
     r.initials      = User.calc_initials(r.display_name) if r.initials.blank?
-    # r.advisor_group = :not_advisor unless r.admin? # || r.advisor?
-    # r.advisor_group = :board if r.commissary?
   end
 
   # ================
@@ -70,36 +67,10 @@ class User < ApplicationRecord
     s.key :invitation, :defaults => { :visualization_mode => 'cards' }
   end
 
-  # def self.active_advisor_groups
-  #   User.advisor_groups.keys[1..-1]
-  # end
-
   def User.calc_initials(name)
     name.split(" ").map(&:first).join.upcase[0..1]
   rescue
     ""
-  end
-
-  # Get the list of all active advisor_groups
-  # example: ["general_secretary", "external_relations"]
-  # TODO: OBSOLETE, remove
-  def User.active_advisor_groups
-    User.where.not(advisor_group: "not_advisor").pluck(:advisor_group).uniq.sort
-  end
-
-
-  # Get the array of all active advisor_groups with users
-  # example: {"general_secretary"=>[#<User id: 20, username: "john",...>, ... ], "external_relations"=>[#<User id: 18, username: "sarah",...>]}
-  def User.active_advisor_groups_with_users
-    res = {}
-    User.advisor.each do |adv|
-      adv_grp = adv.advisor_group
-      if !res.has_key? adv_grp
-        res[adv_grp] = []
-      end
-      res[adv_grp] << adv
-    end
-    res
   end
 
   def name
@@ -117,34 +88,6 @@ class User < ApplicationRecord
   def image?
     false
   end
-
-  # User.advisor_users(["general_secretary","board"])
-  def User.advisor_users(name_arr)
-    User.where(advisor_group: name_arr)
-  end
-
-
-  # Any advisor (for each advisor_group) expressed
-  # an opinion on invitation
-  def User.any_advisor_expressed_an_opinion_on(invitation)
-    User.active_advisor_groups_with_users.each_pair do |grp, users|
-      intersection = invitation.opinions.expressed.pluck(:user_id) & users.pluck(:id)
-      return true if intersection.any?
-    end
-    false
-  end
-
-  # All advisors (at least one for each advisor_group) expressed
-  # an opinion on invitation
-  def User.all_advisor_expressed_an_opinion_on(invitation)
-    res = true
-    User.active_advisor_groups_with_users.each_pair do |grp, users|
-      intersection = invitation.opinions.expressed.pluck(:user_id) & users.pluck(:id)
-      res = res && intersection.any?
-    end
-    res
-  end
-
 
   # Get all users present in a group you can ask for an opinion
   def User.to_ask_an_opinion

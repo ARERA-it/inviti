@@ -43,17 +43,6 @@
       </div>
     <% end %>
   </div>
-
-  <% if false %>
-    <div class="col-md-4">
-      <% if policy(@user).update_sensitive_attributes? %>
-        <div class="form-group">
-          <%= form.label :advisor_group, "Esprime parere per conto di" %>
-          <%= form.collection_select :advisor_group, User.advisor_groups, :first, ->(e){ t("advisor_group.#{e.first}") }, { prompt: true }, class: "form-control", disabled: ro  %>
-        </div>
-      <% end %>
-    </div>
-  <% end %>
 </div>
 
 <div class="row">

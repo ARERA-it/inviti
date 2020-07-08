@@ -75,9 +75,9 @@ permissions.each_pair do |row_num, perm|
   end
 end
 
-if Rails.env=="development"
-  # User.all.map{|e| [e.id, e.role.code]}
-  [[1, "presidente"], [7, "superuser"], [3, "guest"], [5, "segreterie"], [2, "commissario"], [6, "consigliere"], [4, "admin"]].each do |user_id, role_code|
-    User.find(user_id).update_attribute(:role, Role.find_by(code: role_code))
-  end
-end
+# if Rails.env=="development"
+#   # User.all.map{|e| [e.id, e.role.code]}
+#   [[1, "presidente"], [7, "superuser"], [3, "guest"], [5, "segreterie"], [2, "commissario"], [6, "consigliere"], [4, "admin"]].each do |user_id, role_code|
+#     User.find(user_id).update_attribute(:role, Role.find_by(code: role_code))
+#   end
+# end

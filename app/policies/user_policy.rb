@@ -37,7 +37,7 @@ class UserPolicy < ApplicationPolicy
 
   def permitted_attributes
     if role.can?('user', 'update_sensitive_attributes')
-      [:display_name, :initials, :job_title, :title, :gender, :username, :role_id, :email, :title, :appointeeable] #, :advisor_group]
+      [:display_name, :initials, :job_title, :title, :gender, :username, :role_id, :email, :title, :appointeeable]
     else
       [:display_name, :initials, :job_title, :title, :gender, :email]
     end

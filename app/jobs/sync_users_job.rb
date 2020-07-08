@@ -12,7 +12,7 @@ class SyncUsersJob < ApplicationJob
       # p: {
       #   "id"=>1,
       #   "tipo_utente"=>"Standard",
-      #   "sAMAccountName"=>"AALTROCCHI",
+      #   "sAMAccountName"=>"JOHNWICK",
       #   "stato"=>"Attivo",
       #   "data transizione"=>"30/12/2002"
       # }
