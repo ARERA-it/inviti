@@ -27,7 +27,10 @@ class CheckNewEmailsJob < ApplicationJob
 
 
         email_body = mail.html_part.try(:decoded) || mail.body.to_s
-        decoded    = email_body
+        unless email_body.valid_encoding?
+          email_body.scrub!("")
+        end
+        # decoded    = email_body
 
         inv.email_body         = email_body
         # email_decoded will be set by Invitation before_create callback
