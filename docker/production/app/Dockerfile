@@ -30,6 +30,11 @@ ENV BUNDLE_PATH /gems
 # Adding gems
 # COPY Gemfile Gemfile
 # COPY Gemfile.lock Gemfile.lock
+
+ENV HTTP_PROXY http://10.77.8.27:3128
+ENV HTTPS_PROXY http://10.77.8.27:3128
+
+
 RUN gem install bundler
 RUN gem update bundler
 
