@@ -30,6 +30,7 @@ ENV BUNDLE_PATH /gems
 # Adding gems
 # COPY Gemfile Gemfile
 # COPY Gemfile.lock Gemfile.lock
+RUN gem install bundler
 RUN gem update bundler
 
 # RUN bundle install --jobs 20 --retry 5 --without development test
