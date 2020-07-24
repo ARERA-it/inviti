@@ -159,7 +159,7 @@ $(document).on("turbolinks:load", function() {
 
 
   $('table.record-list tbody').on('click', 'tr.click-to-show td:not(.action-buttons)', function () {
-    const url = $(this).parent().data('url');
+    var url = $(this).parent().data('url');
     Turbolinks.visit(url);
   });
 
