@@ -44,6 +44,9 @@ RUN gem update bundler
 # COPY . .
 ADD . $RAILS_ROOT
 
+ENV HTTP_PROXY ""
+ENV HTTPS_PROXY ""
+
 # RUN bundle exec rake assets:precompile
 
 EXPOSE 3000
