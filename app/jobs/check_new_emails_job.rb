@@ -22,9 +22,15 @@ class CheckNewEmailsJob < ApplicationJob
         inv = Invitation.new
         inv.email_from_name          = e.from.map(&:name).join('; ')
         inv.email_from_address       = e.from.map{|i| "#{i.mailbox}@#{i.host}"}.join('; ')
-        inv.email_subject            = Mail::Encodings.value_decode(e.subject).gsub(/^Fwd: /, "").gsub(/^I: /, "").gsub(/^FWD: /, "")
-        inv.email_received_date_time = datetime
+        inv.save
 
+        inv.update_attribute(:email_subject, Mail::Encodings.value_decode(e.subject).gsub(/^Fwd: /, "").gsub(/^I: /, "").gsub(/^FWD: /, ""))
+        inv.email_received_date_time(:email_received_date_time, datetime)
+
+        # inv.email_subject            = Mail::Encodings.value_decode(e.subject).gsub(/^Fwd: /, "").gsub(/^I: /, "").gsub(/^FWD: /, "")
+        # inv.email_received_date_time = datetime
+        #
+        # inv.save
 
         email_body = mail.html_part.try(:decoded) || mail.body.to_s
         unless email_body.valid_encoding?
@@ -32,14 +38,17 @@ class CheckNewEmailsJob < ApplicationJob
         end
         # decoded    = email_body
 
-        inv.email_body         = email_body
+        # inv.email_body         = email_body
+        inv.update_attribute(:email_body, email_body)
+
         # email_decoded will be set by Invitation before_create callback
 
         s = Nokogiri::HTML(email_body).text
         s = s.gsub("\r\n", "\n").gsub(/[\n]+/, "\n").gsub(/<!--.+-->/m, "")
         inv.email_body_preview = s
+        inv.update_attribute(:email_body_preview, s)
 
-        inv.save
+        # inv.save
 
         mail.attachments.each do |att|
           temp_file = Tempfile.new('attachment')
