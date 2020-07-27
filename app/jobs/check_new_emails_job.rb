@@ -20,9 +20,16 @@ class CheckNewEmailsJob < ApplicationJob
 
       if inv.nil?
         inv = Invitation.new
-        inv.email_from_name          = e.from.map(&:name).join('; ')
-        inv.email_from_address       = e.from.map{|i| "#{i.mailbox}@#{i.host}"}.join('; ')
+        efn = e.from.map(&:name).join('; ')
+        efa = e.from.map{|i| "#{i.mailbox}@#{i.host}"}.join('; ')
+
+        puts "-----> #{efn}"
+        puts "-----> #{efa}"
+        inv.email_from_name          = efn
         inv.save
+
+        
+        inv.update_attribute(:email_from_address, efa)
 
         inv.update_attribute(:email_subject, Mail::Encodings.value_decode(e.subject).gsub(/^Fwd: /, "").gsub(/^I: /, "").gsub(/^FWD: /, ""))
         inv.email_received_date_time(:email_received_date_time, datetime)
