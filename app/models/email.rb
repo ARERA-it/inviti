@@ -23,8 +23,8 @@ class Email
 
     inv.update_attribute(:email_from_address, efa)
 
-    inv.update_attribute(:email_subject, Mail::Encodings.value_decode(e.subject).gsub(/^Fwd: /, "").gsub(/^I: /, "").gsub(/^FWD: /, ""))
-    inv.email_received_date_time(:email_received_date_time, datetime)
+    inv.update_attribute(:email_subject, Mail::Encodings.value_decode(@envelope.subject).gsub(/^Fwd: /, "").gsub(/^I: /, "").gsub(/^FWD: /, ""))
+    inv.update_attribute(:email_received_date_time, datetime)
 
     email_body = mail.html_part.try(:decoded) || mail.body.to_s
     unless email_body.valid_encoding?
