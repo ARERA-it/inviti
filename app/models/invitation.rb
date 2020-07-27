@@ -154,7 +154,7 @@ class Invitation < ApplicationRecord
     if i.is_expired?
       i.pass! if !i.past?
     else
-      if i.past? 
+      if i.past?
         # someone has rectified wrong event dates
         # of invitation was checked (his state) as :past
         # The invitation must be moved to state :info
@@ -234,7 +234,7 @@ class Invitation < ApplicationRecord
 
   after_initialize :set_date_views
   before_save :set_dates, :unset_appointee, :append_audit_comment
-  before_create :decode_mail_body
+  # before_create :decode_mail_body
   def append_audit_comment
     if new_record? # because before_update doesn't work
       # do nothing
@@ -361,8 +361,8 @@ class Invitation < ApplicationRecord
     self.to_date_and_time = Time.parse(to_date_and_time_view).strftime("%Y-%m-%d %H:%M") if !to_date_and_time_view.blank?
   end
 
-  def decode_mail_body
-    self.email_decoded = convert_dash_dash(email_body) # -> a module EmailDecoder method
-  end
+  # def decode_mail_body
+  #   self.email_decoded = convert_dash_dash(email_body) # -> a module EmailDecoder method
+  # end
 
 end

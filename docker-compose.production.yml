@@ -22,7 +22,7 @@ services:
       - "intranet.arera.it:192.168.170.4"
 
 
-  check_emails:
+  crono:
     build:
       context: .
       dockerfile: ./docker/production/app/Dockerfile
@@ -30,7 +30,7 @@ services:
       SILENCE_AR_LOGGER: "yes"
     env_file:
       .production.env
-    command: bin/check_emails
+    command: bin/crono
     volumes:
       - gems:/gems
       - ./storage:/storage
