@@ -13,7 +13,7 @@
       <% end %>
     </div>
 
-    <% if policy(Contribution).create?(@invitation) %>
+    <% if policy(@contribution).create? %>
       <h4>Aggiungi nuovo contributo</h4>
       <%= form_with(model: @contribution, class: 'contrib-form', html: { autocomplete: :off }) do |form| %>
         <%= form.hidden_field :invitation_id %>

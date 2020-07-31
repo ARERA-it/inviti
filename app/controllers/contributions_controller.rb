@@ -4,6 +4,8 @@ class ContributionsController < ApplicationController
   # Add a contribution
   def create
     @contribution = Contribution.new(contribution_params)
+    invitation = Invitation.find params[:contribution][:invitation_id]
+    puts "---- inv: #{invitation}"
     authorize @contribution
     @contribution.user = current_user
     respond_to do |format|

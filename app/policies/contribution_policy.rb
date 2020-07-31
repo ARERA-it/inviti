@@ -8,7 +8,8 @@ class ContributionPolicy < ApplicationPolicy
 
 
   # Add a contribute
-  def create?(invitation)
+  def create?
+    invitation = record.invitation
     role.can?('contribution', 'create') ||
     invitation.appointed_users.include?(user)
   end
