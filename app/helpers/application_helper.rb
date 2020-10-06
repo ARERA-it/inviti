@@ -89,7 +89,11 @@ module ApplicationHelper
 
 
   def livestamp(dt)
-    content_tag(:span, nil, "data-livestamp" => dt.try(:iso8601), "data-toggle" => "tooltip", :title => localize(dt, format: :long))
+    if dt
+      content_tag(:span, nil, "data-livestamp" => dt.try(:iso8601), "data-toggle" => "tooltip", :title => localize(dt, format: :long))
+    else
+      "?"
+    end
   end
 
   # size: '' => standard, 'sm' => small

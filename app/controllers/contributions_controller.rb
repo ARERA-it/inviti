@@ -14,6 +14,7 @@ class ContributionsController < ApplicationController
       else
         @feedback_hash = { msg: "Qualcosa è andato storto", kind: 'alert' }
       end
+      @contribution.reload
       format.js
     end
   end
