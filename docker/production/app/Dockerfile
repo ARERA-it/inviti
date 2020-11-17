@@ -33,6 +33,7 @@ ENV BUNDLE_PATH /gems
 
 ENV HTTP_PROXY http://10.77.8.27:3128
 ENV HTTPS_PROXY http://10.77.8.27:3128
+ENV http_proxy http://10.77.8.27:3128
 
 
 RUN gem install bundler
