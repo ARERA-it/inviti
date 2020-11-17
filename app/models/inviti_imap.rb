@@ -6,6 +6,7 @@ class InvitiIMAP
 
   def initialize
     @imap = Net::IMAP.new(ENV["IMAP_HOST"], port: 993, ssl: true)
+    puts "-- imap_user: #{ENV['IMAP_USER']}"
     @imap.login(ENV["IMAP_USER"], ENV["IMAP_PWD"])
     check_read_msg_folder
   end
