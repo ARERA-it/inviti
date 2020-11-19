@@ -19,6 +19,7 @@ services:
       - "posta.arera.it:192.168.200.22"
       - "relay1.arera.it:192.168.0.251"
       - "relay2.arera.it:192.168.0.252"
+      - "intranet.arera.it:192.168.170.4"
 
 
   crono:
@@ -42,6 +43,7 @@ services:
       - "posta.arera.it:192.168.200.22"
       - "relay1.arera.it:192.168.0.251"
       - "relay2.arera.it:192.168.0.252"
+      - "intranet.arera.it:192.168.170.4"
 
 
   worker:
@@ -63,6 +65,7 @@ services:
       - "posta.arera.it:192.168.200.22"
       - "relay1.arera.it:192.168.0.251"
       - "relay2.arera.it:192.168.0.252"
+      - "intranet.arera.it:192.168.170.4"
 
 
   db:
@@ -92,6 +95,7 @@ services:
       - "posta.arera.it:192.168.200.22"
       - "relay1.arera.it:192.168.0.251"
       - "relay2.arera.it:192.168.0.252"
+      - "intranet.arera.it:192.168.170.4"
 
 
 volumes:
