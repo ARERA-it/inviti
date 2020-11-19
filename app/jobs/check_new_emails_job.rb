@@ -11,11 +11,8 @@ class CheckNewEmailsJob < ApplicationJob
     while msg = imap.get_one_msg
       if Invitation.where(email_id: Mail.new(msg[:body]).message_id).none?
         puts "--- message ----------------------------------------"
-        Rails.logger.info "--- message ----------------------------------------"
         puts msg.inspect
-        Rails.logger.info msg.inspect
         puts "--- ------- ----------------------------------------"
-        Rails.logger.info "--- ------- ----------------------------------------"
         email = Email.new(msg)
         email.import
       end
