@@ -23,6 +23,8 @@ RUN mkdir /storage
 # Setting env up
 # ENV RAILS_ENV='production'
 # ENV RACK_ENV='production'
+ENV LC_ALL en_US.UTF-8
+ENV LANG en_US.UTF-8
 
 
 ENV BUNDLE_PATH /gems
