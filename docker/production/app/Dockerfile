@@ -48,6 +48,7 @@ ADD . $RAILS_ROOT
 
 ENV HTTP_PROXY ""
 ENV HTTPS_PROXY ""
+ENV http_proxy ""
 
 # RUN bundle exec rake assets:precompile
 
