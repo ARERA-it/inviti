@@ -5,7 +5,7 @@
   <div class="card-body">
     <div class="contributions">
       <% if @contributions.empty? %>
-        <p>Al momento non ci sono contributi.</p>
+        <p class="text-info">Al momento non ci sono contributi.</p>
       <% else %>
         <% @contributions.each do |c| %>
           <%= render 'contributions/contribution', c: c %>
@@ -23,9 +23,9 @@
           <%= form.text_field :title, class: "form-control"  %>
         </div>
 
-        <div class="form-group">
-          <%= form.label :contribution_files, tt('contribution.contribution_files') %>
-          <%= form.file_field :contribution_files, class: "form-control", multiple: true  %>
+        <div class="form-group custom-file mb-3">
+          <%= form.file_field :contribution_files, class: "form-control custom-file-input", multiple: true  %>
+          <%= form.label :contribution_files, tt('contribution.contribution_files'), class: "custom-file-label" %>
         </div>
 
         <div class="form-group">
@@ -33,7 +33,7 @@
           <%= form.text_area :note, rows: 4, class: "form-control" %>
         </div>
 
-        <%= form.submit "Carica", class: "btn btn-primary pull-right" %>
+        <%= form.submit "Carica", class: "btn btn-primary pull-right", id: "contrib-submit-btn", disabled: true %>
       <% end %>
     <% end %>
   </div>

@@ -1,24 +1,26 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Webapp to manage invitations
 
-Things you may want to cover:
 
-* Ruby version
 
-* System dependencies
 
-* Configuration
+# Setup
 
-* Database creation
+```
+gem install bundler -v 2.1.4
+bundle install
+rails db:create db:migrate
 
-* Database initialization
+rails db:seed
+rails r lib/get_rules_from_google_sheet.rb
 
-* How to run the test suite
+redis-server
 
-* Services (job queues, cache servers, search engines, etc.)
+rails c
 
-* Deployment instructions
+irb(main):003:0> Invitation.create_fake_records(30, email_status_only: true)
 
-* ...
+
+```
+

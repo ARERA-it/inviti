@@ -1,11 +1,3 @@
-Role.all.destroy_all
-
-abstr = Role.find_or_create_by(name: "_main_", code: Role::ABSTRACT)
-
-Permission.where(role_id: abstr.id).destroy_all
-
-# ['', '', false],
-
 arr = [
   ['invitation', 'index', true],
   ['invitation', 'show', true],
@@ -53,35 +45,31 @@ arr = [
   ['appointee', 'change', false]
 
 ]
-arr.each do |el|
-  # abstr.permissions.create(controller: el[0], action: el[1], permitted: el[2])
-  Permission.find_or_create_by(role_id: abstr.id, controller: el[0], action: el[1]) do |p|
-    p.permitted = el[2]
-  end
-end
 
+
+Role.all.destroy_all # will destroy permissions too
 [
   ["Ospite", Role::GUEST],
   ["Superuser", Role::SUPERUSER],
   ["Amministratore", Role::ADMIN],
 ].each do |e|
   role = Role.find_or_create_by(name: e[0], code: e[1])
-  role.sync_roles
+  arr.each do |el|
+    Permission.find_or_create_by(role_id: role.id, controller: el[0], action: el[1]) do |p|
+      p.permitted = el[2]
+    end
+  end
 end
 
 
-u = User.find_by(username: "hanskruger@example.it")
-if u
+if u = User.find_by(username: "hanskruger@example.it")
   u.role = Role.superuser
   u.save
 end
 
 guest_role = Role.guest
 User.all.each do |u|
-  if u.role.nil?
-    u.role = guest_role
-    u.save
-  end
+  u.update_attribute(:role, guest_role) if u.role.nil?
 end
 
 Permission.where(role: Role.admin).update_all(permitted: true)

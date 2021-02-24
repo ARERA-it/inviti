@@ -59,7 +59,7 @@ users = [
     user.username      = u[:email]
     user.display_name  = u[:display_name]
     user.job_title     = u[:job_title]
-    user.role          = u[:role]
+    # user.role          = u[:role]
     user.appointeeable = u.fetch(:appointeeable){ false }
     user.initials      = User.calc_initials(u[:display_name])
   end

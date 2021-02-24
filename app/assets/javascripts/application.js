@@ -164,6 +164,30 @@ $(document).on("turbolinks:load", function() {
   });
 
 
+  // set filename when load through file-input
+  $('.custom-file-input').on('change',function(){
+    var $el = $(this),
+    files = $el[0].files,
+    label = files[0].name;
+    if (files.length > 2) {
+      label = label + " e altri " + String(files.length - 1) + " file"
+    } else if (files.length==2 ) {
+      label = label + " e un altro file"
+    }
+    $el.next('.custom-file-label').html(label);
+  })
+
+
+
+  $('#contribution_title').on('keyup', function() {
+    var s = $(this).val().trim();
+    if (s=="") {
+      $('#contrib-submit-btn').prop('disabled', true);
+    } else {
+      $('#contrib-submit-btn').prop('disabled', false);
+    }
+  })
+
 })
 
 

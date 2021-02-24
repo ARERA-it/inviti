@@ -14,12 +14,12 @@
     <% if policy(@invitation).view_appointee? %>
       <%= render 'appointees/panel', read_only: @invitation.no_info? || @invitation.past?  %>
     <% end %>
-    <% if @contributions.any? || policy(@contribution).create? %>
-      <%= render 'contributions/panel' %>
-    <% end %>
   </div>
 
   <div class="col-lg-6">
+    <% if @contributions.any? || policy(@contribution).create? %>
+      <%= render 'contributions/panel' %>
+    <% end %>
     <%= render 'general_info_panel', read_only: !policy(@invitation).update? %>
     <% if policy(@invitation).view_email_info? %>
       <%= render 'email_info_panel' %>

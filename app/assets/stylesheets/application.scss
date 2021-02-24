@@ -319,3 +319,11 @@ table.record-list {
     color: #555;
   }
 }
+
+
+
+.custom-file {
+  .custom-file-input ~ .custom-file-label::after {
+    content: "Seleziona";
+  }  
+}
