@@ -69,7 +69,7 @@ services:
 
 
   db:
-    image: postgres
+    image: postgres:11
     volumes:
       - postgres_data:/var/lib/postgresql/data
 

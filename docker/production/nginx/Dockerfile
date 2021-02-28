@@ -18,7 +18,7 @@ RUN mkdir /etc/nginx/certs/
 COPY public public/
 
 # Copy Nginx config template
-COPY docker/production/nginx/nginx.conf /tmp/docker.nginx
+COPY docker/production/nginx/nginx.v1.conf /tmp/docker.nginx
 
 
 # substitute variable references in the Nginx config template for real values from the environment
