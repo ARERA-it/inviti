@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_29_110939) do
+ActiveRecord::Schema.define(version: 2023_01_25_155440) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,16 @@ ActiveRecord::Schema.define(version: 2020_06_29_110939) do
     t.index ["invitation_id"], name: "index_accepts_on_invitation_id"
     t.index ["token"], name: "index_accepts_on_token"
     t.index ["user_id"], name: "index_accepts_on_user_id"
+  end
+
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -47,7 +57,22 @@ ActiveRecord::Schema.define(version: 2020_06_29_110939) do
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
     t.datetime "created_at", null: false
+    t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "announcements", force: :cascade do |t|
+    t.string "kind"
+    t.string "title"
+    t.datetime "published_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "appointees", force: :cascade do |t|
@@ -204,16 +229,12 @@ ActiveRecord::Schema.define(version: 2020_06_29_110939) do
     t.datetime "to_date_and_time"
     t.string "organizer", default: ""
     t.text "notes", default: ""
-    t.string "email_id"
     t.string "email_from_name"
     t.string "email_from_address"
     t.string "email_subject"
-    t.string "email_body_preview"
+    t.text "email_body_preview"
     t.text "email_body"
     t.datetime "email_received_date_time"
-    t.boolean "has_attachments"
-    t.string "attachments"
-    t.integer "appointee_id"
     t.text "delegation_notes", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -225,7 +246,7 @@ ActiveRecord::Schema.define(version: 2020_06_29_110939) do
     t.integer "appointee_steps_count", default: 0
     t.boolean "public_event", default: false
     t.integer "org_category", default: 0
-    t.index ["appointee_id"], name: "index_invitations_on_appointee_id"
+    t.string "email_id"
     t.index ["email_received_date_time"], name: "index_invitations_on_email_received_date_time"
     t.index ["from_date_and_time"], name: "index_invitations_on_from_date_and_time"
     t.index ["location"], name: "index_invitations_on_location"
@@ -237,6 +258,18 @@ ActiveRecord::Schema.define(version: 2020_06_29_110939) do
     t.bigint "user_id"
     t.index ["invitation_id"], name: "index_invitations_users_on_invitation_id"
     t.index ["user_id"], name: "index_invitations_users_on_user_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.string "recipient_type", null: false
+    t.bigint "recipient_id", null: false
+    t.string "type", null: false
+    t.jsonb "params"
+    t.datetime "read_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["read_at"], name: "index_notifications_on_read_at"
+    t.index ["recipient_type", "recipient_id"], name: "index_notifications_on_recipient"
   end
 
   create_table "opinions", force: :cascade do |t|
@@ -265,6 +298,7 @@ ActiveRecord::Schema.define(version: 2020_06_29_110939) do
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "code"
     t.index ["controller", "action"], name: "permizzions"
   end
 
@@ -272,6 +306,9 @@ ActiveRecord::Schema.define(version: 2020_06_29_110939) do
     t.integer "president_can_assign", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "email_access_token"
+    t.text "email_refresh_token"
+    t.datetime "access_token_expires"
   end
 
   create_table "rej_users", force: :cascade do |t|
@@ -323,7 +360,7 @@ ActiveRecord::Schema.define(version: 2020_06_29_110939) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["target_type", "target_id", "var"], name: "index_settings_on_target_type_and_target_id_and_var", unique: true
-    t.index ["target_type", "target_id"], name: "index_settings_on_target_type_and_target_id"
+    t.index ["target_type", "target_id"], name: "index_settings_on_target"
   end
 
   create_table "user_interactions", force: :cascade do |t|
@@ -373,6 +410,8 @@ ActiveRecord::Schema.define(version: 2020_06_29_110939) do
     t.boolean "appointeeable", default: false
     t.integer "advisor_group", default: 0
     t.integer "gender", default: 0
+    t.string "calendar_token"
+    t.datetime "announcements_read_at"
     t.index ["display_name"], name: "index_users_on_display_name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"
@@ -382,6 +421,7 @@ ActiveRecord::Schema.define(version: 2020_06_29_110939) do
   add_foreign_key "accepts", "invitations"
   add_foreign_key "accepts", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "appointees", "invitations"
   add_foreign_key "appointees", "users"
   add_foreign_key "appointment_actions", "appointees"

@@ -1,12 +1,16 @@
 require 'base64'
+require 'gmail_xoauth' # MUST HAVE! otherwise XOAUTH2 auth wont work
+require 'net/imap'
+
 include EmailDecoder
 
 class InvitiIMAP
   READ_MSG_FOLDER = "LETTE"
 
   def initialize
-    @imap = Net::IMAP.new(ENV["IMAP_HOST"], port: 993, ssl: true)
-    @imap.login(ENV["IMAP_USER"], ENV["IMAP_PWD"])
+    @access_token = Project.primo.email_access_token
+    @imap = Net::IMAP.new(ENV["IMAP_HOST"], port: 993, true)
+    @imap.authenticate('XOAUTH2',"#{user_name}", "#{@access_token}")
     check_read_msg_folder
   end
 

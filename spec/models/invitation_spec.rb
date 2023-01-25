@@ -9,16 +9,12 @@
 #  to_date_and_time         :datetime
 #  organizer                :string           default("")
 #  notes                    :text             default("")
-#  email_id                 :string
 #  email_from_name          :string
 #  email_from_address       :string
 #  email_subject            :string
-#  email_body_preview       :string
+#  email_body_preview       :text
 #  email_body               :text
 #  email_received_date_time :datetime
-#  has_attachments          :boolean
-#  attachments              :string
-#  appointee_id             :integer
 #  delegation_notes         :text             default("")
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
@@ -30,6 +26,7 @@
 #  appointee_steps_count    :integer          default(0)
 #  public_event             :boolean          default(FALSE)
 #  org_category             :integer          default("undefined")
+#  email_id                 :string
 #
 
 require 'rails_helper'
