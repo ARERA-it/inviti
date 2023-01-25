@@ -41,6 +41,7 @@ RUN gem install bundler
 RUN gem update bundler
 
 # RUN bundle install --jobs 20 --retry 5 --without development test
+RUN gem update --system 3.2.3
 
 # Adding project files
 # COPY . .
