@@ -73,7 +73,7 @@ GEM
       execjs (~> 2)
     bcrypt (3.1.18)
     bindex (0.8.1)
-    bootsnap (1.15.0)
+    bootsnap (1.16.0)
       msgpack (~> 1.2)
     bootstrap (4.3.1)
       autoprefixer-rails (>= 9.1.0)
@@ -161,7 +161,7 @@ GEM
       thor (>= 0.14.0, < 2)
     font-awesome-sass (5.11.2)
       sassc (>= 1.11)
-    globalid (1.0.1)
+    globalid (1.1.0)
       activesupport (>= 5.0)
     gmail_xoauth (0.4.2)
       oauth (>= 0.3.6)
@@ -244,6 +244,8 @@ GEM
     msgpack (1.6.0)
     multi_json (1.15.0)
     multipart-post (2.2.3)
+    net-http (0.3.2)
+      uri
     net-imap (0.3.4)
       date
       net-protocol
@@ -393,6 +395,7 @@ GEM
     uber (0.1.0)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
+    uri (0.12.0)
     version_gem (1.1.1)
     warden (1.2.9)
       rack (>= 2.0.9)
@@ -444,6 +447,7 @@ DEPENDENCIES
   listen (>= 3.0.5, < 3.2)
   mail
   momentjs-rails
+  net-http
   pg (>= 0.18, < 2.0)
   puma (~> 3.11)
   pundit
