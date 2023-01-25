@@ -1,4 +1,4 @@
-FROM ruby:2.5.3-alpine
+FROM ruby:2.6.10-alpine
 MAINTAINER Iwan Buetti <iwan.buetti@gmail.com>
 
 RUN apk --update add --virtual build-dependencies \
