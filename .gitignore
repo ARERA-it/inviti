@@ -36,6 +36,7 @@ dump.rdb
 
 .staging.env
 .production.env
+.production.new.env
 
 /ssl_certificates
 

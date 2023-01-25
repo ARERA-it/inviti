@@ -101,3 +101,5 @@ gem 'bootstrap4-kaminari-views' # https://github.com/KamilDzierbicki/bootstrap4-
 
 gem 'faraday' # https://github.com/lostisland/faraday
 gem 'google_drive'
+
+gem 'gmail_xoauth' # https://github.com/nfo/gmail_xoauth

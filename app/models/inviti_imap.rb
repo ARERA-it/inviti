@@ -20,7 +20,7 @@ class InvitiIMAP
 
   def get_one_msg
     @imap.examine('INBOX') # read only
-    if seqno = @imap.search(["RECENT"]).shift
+    if seqno = @imap.search(["ALL"]).shift # RECENT
       msg = {}
       msg[:envelope] = @imap.fetch(seqno, "ENVELOPE")[0].attr["ENVELOPE"]
       msg[:body]     = @imap.fetch(seqno, "RFC822")[0].attr['RFC822']
