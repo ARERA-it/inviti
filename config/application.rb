@@ -28,7 +28,7 @@ module Invt
 
     config.active_job.queue_adapter = :sidekiq
 
-    config.active_record.yaml_column_permitted_classes = [ActiveSupport::TimeWithZone, Time]
+    config.active_record.yaml_column_permitted_classes = [ActiveSupport::TimeWithZone, Time, ActiveSupport::TimeZone]
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
