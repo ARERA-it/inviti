@@ -53,6 +53,8 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+
+  gem 'pry-rails'
 end
 
 gem 'faker' #, :git => 'https://github.com/stympy/faker.git', :branch => 'master' # https://github.com/stympy/faker
@@ -100,7 +102,8 @@ gem 'kaminari' # https://github.com/kaminari/kaminari
 gem 'bootstrap4-kaminari-views' # https://github.com/KamilDzierbicki/bootstrap4-kaminari-views
 
 gem 'faraday' # https://github.com/lostisland/faraday
-gem 'google_drive'
+# gem 'google_drive'
 
-gem 'gmail_xoauth' # https://github.com/nfo/gmail_xoauth
+# gem 'gmail_xoauth' # https://github.com/nfo/gmail_xoauth
+gem 'gmail_xoauth', git: "https://github.com/ARERA-it/gmail_xoauth.git"
 # gem "net-http" 
