@@ -9,7 +9,7 @@ class InvitiIMAP
 
   def initialize
     @access_token = Project.primo.email_access_token
-    @imap = Net::IMAP.new(ENV["IMAP_HOST"], port: 993, true)
+    @imap = Net::IMAP.new(ENV["IMAP_HOST"], port: 993, ssl: true)
     @imap.authenticate('XOAUTH2',"#{user_name}", "#{@access_token}")
     check_read_msg_folder
   end
