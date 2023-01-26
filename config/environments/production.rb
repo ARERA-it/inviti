@@ -104,7 +104,7 @@ Rails.application.configure do
     :password       => ENV['SMTP_PASSWORD'],
     :domain         => 'arera.it',
     :enable_starttls_auto => true,
-    # :authentication => 'login',
+    :authentication => 'login'
   }
 
 
