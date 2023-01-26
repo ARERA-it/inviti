@@ -94,7 +94,7 @@ gem 'rails-jquery-autocomplete' # https://github.com/risuiowa/rails-jquery-autoc
 gem 'exception_notification' # https://github.com/smartinez87/exception_notification
 gem 'icalendar' # https://github.com/icalendar/icalendar
 
-gem "audited", "~> 4.7" # https://github.com/collectiveidea/audited
+gem "audited", "~> 5.0" # https://github.com/collectiveidea/audited
 gem "redcarpet" # https://github.com/vmg/redcarpet
 # gem "sanitize" # https://github.com/rgrove/sanitize
 

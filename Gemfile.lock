@@ -74,8 +74,8 @@ GEM
       activerecord (>= 3.2, < 8.0)
       rake (>= 10.4, < 14.0)
     arel (9.0.0)
-    audited (4.10.0)
-      activerecord (>= 4.2, < 6.2)
+    audited (5.2.0)
+      activerecord (>= 5.0, < 7.1)
     autoprefixer-rails (10.4.7.0)
       execjs (~> 2)
     bcrypt (3.1.18)
@@ -381,7 +381,7 @@ PLATFORMS
 DEPENDENCIES
   aasm
   annotate
-  audited (~> 4.7)
+  audited (~> 5.0)
   bootsnap (>= 1.1.0)
   bootstrap (~> 4.3.1)
   bootstrap4-datetime-picker-rails!
