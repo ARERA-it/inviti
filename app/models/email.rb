@@ -9,7 +9,16 @@ class Email
   def import
     mail     = Mail.new(@body)
     from     = @envelope.from.first
+
+    Rails.logger.info "------------------------------------------------" 
+    Rails.logger.info @envelope.inspect
+    Rails.logger.info "------------------------------------------------" 
+    Rails.logger.info @body.inspect
+    Rails.logger.info "------------------------------------------------" 
+
     datetime = DateTime.parse(@envelope.date)
+    Rails.logger.info datetime.inspect
+    Rails.logger.info "------------------------------------------------" 
 
     inv = Invitation.new
     efn = @envelope.from.map(&:name).join('; ')
