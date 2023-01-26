@@ -102,7 +102,7 @@ Rails.application.configure do
     :address        => ENV['SMTP_HOST'],
     # :user_name      => ENV['SMTP_USERNAME'],
     # :password       => ENV['SMTP_PASSWORD'],
-    # :domain         => 'arera.it',
+    :domain         => 'arera.it',
     :enable_starttls_auto => true,
     # :authentication => 'login',
   }
