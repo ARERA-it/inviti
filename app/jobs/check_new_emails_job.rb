@@ -1,11 +1,7 @@
 class CheckNewEmailsJob < ApplicationJob
   queue_as :default
   rescue_from(Net::IMAP::NoResponseError) do |exception|
-    msg = Project.primo.refresh_tokens ? "Tokens refreshed, go on!" : "Tokens not refreshed, bad!"
-    ExceptionNotifier.notify_exception(
-      exception,
-      env: request.env, data: { message: msg }
-    )    
+    ExceptionNotifier.notify_exception(exception) unless Project.primo.refresh_tokens
   end
 
 
