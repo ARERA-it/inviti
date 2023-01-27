@@ -1,8 +1,8 @@
 class CheckNewEmailsJob < ApplicationJob
   queue_as :default
-  rescue_from(Net::IMAP::NoResponseError) do |exception|
-    ExceptionNotifier.notify_exception(exception) unless Project.primo.refresh_tokens
-  end
+  # rescue_from(Net::IMAP::NoResponseError) do |exception|
+  #   ExceptionNotifier.notify_exception(exception) unless Project.primo.refresh_tokens
+  # end
 
 
   def perform
@@ -18,6 +18,10 @@ class CheckNewEmailsJob < ApplicationJob
         email.import
       end
     end
+
+  rescue Net::IMAP::NoResponseError => e
+    Rails.logger.error "-----> Check for new emails failed: #{e.message}"
+    primo.refresh_tokens
   end
 
 end
