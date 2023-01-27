@@ -21,7 +21,7 @@ class CheckNewEmailsJob < ApplicationJob
 
   rescue Net::IMAP::NoResponseError => e
     Rails.logger.error "-----> Check for new emails failed: #{e.message}"
-    primo.refresh_tokens
+    Project.primo.refresh_tokens
   end
 
 end
