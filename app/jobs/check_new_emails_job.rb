@@ -4,7 +4,7 @@ class CheckNewEmailsJob < ApplicationJob
   #   ExceptionNotifier.notify_exception(exception) unless Project.primo.refresh_tokens
   # end
 
-
+  # CheckNewEmailsJob.perform_now
   def perform
     # Rails.logger.info("-> CheckNewEmailsJob.perform here.")
     # Rake::Task['inviti:check_emails'].invoke

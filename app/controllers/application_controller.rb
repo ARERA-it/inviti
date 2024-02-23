@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  before_action :sign_in_user! if Rails.env.development?
   before_action :authenticate_user! if !(Rails.env=="development" || Rails.env=="test")
   helper_method :current_user
   include Pundit
@@ -45,6 +46,13 @@ class ApplicationController < ActionController::Base
     end
 
   private
+    def sign_in_user!
+      if session[:user_id].nil?
+        su = Role.find_by(code: 'superuser')
+        user = su ? User.find_by(role: su) : User.first
+        sign_in user
+      end
+    end
 
     def record_user_interaction
       if current_user.nil? || !current_user.admin? || Rails.env=='development'

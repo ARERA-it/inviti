@@ -13,6 +13,8 @@ WORKDIR $RAILS_ROOT
 RUN mkdir log
 
 RUN mkdir /etc/nginx/certs/
+COPY ssl_certificates/site.crt /etc/nginx/certs/site.crt
+COPY ssl_certificates/site.key /etc/nginx/certs/site.key
 
 # copy over static assets
 COPY public public/

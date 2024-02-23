@@ -24,3 +24,6 @@ irb(main):003:0> Invitation.create_fake_records(30, email_status_only: true)
 
 ```
 
+# Open the docker console
+
+`docker exec -it production_web_1 bin/rails c`
